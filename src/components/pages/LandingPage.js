@@ -25,7 +25,7 @@ const LandingPage = () => {
       <main className={classes["main-image"]}>
         <div className={classes["landing-page-h1"]}></div>
         <div className={classes["landing-page-form"]}>
-          <h1>Hello ! kolos</h1>
+          <h1>Hello !</h1>
           <form onSubmit={onSubmitHandle}>
             <input
               value={postalCode}
