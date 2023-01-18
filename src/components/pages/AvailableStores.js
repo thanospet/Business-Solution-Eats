@@ -9,16 +9,12 @@ import CardWrap from "../UI/CardWrap.module.css";
 const AvailiableStores = () => {
   const [availiableStores, setAvailiableStores] = useState([]);
   const params = useParams();
-  const [isPostalValid, setIsPostalValid] = useState(false);
 
   const dataPostal = params?.postal;
 
-  const postalCodeRegex = /^\d{5}?$/;
 
   useEffect(() => {
-    if (postalCodeRegex.test(dataPostal)) {
-      setIsPostalValid(true);
-      axios
+    axios
       .get(`http://192.168.84.174:5237/api/Store/open-stores/${dataPostal}`)
       .then(function (res) {
         const storesArray = Array.from(res.data.items);
@@ -33,10 +29,7 @@ const AvailiableStores = () => {
       .catch((err) => {
         console.error(err);
       });
-       console.log("okokok")
-    }
-   
-    
+    console.log("okokok");
   }, [params]);
 
   const availiableStoresNumber = availiableStores.length;
@@ -45,12 +38,7 @@ const AvailiableStores = () => {
     <div className={classes.main}>
       <div>
         <h1 className={classes.header}>
-          {!isPostalValid && <h1>Wrong postal code</h1>}
-          {isPostalValid && (
-            <div>
-              {availiableStoresNumber} Availiable Stores in {dataPostal}
-            </div>
-          )}
+          {availiableStoresNumber} Availiable Stores in {dataPostal}
         </h1>
       </div>
 

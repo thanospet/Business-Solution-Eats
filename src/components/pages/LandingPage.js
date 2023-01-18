@@ -16,7 +16,6 @@ const LandingPage = () => {
 
   const onSubmitHandle = (event) => {
     event.preventDefault();
-
       navigate(`/available-stores/${postalCode}`);
   };
 
