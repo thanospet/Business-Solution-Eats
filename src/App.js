@@ -1,9 +1,9 @@
-import { React, useState } from "react";
+import { React } from "react";
 import classes from "./App.module.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./components/pages/Root";
 import LandingPage from "./components/pages/LandingPage";
-import AvailiableStores from "./components/pages/AvailableStores";
+import AvailableStores from "./components/pages/AvailableStores";
 import StoresDescription from "./components/pages/StoresDescription";
 import ErrorPage from "./components/pages/Error";
 import StoreDetails from "./components/pages/StoreDetails";
@@ -12,10 +12,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
-    errorElement: <ErrorPage />,
+    // errorElement: <ErrorPage />,
     children: [
       { path: "/", element: <LandingPage /> },
-      { path: "/available-stores/:postal", element: <AvailiableStores /> },
+      { path: "/available-stores/:postal", element: <AvailableStores /> },
       { path: "/stores-description", element: <StoresDescription /> },
       { path: "/store-details/:storeId", element: <StoreDetails /> },
     ],

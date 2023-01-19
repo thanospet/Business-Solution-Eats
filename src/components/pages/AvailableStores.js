@@ -1,17 +1,17 @@
 import { React, useEffect } from "react";
-import { Route, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState } from "react";
 import classes from "./AvailableStores.module.css";
 import axios from "axios";
-import Card from "../UI/Card.module.css";
-import CardWrap from "../UI/CardWrap.module.css";
+import Card from "../UI/Card";
+import CardWrap from "../UI/CardWrap";
 
-const AvailiableStores = () => {
-  const [availiableStores, setAvailiableStores] = useState([]);
+const AvailableStores = () => {
+  const [availableStores, setAvailableStores] = useState([]);
   const params = useParams();
 
   const dataPostal = params?.postal;
-
+  console.log(dataPostal);
 
   useEffect(() => {
     axios
@@ -24,25 +24,24 @@ const AvailiableStores = () => {
         });
         console.log(res.data.items);
 
-        setAvailiableStores(newStoresArray);
+        setAvailableStores(newStoresArray);
       })
       .catch((err) => {
         console.error(err);
       });
-    console.log("okokok");
-  }, [params]);
+  }, []);
 
-  const availiableStoresNumber = availiableStores.length;
+  const availableStoresNumber = availableStores.length;
 
   return (
     <div className={classes.main}>
       <div>
         <h1 className={classes.header}>
-          {availiableStoresNumber} Availiable Stores in {dataPostal}
+          {availableStoresNumber} Availiable Stores in {dataPostal}
         </h1>
       </div>
 
-      {availiableStores.map((store) => {
+      {availableStores.map((store) => {
         return (
           <CardWrap>
             <div className={classes.stores}>
@@ -79,4 +78,4 @@ const AvailiableStores = () => {
   );
 };
 
-export default AvailiableStores;
+export default AvailableStores;
