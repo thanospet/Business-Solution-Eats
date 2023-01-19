@@ -12,7 +12,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
-    // errorElement: <ErrorPage />,
+    errorElement: <ErrorPage />,
     children: [
       { path: "/", element: <LandingPage /> },
       { path: "/available-stores/:postal", element: <AvailableStores /> },
@@ -23,12 +23,7 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  // const [currentPostal, setCurrentPostal] = useState("");
 
-  // const getPostal = (postalCode) => {
-  //   setCurrentPostal(postalCode);
-  //   console.log("data", currentPostal);
-  // };
 
   return <RouterProvider router={router} />;
 }

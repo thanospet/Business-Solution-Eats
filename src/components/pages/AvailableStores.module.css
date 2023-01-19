@@ -1,7 +1,7 @@
-
+@import url('https://fonts.googleapis.com/css?family=Nunito:200,300,400,700"');
 
 .main {
-  font-family: Averta,sans-serif;
+  font-family: Nunito,sans-serif;
   font-size: x-large;
   display: flex;
   margin: 5%;
@@ -14,6 +14,7 @@
 
 
 .header{
+  font-family: Nunito,sans-serif;
     background-color:rgb(255, 190, 91);
     border-radius: 12px;
     padding: 10px;

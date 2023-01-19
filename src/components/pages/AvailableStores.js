@@ -1,10 +1,11 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
 import classes from "./AvailableStores.module.css";
 import axios from "axios";
 import Card from "../UI/Card";
 import CardWrap from "../UI/CardWrap";
+import 'bootstrap/dist/css/bootstrap.css';
+
 
 const AvailableStores = () => {
   const [availableStores, setAvailableStores] = useState([]);
@@ -37,7 +38,7 @@ const AvailableStores = () => {
     <div className={classes.main}>
       <div>
         <h1 className={classes.header}>
-          {availableStoresNumber} Availiable Stores in {dataPostal}
+           We found {availableStoresNumber} Available stores in {dataPostal}
         </h1>
       </div>
 
