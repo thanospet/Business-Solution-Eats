@@ -2,9 +2,11 @@ import React from "react";
 
 const MainNavigation = () => {
   return (
+    
     <nav
+    
     id="mainNavbar"
-    className="navbar navbar-dark navbar-expand-md py-0 fixed-top"
+    className="navbar navbar-dark navbar-expand-md py-0 fixed-top ba"
   >
     <a href="#" className="navbar-brand">
      BUSINESS SOLUTION EATS
@@ -37,6 +39,7 @@ const MainNavigation = () => {
       </ul>
     </div>
   </nav>
+
   );
 };
 

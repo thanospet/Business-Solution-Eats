@@ -22,10 +22,11 @@
   margin: 1rem;
   padding: 20px;
   border-radius: 10px;
+  border: 1px solid black !important;
   width: 120px;
   color: aliceblue;
-  text-shadow: 1px 1px rgb(134, 134, 134);
-  background-color: #ffc200;
+  text-shadow: 1px 1px rgb(134, 134, 134) ;
+  background-color: #ffc200 !important;
 }
 
 .main-image {
