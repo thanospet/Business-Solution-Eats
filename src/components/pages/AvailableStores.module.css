@@ -8,19 +8,19 @@
   flex-direction: column;
   align-items: center;
   border-radius: 20px;
-  background-color: rgba(255, 255, 255, 0.904);
+  background-color: rgba(230, 230, 230, 0.904);
 }
 
 
 
 .header{
   font-family: Nunito,sans-serif;
-    background-color:rgb(255, 190, 91);
+    background-color:rgba(255, 255, 255, 0.911);
     border-radius: 12px;
     padding: 10px;
-    color:rgb(255, 255, 255);
+    color:rgb(150, 150, 150);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
-    text-shadow: 0 1px 3px rgb(41, 15, 134);
+   
 }
 
 img{

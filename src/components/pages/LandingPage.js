@@ -30,13 +30,8 @@ const LandingPage = () => {
 
   return (
     <>
-      <Container className=" px-0 ">
-      <Image 
-              className={`d-flex align-items-end ${classes["main-image"]}`}
-              src=""
-              alt=""
-            />
-        <Row className="align-items-center">
+      <Container className="">
+        <Row className="mx-0">
           <Col className="col-lg-6">
             <div
               id="headingGroup"
@@ -45,8 +40,11 @@ const LandingPage = () => {
               <h1>
                 <div className={classes["landing-page-h1"]}></div>
                 <div className={classes["landing-page-form"]}>
-                  <h1>Hello !</h1>
-                  <Form className={classes["landing-page-form"]} onSubmit={onSubmitHandle}>
+                  <h1>Welcome !</h1>
+                  <Form
+                    className={classes["landing-page-form"]}
+                    onSubmit={onSubmitHandle}
+                  >
                     <input
                       value={postalCode}
                       onChange={searchPostalCode}
@@ -55,23 +53,26 @@ const LandingPage = () => {
                       id="location"
                       placeholder="Enter your address"
                     ></input>
-                    <Button  className={classes["landing-btn"]} type="submit">Order!</Button>
-                  </Form >
+                    <Button className={classes["landing-btn"]} type="submit">
+                      Order!
+                    </Button>
+                  </Form>
+                  
                 </div>
               </h1>
             </div>
           </Col>
           <Col className="col-lg-6">
-            {/* <Image 
+            <Image
               className={`d-flex align-items-end ${classes["main-image"]}`}
               src=""
               alt=""
-            /> */}
+            />
           </Col>
         </Row>
       </Container>
 
-      <Container className="fluid px-0">
+      {/* <Container className="fluid px-0">
         <Row className="align-items-center">
           <Col className="col-lg-6 order-2 order-md-1">
             <div
@@ -92,8 +93,7 @@ const LandingPage = () => {
             />
           </Col>
         </Row>
-      </Container>
-
+      </Container> */}
     </>
   );
 };
