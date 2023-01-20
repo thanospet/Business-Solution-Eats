@@ -16,15 +16,13 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <LandingPage /> },
       { path: "/available-stores/:postal", element: <AvailableStores /> },
-      // { path: "/stores-description", element: <StoresDescription /> },
+      { path: "/stores-description", element: <StoresDescription /> },
       { path: "/store-details/:storeId", element: <StoreDetails /> },
     ],
   },
 ]);
 
 function App() {
-
-
   return <RouterProvider router={router} />;
 }
 

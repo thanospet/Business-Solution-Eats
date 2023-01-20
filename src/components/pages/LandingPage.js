@@ -30,7 +30,12 @@ const LandingPage = () => {
 
   return (
     <>
-      <Container className="fluid px-0">
+      <Container className=" px-0 ">
+      <Image 
+              className={`d-flex align-items-end ${classes["main-image"]}`}
+              src=""
+              alt=""
+            />
         <Row className="align-items-center">
           <Col className="col-lg-6">
             <div
@@ -41,7 +46,7 @@ const LandingPage = () => {
                 <div className={classes["landing-page-h1"]}></div>
                 <div className={classes["landing-page-form"]}>
                   <h1>Hello !</h1>
-                  <Form  onSubmit={onSubmitHandle}>
+                  <Form className={classes["landing-page-form"]} onSubmit={onSubmitHandle}>
                     <input
                       value={postalCode}
                       onChange={searchPostalCode}
@@ -57,11 +62,11 @@ const LandingPage = () => {
             </div>
           </Col>
           <Col className="col-lg-6">
-            <Image
-              className={classes["main-image"]}
-              src="../../assets/meals.jpg"
+            {/* <Image 
+              className={`d-flex align-items-end ${classes["main-image"]}`}
+              src=""
               alt=""
-            />
+            /> */}
           </Col>
         </Row>
       </Container>
@@ -94,23 +99,3 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
-
-// <div className={classes.container}>
-//   <main className={classes["main-image"]}>
-//     <div className={classes["landing-page-h1"]}></div>
-//     <div className={classes["landing-page-form"]}>
-//       <h1>Hello !</h1>
-//       <form onSubmit={onSubmitHandle}>
-//         <input
-//           value={postalCode}
-//           onChange={searchPostalCode}
-//           className={classes.input}
-//           type="text"
-//           id="location"
-//           placeholder="Enter your address"
-//         ></input>
-//         <button className={classes["landing-btn"]}>Order!</button>
-//       </form>
-//     </div>
-//   </main>
-// </div>

@@ -1,0 +1,7 @@
+.logoIcon {
+  border: 3px solid #00a396;
+  border-radius: 50%;
+  width: 175px;
+  height: 175px;
+  object-fit: cover;
+}
