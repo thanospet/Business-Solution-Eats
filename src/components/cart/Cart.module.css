@@ -1,7 +1,13 @@
 .cart{
-    box-shadow: -3px 0px 1px 0px rgba(133, 133, 133, 0.541);
-    height:500px;
+    padding-top: 5%;
+    /* box-shadow: -3px 0px 1px 0px rgba(133, 133, 133, 0.541); */
+    box-shadow: inset 0px 5px 5px 0 rgb(230, 230, 230), 
+            inset 0 4px 15px 0px #ccc,
+            inset 0 99px 5px 0px #fff;
+    height:100%;
     position: absolute;
 
 
+    
 }
+

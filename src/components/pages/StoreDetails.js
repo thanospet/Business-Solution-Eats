@@ -47,79 +47,130 @@ const StoreDetails = () => {
   }, []);
 
   return (
-    <Container className="my-5">
-      <Row className="align-items-center d-flex flex-column ">
-        <Col className="col-8 d-flex items-align-center">
-          <Image
-            className={`d-block m-auto ${classes.logoIcon}`}
-            src={storeLogoIcon}
-          ></Image>
+    <Container>
+      <Row className="my-5 py-5">
+        <Col className={`col-8 ${classes.colInfo}`}>
+          <Row className="align-items-center">
+            <Col className="col-12 d-flex items-align-center">
+              <Image
+                className={`d-block m-auto ${classes.logoIcon}`}
+                src={storeLogoIcon}
+              ></Image>
+            </Col>
+            <Col
+              className={`col-12 d-flex items-align-center${classes.storeTitle}`}
+            >
+              {storeTitle}
+            </Col>
+            <Col className="col-12 d-flex justify-content-start">
+              {productCategories.map((productCategory) => {
+                return (
+                  <Container
+                    key={productCategory.id}
+                    className="fluid py-5 my-5"
+                  >
+                    <Row className="align-items-center ">
+                      <Col className="col-8 d-flex justify-content-between">
+                        <Col className="col-12">
+                          <div> {productCategory.title}</div>
+                          <hr></hr>{" "}
+                          {productCategory.products.map((product) => {
+                            return (
+                              <Row key={product.id} className="py-3 ">
+                                <Col className="col-8 ">
+                                  <Row>{product.title}</Row>
+                                  <Row>$ {product.price}</Row>
+                                </Col>
+                                <Col className="col-4 ">
+                                  <Image
+                                    className={`d-block m-auto ${classes.icon}`}
+                                    src={product.iconUrl}
+                                  ></Image>
+                                </Col>
+                              </Row>
+                            );
+                          })}
+                        </Col>
+                      </Col>
+                    </Row>
+                  </Container>
+                );
+              })}
+            </Col>
+          </Row>
         </Col>
-        <Col className="col-4 d-flex justify-content-center"></Col>
+
+        <Col
+          className={`col-4 d-flex justify-content-center ${classes.colCart}`}
+        >
+          <Cart />
+        </Col>
       </Row>
-
-      {/* ----------------------------------------------- */}
-
-      <Container className="fluid px-0 py-3">
-        <Row className="align-items-center ">
-          <Col className="col-4 d-flex justify-content-center"></Col>
-          <Col className="col-4 d-flex justify-content-center ">
-            {storeTitle}
-          </Col>
-          <Col className="col-4 d-flex justify-content-center flex-column">
-            <Cart />
-          </Col>
-        </Row>
-      </Container>
-
-      {/* ----------------------------------------------- */}
-
-      {productCategories.map((productCategory) => {
-        return (
-          <Container key={productCategory.id} className="fluid px-0 py-5 my-5">
-            <Row className="align-items-center ">
-              <Col className="col-8 d-flex justify-content-between">
-                <Col className="col-12">
-                  <div> {productCategory.title}</div>
-                  <hr></hr>{" "}
-                  {productCategory.products.map((product) => {
-                    return (
-                      <Row key={product.id} className="p-3">
-                        <Col className="col-8 ">
-                          <Row>{product.title}</Row>
-                          <Row>$ {product.price}</Row>
-                        </Col>
-                        <Col className="col-4 ">
-                          <Image
-                            className={`d-block m-auto ${classes.icon}`}
-                            src={product.iconUrl}
-                          ></Image>
-                        </Col>
-                      </Row>
-                    );
-                  })}
-                </Col>
-              </Col>
-            </Row>
-          </Container>
-        );
-      })}
     </Container>
   );
 };
 
 export default StoreDetails;
 
-{
-  /* <Row>
-  <Col className="col-12 flex-column">
-    <div> {productCategory.title}</div>
-    <div>
-      {" "}
-      {productCategory.products.map((product) => {
-        return <div key={product.id}> {product.title}</div>;
-      })}
-    </div>
+/* <Container className="my-5">
+<Row className="align-items-center d-flex flex-column ">
+  <Col className="col-8 d-flex items-align-center">
+    <Image
+      className={`d-block m-auto ${classes.logoIcon}`}
+      src={storeLogoIcon}
+    ></Image>
   </Col>
-</Row>; */
+  <Col className="col-4 d-flex justify-content-center"></Col>
+</Row>
+
+/* ----------------------------------------------- */
+
+/* <Container className="fluid px-0 py-3">
+  <Row className="align-items-center ">
+    <Col className="col-4 d-flex justify-content-center"></Col>
+    <Col className="col-4 d-flex justify-content-center ">
+      {storeTitle}
+    </Col>
+    <Col className="col-4 d-flex justify-content-center flex-column">
+      <Cart />
+    </Col>
+  </Row>
+</Container>  */
+
+{
+  /* ----------------------------------------------- */
+}
+
+{
+  /* {productCategories.map((productCategory) => {
+  return (
+    <Container key={productCategory.id} className="fluid px-0 py-5 my-5">
+      <Row className="align-items-center ">
+        <Col className="col-8 d-flex justify-content-between">
+          <Col className="col-12">
+            <div> {productCategory.title}</div>
+            <hr></hr>{" "}
+            {productCategory.products.map((product) => {
+              return (
+                <Row key={product.id} className="p-3">
+                  <Col className="col-8 ">
+                    <Row>{product.title}</Row>
+                    <Row>$ {product.price}</Row>
+                  </Col>
+                  <Col className="col-4 ">
+                    <Image
+                      className={`d-block m-auto ${classes.icon}`}
+                      src={product.iconUrl}
+                    ></Image>
+                  </Col>
+                </Row>
+              );
+            })}
+          </Col>
+        </Col>
+      </Row>
+    </Container>
+  );
+})}
+</Container> */
 }

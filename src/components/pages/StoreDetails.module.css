@@ -1,3 +1,4 @@
+
 .logoIcon {
   border: 3px solid #00a396;
   border-radius: 50%;
@@ -12,3 +13,16 @@
   border-radius: 5%;
   background-size:cover ;
 }
+
+.colInfo{
+  height:100%;
+
+}
+
+.colCart{
+  padding-bottom:100%;
+
+  position: absolute;
+  right:0;
+}
+
