@@ -17,7 +17,11 @@ const Cart = () => {
   return (
     <Container className={classes.cart}>
       <Row className="d-flex justify-content-center">My Cart</Row>
-      <Row className="d-flex justify-content-start">AAAAAAA</Row>
+      <Row className="d-flex justify-content-start">
+        <Col className="col-12"> Cart Items</Col>
+      </Row>
+      <Row className="d-flex justify-content-start">price</Row>
+      <Row className="d-flex justify-content-start">actions</Row>
     </Container>
   );
 };

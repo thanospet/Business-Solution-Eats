@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import classes from "./StoreDetails.module.css";
 import CardProduct from "../UI/CardProduct";
+import Modal from "../UI/Modal";
 import {
   Container,
   Row,
@@ -14,14 +15,17 @@ import {
   Button,
 } from "react-bootstrap";
 import Cart from "../cart/Cart";
+import { propTypes } from "react-bootstrap/esm/Image";
 
-const StoreDetails = () => {
+const StoreDetails = (props) => {
   const [storeLogoIcon, setStoreLogoIcon] = useState("");
   const [storeTitle, setStoreTitle] = useState("");
   const [minimumOrderPrice, setMinimumOrderPrice] = useState();
   const [averageDeliveryTime, setAverageDeliveryTime] = useState("");
   const [productCategories, setProductCategories] = useState([]);
   const [masterProductCategory, setMasterProductCategory] = useState("");
+  const [modalShown, setModalShown] = useState(false);
+  const [modalProduct, setModalProduct] = useState({});
 
   const navigate = useNavigate();
   const params = useParams();
@@ -46,14 +50,33 @@ const StoreDetails = () => {
       });
   }, []);
 
+  const modalHandler = (product) => {
+    setModalShown(true);
+    setModalProduct(product);
+    console.log("Clicked modalHandler", product);
+    console.log("setModalShown", modalShown);
+  };
+
+  const hideModalHandler = () => {
+    console.log("Container click");
+    if (modalShown === true) {
+      setModalShown(false);
+    } else {
+      return;
+    }
+  };
+
   return (
-    <Container>
-      <Row className="my-5 py-5">
+    <Container onClick={hideModalHandler}>
+      {modalShown && (
+        <Modal onClose={props.onClose} modalProduct={modalProduct} />
+      )}
+      <Row className="my-4">
         <Col className={`col-8 ${classes.colInfo}`}>
           <Row className="align-items-center">
             <Col className="col-12 d-flex items-align-center">
               <Image
-                className={`d-block m-auto ${classes.logoIcon}`}
+                className={`d-block m-auto my-5 ${classes.logoIcon}`}
                 src={storeLogoIcon}
               ></Image>
             </Col>
@@ -76,7 +99,11 @@ const StoreDetails = () => {
                           <hr></hr>{" "}
                           {productCategory.products.map((product) => {
                             return (
-                              <Row key={product.id} className="py-3 ">
+                              <Row
+                                key={product.id}
+                                className="py-3"
+                                onClick={() => modalHandler(product)}
+                              >
                                 <Col className="col-8 ">
                                   <Row>{product.title}</Row>
                                   <Row>$ {product.price}</Row>

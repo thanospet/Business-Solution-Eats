@@ -5,7 +5,7 @@ const MainNavigation = () => {
   return (
     <nav
       id="mainNavbar"
-      className={`navbar navbar-dark navbar-expand-md py-0 fixed-top ba ${classes.mainNav}`}
+      className={`navbar navbar-dark navbar-expand-md py-0 fixed-top  ${classes.mainNav}`}
     >
       <a href="#" className={`${classes.bsText}`}>
         BUSINESS SOLUTION EATS
