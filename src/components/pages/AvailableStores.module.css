@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito:200,300,400,700"');
 
 .main {
-  font-family: Nunito,sans-serif;
+  font-family: Nunito, sans-serif;
   font-size: x-large;
   display: flex;
   margin: 5%;
@@ -11,46 +11,43 @@
   background-color: rgba(230, 230, 230, 0.904);
 }
 
-
-
-.header{
-  font-family: Nunito,sans-serif;
-    background-color:rgba(255, 255, 255, 0.911);
-    border-radius: 12px;
-    padding: 10px;
-    color:rgb(150, 150, 150);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
-   
+.header {
+  font-family: Nunito, sans-serif;
+  background-color: rgba(255, 255, 255, 0.911);
+  border-radius: 12px;
+  padding: 10px;
+  color: rgb(150, 150, 150);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
 }
 
-img{
+img {
   border-radius: 10px;
   margin-left: 1rem;
   margin-right: 2rem;
-  
 }
 
-.storeTitle{
+.storeTitle {
   margin-bottom: 50px;
 }
 
-.text{
+.text {
   font-size: auto;
   margin: 10px;
 }
 
-.storeTitle{
+.storeTitle {
   margin-left: 55px;
 }
 
-.textCategory{
+.textCategory {
   /* border: 1px solid black; */
   padding: 6px;
-  padding-bottom: 8px;
-  padding-left: 12px;
+  padding-bottom: 5px;
+  padding-left: 7px;
   border-radius: 5px;
   background-color: rgba(129, 0, 75, 0.6);
   color: rgb(255, 255, 255);
   text-shadow: 0 1px 3px rgb(41, 15, 134);
   font-size: large;
+ justify-content: center;
 }

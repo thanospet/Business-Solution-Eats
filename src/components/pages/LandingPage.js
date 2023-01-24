@@ -57,7 +57,6 @@ const LandingPage = () => {
                       Order!
                     </Button>
                   </Form>
-                  
                 </div>
               </h1>
             </div>
