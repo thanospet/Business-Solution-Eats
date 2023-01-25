@@ -51,14 +51,14 @@ const StoreDetails = (props) => {
   }, []);
 
   const modalHandler = (product) => {
-    setModalShown(true);
     setModalProduct(product);
+    setModalShown(true);
+
     console.log("Clicked modalHandler", product);
     console.log("setModalShown", modalShown);
   };
 
   const hideModalHandler = () => {
-    console.log("Container click");
     if (modalShown === true) {
       setModalShown(false);
     } else {
@@ -67,9 +67,9 @@ const StoreDetails = (props) => {
   };
 
   return (
-    <Container onClick={hideModalHandler}>
+    <Container>
       {modalShown && (
-        <Modal onClose={props.onClose} modalProduct={modalProduct} />
+        <Modal onClose={hideModalHandler} modalProduct={modalProduct} />
       )}
       <Row className="my-4">
         <Col className={`col-8 ${classes.colInfo}`}>
