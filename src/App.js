@@ -29,20 +29,3 @@ function App() {
 }
 
 export default App;
-
-{
-  /* <Switch>
-<Route path="/" exact>
-  <Redirect to="/welcome" />
-</Route>
-<Route path="/welcome">
-  <LandingPage onSubmit={getPostal} />
-</Route>
-<Route path="/availiable-stores" >
-  <AvailiableStores postalData={currentPostal} />
-</Route>
-<Route path="/availiable-stores-desc">
-  <StoresDescription  />
-</Route>
-</Switch> */
-}
