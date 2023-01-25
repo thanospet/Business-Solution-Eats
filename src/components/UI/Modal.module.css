@@ -9,10 +9,11 @@
   }
 
   .icon {
-    width: 100px;
-    height: 100px;
-    border-radius: 5%;
-    background-size:cover ;
+    width: 40rem;
+    height: 20rem;
+    border: 3px solid grey;
+    border-radius: 10px;
+    object-fit: cover;
   }
   
   .modal {

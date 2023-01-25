@@ -38,17 +38,20 @@ const Modal = (props) => {
       )}
       {ReactDOM.createPortal(
         <ModalOverlay>
-          <Row key={props.modalProduct.id} className="py-3">
-            <Col className="col-8 d-flex flex-column justify-content-space">
-              <Row>{props.modalProduct.title}</Row>
-
-              <Row>${props.modalProduct.price}</Row>
-            </Col>
-            <Col className="col-4 ">
+          <Row>
+            <Col className="col-12 d-flex justify-content-center">
               <Image
                 className={`d-block m-auto ${classes.icon}`}
                 src={props.modalProduct.iconUrl}
               ></Image>
+            </Col>
+          </Row>
+
+          <Row key={props.modalProduct.id} className="py-3">
+            <Col className="col-8 d-flex flex-column justify-content-space">
+              <Row>{props.modalProduct.title}</Row>
+              <Row>${props.modalProduct.description}</Row>
+              <Row>${props.modalProduct.price}</Row>
             </Col>
           </Row>
         </ModalOverlay>,
@@ -60,19 +63,16 @@ const Modal = (props) => {
 
 export default Modal;
 
-// {ReactDOM.createPortal(
-//     <Row key={props.id} className="py-3">
-//       <Col className="col-8 ">
-//         <Row>{props.title}</Row>
+// <Row key={props.modalProduct.id} className="py-3">
+// <Col className="col-8 d-flex flex-column justify-content-space">
+//   <Row>{props.modalProduct.title}</Row>
 
-//         <Row>$ {props.price}</Row>
-//       </Col>
-//       <Col className="col-4 ">
-//         <Image
-//           className={`d-block m-auto ${classes.icon}`}
-//           src={props.iconUrl}
-//         ></Image>
-//       </Col>
-//     </Row>,
-//     portalElement
-//   )}
+//   <Row>${props.modalProduct.price}</Row>
+// </Col>
+// <Col className="col-4 ">
+//   <Image
+//     className={`d-block m-auto ${classes.icon}`}
+//     src={props.modalProduct.iconUrl}
+//   ></Image>
+// </Col>
+// </Row>
