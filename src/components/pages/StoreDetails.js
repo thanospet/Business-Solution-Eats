@@ -108,6 +108,7 @@ const StoreDetails = (props) => {
                                   <Row>{product.title}</Row>
                                   <Row>$ {product.price}</Row>
                                 </Col>
+
                                 <Col className="col-4 ">
                                   <Image
                                     className={`d-block m-auto ${classes.icon}`}

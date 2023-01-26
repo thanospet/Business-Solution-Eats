@@ -8,6 +8,8 @@ import StoresDescription from "./components/pages/StoresDescription";
 import Modal from "./components/UI/Modal";
 import ErrorPage from "./components/pages/Error";
 import StoreDetails from "./components/pages/StoreDetails";
+import CartContext from "./store/cart-context";
+import CartProvider from "./store/CartProvider";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +20,14 @@ const router = createBrowserRouter([
       { path: "/", element: <LandingPage /> },
       { path: "/available-stores/:postal", element: <AvailableStores /> },
       { path: "/stores-description", element: <StoresDescription /> },
-      { path: "/store-details/:storeId", element: <StoreDetails /> },
+      {
+        path: "/store-details/:storeId",
+        element: (
+          <CartProvider>
+            <StoreDetails />{" "}
+          </CartProvider>
+        ),
+      },
       { path: "/store-details/:storeId/:productId", element: <Modal /> },
     ],
   },
