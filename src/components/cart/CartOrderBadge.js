@@ -5,7 +5,7 @@ import CartContext from "../../store/cart-context";
 
 const CartOrderBadge = (props) => {
   const cartCtx = useContext(CartContext);
-
+  //h reduce me afinei na metatrepsw ena array se ena value
   const numberOfCartItems = cartCtx.items.reduce((curNumber, item) => {
     return curNumber + item.amount;
   }, 0);
