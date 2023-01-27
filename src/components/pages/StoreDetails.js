@@ -4,7 +4,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import classes from "./StoreDetails.module.css";
 import CardProduct from "../UI/CardProduct";
-import Modal from "../UI/Modal";
+// import Modal from "../UI/Modal";
+import ProductInfoModal from "../UI/ProductInfoModal";
+import { useContext } from "react";
+import CartContext from "../../store/cart-context";
 import {
   Container,
   Row,
@@ -13,9 +16,9 @@ import {
   Form,
   FormControl,
   Button,
+  Modal,
 } from "react-bootstrap";
 import Cart from "../cart/Cart";
-import { propTypes } from "react-bootstrap/esm/Image";
 
 const StoreDetails = (props) => {
   const [storeLogoIcon, setStoreLogoIcon] = useState("");
@@ -26,10 +29,12 @@ const StoreDetails = (props) => {
   const [masterProductCategory, setMasterProductCategory] = useState("");
   const [modalShown, setModalShown] = useState(false);
   const [modalProduct, setModalProduct] = useState({});
+  const [amount, setAmount] = useState(1);
 
   const navigate = useNavigate();
   const params = useParams();
   const storeInfoId = params?.storeId;
+  const cartCtx = useContext(CartContext);
 
   const link = "https://localhost:7160";
 
@@ -66,11 +71,74 @@ const StoreDetails = (props) => {
     }
   };
 
+  const addAmount = () => {
+    if (amount >= 0) {
+      setAmount(amount + 1);
+    }
+  };
+  const minusAmount = () => {
+    if (amount === 1) {
+      return;
+    } else {
+      setAmount(amount - 1);
+    }
+  };
+
+  const addToCartHandler = () => {
+    cartCtx.addItem({
+      id: modalProduct.id,
+      title: modalProduct.title,
+      amount: amount,
+      price: modalProduct.price,
+    });
+
+    console.log("amount", amount);
+  };
+
   return (
     <Container>
-      {modalShown && (
-        <Modal onClose={hideModalHandler} modalProduct={modalProduct} />
-      )}
+      {
+        // <ProductInfoModal modalShown={modalShown} />
+        // <Modal onClose={hideModalHandler} modalProduct={modalProduct} //
+        <>
+          <Modal show={modalShown} onHide={hideModalHandler}>
+            <Modal.Body>
+              <Row>
+                <Col className="col-12 d-flex justify-content-center">
+                  <Image
+                    className={`d-block m-auto ${classes.icon}`}
+                    src={modalProduct.iconUrl}
+                  ></Image>
+                </Col>
+              </Row>
+
+              <Row key={modalProduct.id} className="py-3">
+                <Col className="col-8 d-flex flex-column justify-content-space">
+                  <Row>{modalProduct.title}</Row>
+                  <Row>{modalProduct.description}</Row>
+                  <Row>${modalProduct.price}</Row>
+                </Col>
+                <Col className="col-4">
+                  <>
+                    {" "}
+                    <Button onClick={minusAmount}>-</Button> {amount}{" "}
+                    <Button onClick={addAmount}>+</Button>
+                  </>
+                </Col>
+              </Row>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={hideModalHandler}>
+                Close
+              </Button>
+              <Button onClick={addToCartHandler} variant="primary">
+                Add
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </>
+      }
+
       <Row className="my-4">
         <Col className={`col-8 ${classes.colInfo}`}>
           <Row className="align-items-center">
@@ -85,6 +153,7 @@ const StoreDetails = (props) => {
             >
               {storeTitle}
             </Col>
+
             <Col className="col-12 d-flex justify-content-start">
               {productCategories.map((productCategory) => {
                 return (

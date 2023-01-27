@@ -5,6 +5,7 @@ import RootLayout from "./components/pages/Root";
 import LandingPage from "./components/pages/LandingPage";
 import AvailableStores from "./components/pages/AvailableStores";
 import StoresDescription from "./components/pages/StoresDescription";
+import ProductInfoModal from "./components/UI/ProductInfoModal";
 import Modal from "./components/UI/Modal";
 import ErrorPage from "./components/pages/Error";
 import StoreDetails from "./components/pages/StoreDetails";
@@ -24,7 +25,10 @@ const router = createBrowserRouter([
         path: "/store-details/:storeId",
         element: <StoreDetails />,
       },
-      { path: "/store-details/:storeId/:productId", element: <Modal /> },
+      // {
+      //   path: "/store-details/:storeId/:productId",
+      //   element: <ProductInfoModal />,
+      // },
     ],
   },
 ]);
