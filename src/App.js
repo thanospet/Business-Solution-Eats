@@ -22,11 +22,7 @@ const router = createBrowserRouter([
       { path: "/stores-description", element: <StoresDescription /> },
       {
         path: "/store-details/:storeId",
-        element: (
-          <CartProvider>
-            <StoreDetails />{" "}
-          </CartProvider>
-        ),
+        element: <StoreDetails />,
       },
       { path: "/store-details/:storeId/:productId", element: <Modal /> },
     ],
@@ -34,7 +30,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <CartProvider>
+      <RouterProvider router={router} />
+    </CartProvider>
+  );
 }
 
 export default App;

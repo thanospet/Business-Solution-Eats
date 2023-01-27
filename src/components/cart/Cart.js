@@ -26,7 +26,7 @@ const Cart = () => {
         <Col className="col-12"> Cart Items</Col>
       </Row>
       <Row className="d-flex justify-content-start">
-        <CartOrderBadge></CartOrderBadge>
+        <CartOrderBadge />
       </Row>
       <Row className="d-flex justify-content-start">actions</Row>
     </Container>

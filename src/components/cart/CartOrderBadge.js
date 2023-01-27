@@ -12,6 +12,8 @@ const CartOrderBadge = (props) => {
 
   const btnClasses = `${classes.button} ${classes.bump}`;
 
+  console.log(numberOfCartItems);
+
   return (
     <button onClick={props.onClick} className={btnClasses}>
       <span className={classes.badge}>{numberOfCartItems}</span>
