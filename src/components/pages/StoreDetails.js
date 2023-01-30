@@ -116,7 +116,7 @@ const StoreDetails = (props) => {
                 <Col className="col-8 d-flex flex-column justify-content-space">
                   <Row>{modalProduct.title}</Row>
                   <Row>{modalProduct.description}</Row>
-                  <Row>${modalProduct.price}</Row>
+                  <Row>${(modalProduct.price * amount).toFixed(2)}</Row>
                 </Col>
                 <Col className="col-4">
                   <>
