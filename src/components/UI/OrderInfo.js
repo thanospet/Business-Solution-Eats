@@ -48,48 +48,54 @@ const OrderInfo = () => {
 
   console.log("currentPostal", cartCtx.postalCode);
   return (
-    <Row className={`${classes.orderInfo}`}>
-      <Col className="col-12 p-2">DELIVERY/TAKEAWAY</Col>
-      <Col className="col-12 p-2">{currentPostal}</Col>
-      <Col className="col-12 p-2">
-        <Dropdown>
-          <DropdownButton
-            id="dropdown-basic-button"
-            title={payment}
-            onSelect={handleSelect}
-          >
-            {paymentMethods.map((method) => {
-              return (
-                <>
-                  <Dropdown.Item
-                    key={method.id}
-                    href="#/action"
-                    eventKey={method.description}
-                    onClick={() => handleSelect(method.description)}
-                  >
-                    {method.description}
-                  </Dropdown.Item>
-                </>
-              );
-            })}
-          </DropdownButton>
-        </Dropdown>
-      </Col>
-      <Col className="col-12 p-2">
-        <Form className={classes.text}>
-          <FormControl type="text" placeholder="Floor" />
-        </Form>
-        <Form className={classes.text}>
-          <FormControl type="text" placeholder="DoorBell" />
-        </Form>
-        <Form className={classes.text}>
-          <FormControl type="text" placeholder="Phone Number" />
-        </Form>
-        <Form className={classes.textNotes}>
-          <FormControl type="text" placeholder="Notes" />
-        </Form>
-      </Col>
-    </Row>
+    <Form>
+      <Row className={`${classes.orderInfo}`}>
+        <Col className="col-12 p-2">DELIVERY/TAKEAWAY</Col>
+        <Col className="col-12 p-2">{currentPostal}</Col>
+        <Col className="col-12 p-2">
+          <Dropdown>
+            <DropdownButton
+              // variant="info"
+              id="dropdown-basic-button"
+              title={payment}
+              onSelect={handleSelect}
+            >
+              {paymentMethods.map((method) => {
+                return (
+                  <>
+                    <Dropdown.Item
+                      key={method.id}
+                      href="#/action"
+                      eventKey={method.description}
+                      onClick={() => handleSelect(method.description)}
+                    >
+                      {method.description}
+                    </Dropdown.Item>
+                  </>
+                );
+              })}
+            </DropdownButton>
+          </Dropdown>
+        </Col>
+        <Col className="col-12 p-2">
+          <Form className={classes.text}>
+            <FormControl type="text" placeholder="Floor" />
+          </Form>
+          <Form className={classes.text}>
+            <FormControl type="text" placeholder="DoorBell" />
+          </Form>
+          <Form className={classes.text}>
+            <FormControl type="text" placeholder="Phone Number" />
+          </Form>
+          <Form className={classes.textNotes}>
+            <FormControl type="text" placeholder="Notes" />
+          </Form>
+          <Button className="my-3" variant="warning">
+            Submit Order!
+          </Button>{" "}
+        </Col>
+      </Row>
+    </Form>
   );
 };
 

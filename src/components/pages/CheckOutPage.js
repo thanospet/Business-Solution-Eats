@@ -22,20 +22,15 @@ const CheckOutPage = () => {
 
   return (
     <Container className="py-5">
-      <Form>
-        <Row className="d-flex justify-content-center my-5">
-          <Col className="col-6 p-3">
-            <OrderInfo />
-          </Col>
-          <Col
-            className={` col-6 d-flex justify-content-center ${classes.cart}`}
-          >
-            <Cart forCheckOut />
-            <TotalPriceBudge />
-          </Col>
-        </Row>
-        <Button>Submit Order</Button>
-      </Form>
+      <Row className=" my-5">
+        <Col className="col-6 p-3">
+          <OrderInfo />
+        </Col>
+        <Col className={` col-6 d-flex justify-content-center ${classes.cart}`}>
+          <Cart forCheckOut />
+          <TotalPriceBudge />
+        </Col>
+      </Row>
     </Container>
   );
 };
