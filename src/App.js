@@ -11,6 +11,7 @@ import ErrorPage from "./components/pages/Error";
 import StoreDetails from "./components/pages/StoreDetails";
 import CartContext from "./store/cart-context";
 import CartProvider from "./store/CartProvider";
+import CheckOutPage from "./components/pages/CheckOutPage";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "/store-details/:storeId",
         element: <StoreDetails />,
+      },
+      {
+        path: "/check-out-page",
+        element: <CheckOutPage />,
       },
       // {
       //   path: "/store-details/:storeId/:productId",

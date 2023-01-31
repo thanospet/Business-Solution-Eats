@@ -5,6 +5,7 @@ import CartContext from "./cart-context";
 const defaultCartState = {
   items: [],
   totalAmount: 0,
+  postalCode: 0,
 };
 
 const cartReducer = (state, action) => {
@@ -30,6 +31,7 @@ const cartReducer = (state, action) => {
     }
 
     return {
+      ...state,
       items: updatedItems,
       totalAmount: updatedTotalAmount,
     };
@@ -56,18 +58,30 @@ const cartReducer = (state, action) => {
     }
 
     return {
+      ...state,
       items: updatedItems,
       totalAmount: updatedTotalAmount,
     };
   }
 
   if (action.type === "CLEAR") {
-    return defaultCartState;
+    return { ...state, defaultCartState };
+  }
+
+  if (action.type === "POSTAL") {
+    console.log("action.postal", action.postal);
+    const updatedPostal = state.postalCode + action.postal;
+
+    return {
+      ...state,
+      postalCode: updatedPostal,
+    };
   }
 
   return defaultCartState;
 };
 
+// console.log("postal", postalCode);
 console.log("defaultCartState", defaultCartState);
 
 const CartProvider = (props) => {
@@ -78,6 +92,10 @@ const CartProvider = (props) => {
 
   const addItemToCartHandler = (item) => {
     dispatchCartAction({ type: "ADD", item: item });
+  };
+
+  const addPostalToContext = (postal) => {
+    dispatchCartAction({ type: "POSTAL", postal: parseInt(postal, 10) });
   };
 
   const removeItemFromCartHandler = (id) => {
@@ -91,6 +109,8 @@ const CartProvider = (props) => {
   const cartContext = {
     items: cartState.items,
     totalAmount: cartState.totalAmount,
+    postalCode: cartState.postalCode,
+    addPostal: addPostalToContext,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
     clearCart: clearCartHandler,

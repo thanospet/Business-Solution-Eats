@@ -1,9 +1,7 @@
 import React from "react";
 import { useContext, useState } from "react";
-import classes from "./CartOrderBadge.module.css";
+import classes from "./CheckOutPage.module.css";
 import "bootstrap/dist/css/bootstrap.css";
-import { Badge } from "react-bootstrap";
-
 import CartContext from "../../store/cart-context";
 import {
   Container,
@@ -13,21 +11,31 @@ import {
   Form,
   FormControl,
   Button,
+  Badge,
 } from "react-bootstrap";
+import Cart from "../cart/Cart";
+import OrderInfo from "../UI/OrderInfo";
+import TotalPriceBudge from "../cart/TotalPriceBudge";
 
 const CheckOutPage = () => {
+  const cartCtx = useContext(CartContext);
+
   return (
-    <Container>
-      <Row className="d-flex justify-content-center">
-        <Col className="col-6 d-flex justify-content-center">
-          {" "}
-          Order/ postal/Payment method/tip?/ text sxolia
-        </Col>
-        <Col className="col-6 d-flex justify-content-center">
-          {" "}
-          cart with price kai apo katw total price
-        </Col>
-      </Row>
+    <Container className="py-5">
+      <Form>
+        <Row className="d-flex justify-content-center my-5">
+          <Col className="col-6 p-3">
+            <OrderInfo />
+          </Col>
+          <Col
+            className={` col-6 d-flex justify-content-center ${classes.cart}`}
+          >
+            <Cart forCheckOut />
+            <TotalPriceBudge />
+          </Col>
+        </Row>
+        <Button>Submit Order</Button>
+      </Form>
     </Container>
   );
 };

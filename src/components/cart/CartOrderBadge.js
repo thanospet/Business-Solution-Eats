@@ -1,11 +1,12 @@
 import { useContext } from "react";
 import classes from "./CartOrderBadge.module.css";
 import "bootstrap/dist/css/bootstrap.css";
-import { Badge } from "react-bootstrap";
-
+import { Badge, Button } from "react-bootstrap";
 import CartContext from "../../store/cart-context";
+import { useNavigate } from "react-router-dom";
 
 const CartOrderBadge = (props) => {
+  const navigate = useNavigate();
   const cartCtx = useContext(CartContext);
   //h reduce me afinei na metatrepsw ena array se ena value
   const numberOfCartItems = cartCtx.items.reduce((curNumber, item) => {
@@ -21,12 +22,17 @@ const CartOrderBadge = (props) => {
 
   console.log("numberOfCartItems", numberOfCartItems);
 
+  const onCheckOut = (event) => {
+    event.preventDefault();
+    navigate(`/check-out-page`);
+  };
+
   return (
-    <button onClick={props.onClick} className={btnClasses}>
+    <Button onClick={onCheckOut} className={btnClasses}>
       <span className={classes.badge}>{numberOfCartItems}</span>
       <span>Continue</span>
       <Badge bg="secondary">Total: $ {totalPrice.toFixed(2)}</Badge>
-    </button>
+    </Button>
   );
 };
 

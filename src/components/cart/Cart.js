@@ -17,7 +17,7 @@ import {
 } from "react-bootstrap";
 import CartOrderBadge from "./CartOrderBadge";
 
-const Cart = () => {
+const Cart = (props) => {
   const cartCtx = useContext(CartContext);
 
   const allItems = cartCtx.items;
@@ -26,11 +26,13 @@ const Cart = () => {
 
   return (
     <Container className={classes.cart}>
-      <Row className="d-flex justify-content-center">My Cart</Row>
       <Row className="">
         {allItems.map((item) => {
           return (
-            <Row key={item.id} className="py-3 d-flex justify-content-between">
+            <Row
+              key={item.id}
+              className="py-3 my-3 d-flex justify-content-between"
+            >
               <Col className="col-2 ">
                 <Badge bg="secondary">{item.amount}</Badge>
               </Col>
@@ -41,9 +43,9 @@ const Cart = () => {
         })}
       </Row>
       <Row className="d-flex justify-content-start">
-        <CartOrderBadge />
+        {!props.forCheckOut && <CartOrderBadge />}
       </Row>
-      <Row className="d-flex justify-content-start">actions</Row>
+      <Row className="d-flex justify-content-start"></Row>
     </Container>
   );
 };

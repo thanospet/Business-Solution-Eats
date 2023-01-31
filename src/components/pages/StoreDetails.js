@@ -3,21 +3,9 @@ import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import classes from "./StoreDetails.module.css";
-import CardProduct from "../UI/CardProduct";
-// import Modal from "../UI/Modal";
-import ProductInfoModal from "../UI/ProductInfoModal";
 import { useContext } from "react";
 import CartContext from "../../store/cart-context";
-import {
-  Container,
-  Row,
-  Col,
-  Image,
-  Form,
-  FormControl,
-  Button,
-  Modal,
-} from "react-bootstrap";
+import { Container, Row, Col, Image, Button, Modal } from "react-bootstrap";
 import Cart from "../cart/Cart";
 
 const StoreDetails = (props) => {

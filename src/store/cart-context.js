@@ -6,8 +6,10 @@ const CartContext = React.createContext({
   //Ta kanonika einai auta mesa
   items: [],
   totalAmount: 0,
+  postalCode: "",
   addItem: (item) => {},
   removeItem: (id) => {},
+  addPostal: (postal) => {},
   clearCart: () => {},
 });
 

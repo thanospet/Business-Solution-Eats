@@ -1,15 +1,17 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import classes from "./AvailableStores.module.css";
 import axios from "axios";
 import Card from "../UI/Card";
 import CardWrap from "../UI/CardWrap";
 import "bootstrap/dist/css/bootstrap.css";
+import CartContext from "../../store/cart-context";
 
 const AvailableStores = () => {
   const [availableStores, setAvailableStores] = useState([]);
   const params = useParams();
   const navigate = useNavigate();
+  const cartCtx = useContext(CartContext);
 
   const dataPostal = params?.postal;
 
@@ -24,11 +26,13 @@ const AvailableStores = () => {
         const storesArray = Array.from(res.data.items);
         const newStoresArray = storesArray.map((store) => {
           const newStore = { ...store, logo_icon: store.logoIcon };
+
           return newStore;
         });
         console.log(res.data.items);
 
         setAvailableStores(newStoresArray);
+        cartCtx.clearCart();
       })
       .catch((err) => {
         console.error(err);

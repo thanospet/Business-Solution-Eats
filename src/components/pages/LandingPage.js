@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./LandingPage.module.css";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 
 import {
@@ -13,18 +13,22 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
+import CartContext from "../../store/cart-context";
 
 const LandingPage = () => {
   const [postalCode, setPostalCode] = useState("");
   const navigate = useNavigate();
+  const cartCtx = useContext(CartContext);
 
   const searchPostalCode = (event) => {
     setPostalCode(event.target.value);
   };
 
   console.log("postalCode", postalCode);
+  console.log("type of postalCode", typeof postalCode);
   const onSubmitHandle = (event) => {
     event.preventDefault();
+    cartCtx.addPostal(postalCode);
     navigate(`/available-stores/${postalCode}`);
   };
 
