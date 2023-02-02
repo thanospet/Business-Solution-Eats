@@ -44,21 +44,23 @@ const LandingPage = () => {
               <h1>
                 <div className={classes["landing-page-h1"]}></div>
                 <div className={classes["landing-page-form"]}>
-                  <h1>Welcome !</h1>
+                  <h1>Food, takeaway and groceries. Delivered.</h1>
+
                   <Form
                     className={classes["landing-page-form"]}
                     onSubmit={onSubmitHandle}
                   >
+                    <h4>Enter a postal code.</h4>
                     <input
                       value={postalCode}
                       onChange={searchPostalCode}
                       className={classes.input}
                       type="text"
                       id="location"
-                      placeholder="Enter your address"
+                      placeholder="e.g : 50100"
                     ></input>
                     <Button className={classes["landing-btn"]} type="submit">
-                      Order!
+                      Search!
                     </Button>
                   </Form>
                 </div>

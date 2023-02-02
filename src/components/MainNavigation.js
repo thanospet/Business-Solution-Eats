@@ -1,13 +1,20 @@
 import React from "react";
 import classes from "./MainNavigation.module.css";
+import { useNavigate } from "react-router-dom";
 
 const MainNavigation = () => {
+  const navigate = useNavigate();
+
+  const navigateHome = () => {
+    navigate("/");
+  };
+
   return (
     <nav
       id="mainNavbar"
-      className={`navbar navbar-dark navbar-expand-md py-0 fixed-top  ${classes.mainNav}`}
+      className={`navbar navbar-dark navbar-expand-md py-0 fixed-top   ${classes.mainNav}`}
     >
-      <a href="#" className={`${classes.bsText}`}>
+      <a href="/" className={`${classes.bsText}`}>
         BUSINESS SOLUTION EATS
       </a>
       <button
@@ -15,6 +22,7 @@ const MainNavigation = () => {
         data-toggle="collapse"
         data-target="#navLinks"
         aria-label="Toggle navigation"
+        onClick={navigateHome}
       >
         <span className="navbar-toggler-icon" />
       </button>
@@ -28,11 +36,6 @@ const MainNavigation = () => {
           <li className="nav-item">
             <a href="" className="nav-link text-secondary">
               LOGIN
-            </a>
-          </li>
-          <li className="nav-item">
-            <a href="" className="nav-link text-secondary">
-              MY CART
             </a>
           </li>
         </ul>

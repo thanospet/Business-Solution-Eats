@@ -66,6 +66,7 @@ const StoreDetails = (props) => {
     if (modalShown === true) {
       setModalShown(false);
       setAmount(1);
+      setNotes("");
     } else {
       return;
     }
@@ -96,6 +97,7 @@ const StoreDetails = (props) => {
 
     console.log("amount", amount);
     setAmount(1);
+    setNotes("");
   };
 
   return (

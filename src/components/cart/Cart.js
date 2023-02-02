@@ -20,11 +20,13 @@ import { useEffect } from "react";
 const Cart = (props) => {
   const cartCtx = useContext(CartContext);
   const [containerIsShown, setContainerIsShown] = useState(true);
+  const [badgeIsShown, setBadgeIsShown] = useState(false);
   const allItems = cartCtx.items;
 
   useEffect(() => {
     if (allItems.length > 0) {
       setContainerIsShown(false);
+      setBadgeIsShown(true);
     } else {
       return;
     }
@@ -34,14 +36,14 @@ const Cart = (props) => {
 
   return (
     <>
-      <Container className={` ${classes.cart}`}>
+      <Container className={`${classes.cart}`}>
         {containerIsShown && <EmptyCart />}
-        <Row className="d-flex sticky-top">
+        <Row className="d-flex my-3">
           {allItems.map((item) => {
             return (
               <Row
                 key={item.id}
-                className="py-3 my-3 d-flex justify-content-between"
+                className={`py-3 my-3 d-flex justify-content-between${classes.rows}`}
               >
                 <Col className="col-2 ">
                   <Badge bg="secondary">{item.amount}</Badge>
@@ -51,15 +53,17 @@ const Cart = (props) => {
                 <Col className={`col-4 ${classes.itemNotes}`}>
                   {item.notes.length > 0 && "Notes: " + item.notes}
                 </Col>
-
                 <Col className="col-2 ">$ {item.price}</Col>
               </Row>
             );
           })}
         </Row>
-        <Row className="d-flex justify-content-start">
-          {!props.forCheckOut && <CartOrderBadge />}
-        </Row>
+        {badgeIsShown && (
+          <Row className="d-flex justify-content-start py-4 ">
+            {!props.forCheckOut && <CartOrderBadge />}
+          </Row>
+        )}
+
         <Row className="d-flex justify-content-start"></Row>
       </Container>
     </>
