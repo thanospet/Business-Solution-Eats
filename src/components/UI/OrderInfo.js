@@ -144,10 +144,10 @@ const OrderInfo = () => {
           <Col className="col-12 p-2">DELIVERY/TAKEAWAY</Col>
           <Col className="col-12 p-2">{currentPostal}</Col>
           <Col className="col-12 p-2">
-            <Dropdown>
+            <Dropdown className={classes.button}>
               <DropdownButton
-                // variant="info"
                 id="dropdown-basic-button"
+                variant="secondary"
                 title={paymentTitle}
               >
                 {paymentMethods.map((method) => {
@@ -199,7 +199,7 @@ const OrderInfo = () => {
                 placeholder="Notes"
               />
             </Form>
-            <Button type="submit" className="my-3" variant="warning">
+            <Button type="submit" className="my-3" variant="secondary">
               Submit Order!
             </Button>{" "}
           </Col>

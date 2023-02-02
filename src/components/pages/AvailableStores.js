@@ -9,6 +9,7 @@ import CartContext from "../../store/cart-context";
 import { Container, Row, Col, Modal } from "react-bootstrap";
 
 const AvailableStores = () => {
+  window.scrollTo(0, 0);
   const [availableStores, setAvailableStores] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const params = useParams();

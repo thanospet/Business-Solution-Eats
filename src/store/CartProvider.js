@@ -40,7 +40,8 @@ const cartReducer = (state, action) => {
   }
   if (action.type === "REMOVE") {
     const existingCartItemIndex = state.items.findIndex(
-      (item) => item.id === action.id
+      (item) => item === action.item
+      //&& JSON.stringify(item.notes) === JSON.stringify(action.item.notes)
     );
     const existingItem = state.items[existingCartItemIndex];
     const updatedTotalAmount = state.totalAmount - existingItem.price;
@@ -51,13 +52,18 @@ const cartReducer = (state, action) => {
         console.log("I want to remove", action.id);
         console.log("Checking", item.id, action.id);
 
-        return item.id !== action.id;
+        return (
+          item !== action.item
+          // && JSON.stringify(item.notes) !== JSON.stringify(action.item.notes)
+        );
       });
     } else {
       const updatedItem = { ...existingItem, amount: existingItem.amount - 1 };
       updatedItems = [...state.items];
       updatedItems[existingCartItemIndex] = updatedItem;
     }
+
+    console.log("existingItem", existingItem);
 
     return {
       ...state,
@@ -100,8 +106,8 @@ const CartProvider = (props) => {
     dispatchCartAction({ type: "POSTAL", postal: parseInt(postal, 10) });
   };
 
-  const removeItemFromCartHandler = (id) => {
-    dispatchCartAction({ type: "REMOVE", id: id });
+  const removeItemFromCartHandler = (item) => {
+    dispatchCartAction({ type: "REMOVE", item: item });
   };
 
   const clearCartHandler = () => {

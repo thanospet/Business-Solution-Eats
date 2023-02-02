@@ -7,18 +7,17 @@ import { useNavigate } from "react-router-dom";
 
 const TotalPriceBudge = (props) => {
   const cartCtx = useContext(CartContext);
-  //h reduce me afinei na metatrepsw ena array se ena value
 
   const totalPrice = cartCtx.items.reduce((curPrice, item) => {
     return curPrice + item.price * item.amount;
   }, 0);
 
-  const btnClasses = `${classes.button} ${classes.bump}`;
+  const divClasses = `${classes.div} ${classes.bump}`;
 
   return (
-    <Button className={btnClasses}>
+    <div className={divClasses}>
       <Badge bg="secondary">Total: $ {totalPrice.toFixed(2)}</Badge>
-    </Button>
+    </div>
   );
 };
 

@@ -29,6 +29,7 @@ const StoreDetails = (props) => {
   const [modalProduct, setModalProduct] = useState({});
   const [amount, setAmount] = useState(1);
   const [notes, setNotes] = useState("");
+  window.scrollTo(0, 0);
 
   const navigate = useNavigate();
   const params = useParams();
@@ -38,6 +39,7 @@ const StoreDetails = (props) => {
   const link = "https://localhost:7160";
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     axios
       .get(`${link}/api/Store/store-info/${storeInfoId}`)
       .then(function (res) {
@@ -60,6 +62,10 @@ const StoreDetails = (props) => {
 
     console.log("Clicked modalHandler", product);
     console.log("setModalShown", modalShown);
+  };
+
+  const onShowModal = () => {
+    setModalShown(true);
   };
 
   const hideModalHandler = () => {
@@ -100,11 +106,13 @@ const StoreDetails = (props) => {
     setNotes("");
   };
 
+  const removeFromCartHandler = (item) => {
+    cartCtx.removeItem(item);
+  };
+
   return (
     <Container>
       {
-        // <ProductInfoModal modalShown={modalShown} />
-        // <Modal onClose={hideModalHandler} modalProduct={modalProduct} //
         <>
           <Modal show={modalShown} onHide={hideModalHandler}>
             <Modal.Body>
@@ -231,7 +239,13 @@ const StoreDetails = (props) => {
         <Col
           className={`col-4 d-flex justify-content-center ${classes.colCart}`}
         >
-          <Cart />
+          <Cart
+            onShowModal={onShowModal}
+            onAddAmount={addAmount}
+            onMinusAmount={minusAmount}
+            onAddToCartHandler={addToCartHandler}
+            onRemoveFromCart={removeFromCartHandler}
+          />
         </Col>
       </Row>
     </Container>

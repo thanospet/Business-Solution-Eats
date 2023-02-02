@@ -4,9 +4,9 @@
     position: relative;
 }
 
-/* .btn{
-    position: absolute;
-    top:65vh;
-} */
-
+.totalPriceBudge{
+    padding: auto;
+    padding-bottom:60%;
+    position: relative;
+}
 
