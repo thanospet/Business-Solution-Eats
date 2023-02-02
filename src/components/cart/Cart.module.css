@@ -7,9 +7,8 @@
              0 99px 5px 0px #fff;
     height:100%;
     position: absolute;
-    
-
-
-    
 }
 
+.itemNotes{
+    color: rgba(128, 128, 128, 0.719);
+}

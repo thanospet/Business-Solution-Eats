@@ -6,9 +6,11 @@ import Card from "../UI/Card";
 import CardWrap from "../UI/CardWrap";
 import "bootstrap/dist/css/bootstrap.css";
 import CartContext from "../../store/cart-context";
+import { Container, Row, Col, Modal } from "react-bootstrap";
 
 const AvailableStores = () => {
   const [availableStores, setAvailableStores] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
   const cartCtx = useContext(CartContext);
@@ -20,6 +22,7 @@ const AvailableStores = () => {
   const link = "https://localhost:7160";
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(`${link}/api/Store/open-stores/${dataPostal}`)
       .then(function (res) {
@@ -30,11 +33,13 @@ const AvailableStores = () => {
           return newStore;
         });
         console.log(res.data.items);
+        setIsLoading(false);
 
         setAvailableStores(newStoresArray);
         cartCtx.clearCart();
       })
       .catch((err) => {
+        setIsLoading(false);
         console.error(err);
       });
   }, []);
@@ -46,6 +51,7 @@ const AvailableStores = () => {
   };
 
   const availableStoresNumber = availableStores.length;
+  const loadingText = <p>Loading...</p>;
 
   return (
     <div className={classes.main}>
@@ -54,41 +60,45 @@ const AvailableStores = () => {
           We found {availableStoresNumber} Available stores in {dataPostal}
         </h1>
       </div>
-
+      {isLoading && loadingText}
       {availableStores.map((store) => {
         return (
-          <CardWrap key={store.id}>
-            <div
-              className={classes.stores}
-              onClick={() => onCardClick(store.id)}
-            >
-              <Card>
-                <span key={store.id}></span>
-                <span>
-                  <img
-                    src={store.logo_icon}
-                    alt=""
-                    height={100}
-                    width={100}
-                    fluid
-                  />{" "}
-                  <span className={classes.storeTitle}>{store.title}</span>
-                </span>
-              </Card>
-              <Card>
-                <span className={classes.textCategory}>
-                  {store.masterProductCategory}{" "}
-                </span>
-                <span className={classes.text}>
-                  Estimated Time: {store.averageDeliveryTime}{" "}
-                </span>
-                <span className={classes.text}>
-                  {" "}
-                  minimum order: ${store.minimumOrderPrice}{" "}
-                </span>
-              </Card>
-            </div>
-          </CardWrap>
+          <>
+            {!isLoading && (
+              <CardWrap key={store.id}>
+                <div
+                  className={classes.stores}
+                  onClick={() => onCardClick(store.id)}
+                >
+                  <Card>
+                    <span key={store.id}></span>
+                    <span>
+                      <img
+                        src={store.logo_icon}
+                        alt=""
+                        height={100}
+                        width={100}
+                        fluid
+                      />{" "}
+                      <span className={classes.storeTitle}>{store.title}</span>
+                    </span>
+                  </Card>
+                  <Card>
+                    <span className={classes.textCategory}>
+                      {store.masterProductCategory}{" "}
+                    </span>
+                    <span className={classes.text}>
+                      Estimated Time: {store.averageDeliveryTime}{" "}
+                    </span>
+                    <span className={classes.text}>
+                      {" "}
+                      minimum order: ${store.minimumOrderPrice}{" "}
+                    </span>
+                  </Card>
+                </div>
+              </CardWrap>
+            )}
+          </>
         );
       })}
     </div>

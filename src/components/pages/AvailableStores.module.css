@@ -51,3 +51,10 @@ img {
   font-size: large;
  justify-content: center;
 }
+
+.modalSpinner{
+  background-color: black;
+  position: absolute;
+  top:0;
+  right:0;
+}
