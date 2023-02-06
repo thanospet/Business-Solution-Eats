@@ -43,7 +43,7 @@ const Cart = (props) => {
         <Row className="d-flex my-3">
           {allItems.map((item) => {
             return (
-              <Row onClick={() => props.onShowModal(item)}>
+              <Row key={item.id}>
                 <Row
                   key={item.id}
                   className={`py-3 my-3 d-flex justify-content-between${classes.rows}`}
@@ -51,9 +51,19 @@ const Cart = (props) => {
                   <Col className="col-2 ">
                     <Badge bg="secondary">{item.amount}</Badge>
                   </Col>
-                  <Col className="col-4 ">{item.title}</Col>
+                  <Col
+                    onClick={() => props.onShowModal(item)}
+                    className="col-4 "
+                  >
+                    {item.title}
+                  </Col>
 
-                  <Col className="col-2 ">$ {item.price}</Col>
+                  <Col
+                    onClick={() => props.onShowModal(item)}
+                    className="col-2 "
+                  >
+                    $ {item.price}
+                  </Col>
                   {!props.forCheckOut && (
                     <Col className="col-4 ">
                       <Form>

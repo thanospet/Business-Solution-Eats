@@ -2,6 +2,22 @@ import { useReducer } from "react";
 
 import CartContext from "./cart-context";
 
+/**
+ * Returns a hash code from a string
+ * @param  {String} str The string to hash.
+ * @return {Number}    A 32bit integer
+ * @see http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
+ */
+function hashCode(str) {
+  let hash = 0;
+  for (let i = 0, len = str.length; i < len; i++) {
+    let chr = str.charCodeAt(i);
+    hash = (hash << 5) - hash + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+}
+
 const defaultCartState = {
   items: [],
   totalAmount: 0,
@@ -10,26 +26,55 @@ const defaultCartState = {
 
 const cartReducer = (state, action) => {
   if (action.type === "ADD") {
+    // console.log("ADDitem", state.item);
+
+    const { id, title, notes, price } = {
+      id: action.item.id,
+      title: action.item.title,
+      notes: action.item.notes,
+      price: action.item.price,
+    };
+    const updatedActionObject = { id, title, notes, price };
+
+    console.log("updatedActionObject", updatedActionObject);
+
+    const stringifiedProduct = JSON.stringify(updatedActionObject);
+
+    const uniqueProductId = hashCode(stringifiedProduct);
+
+    console.log("uniqueProductId", uniqueProductId);
+
+    const product = {
+      ...action.item,
+      uniqueProductId,
+    };
+
+    console.log("product", product);
+
     const updatedTotalAmount =
-      state.totalAmount + action.item.price * action.item.amount;
+      state.totalAmount + product.price * product.amount;
+
+    console.log("state", state.items);
 
     const existingCartItemIndex = state.items.findIndex(
-      (item) =>
-        item.id === action.item.id &&
-        JSON.stringify(item.notes) === JSON.stringify(action.item.notes)
+      (item) => item.uniqueProductId === product.uniqueProductId
     );
+    console.log("existingCartItemIndex", existingCartItemIndex);
+    console.log("product.uniqueProductId", product.uniqueProductId);
     const existingCartItem = state.items[existingCartItemIndex];
     let updatedItems;
+    console.log("existingCartItem", existingCartItem);
 
     if (existingCartItem) {
       const updatedItem = {
         ...existingCartItem,
-        amount: existingCartItem.amount + action.item.amount,
+        amount: existingCartItem.amount + product.amount,
       };
+
       updatedItems = [...state.items];
       updatedItems[existingCartItemIndex] = updatedItem;
     } else {
-      updatedItems = state.items.concat(action.item);
+      updatedItems = state.items.concat(product);
     }
 
     return {
@@ -40,8 +85,7 @@ const cartReducer = (state, action) => {
   }
   if (action.type === "REMOVE") {
     const existingCartItemIndex = state.items.findIndex(
-      (item) => item === action.item
-      //&& JSON.stringify(item.notes) === JSON.stringify(action.item.notes)
+      (item) => item.uniqueProductId === action.item.uniqueProductId
     );
     const existingItem = state.items[existingCartItemIndex];
     const updatedTotalAmount = state.totalAmount - existingItem.price;
@@ -49,13 +93,14 @@ const cartReducer = (state, action) => {
     if (existingItem.amount === 1) {
       updatedItems = state.items.filter((item, index) => {
         console.log("Iteration", index + 1);
-        console.log("I want to remove", action.id);
-        console.log("Checking", item.id, action.id);
-
-        return (
-          item !== action.item
-          // && JSON.stringify(item.notes) !== JSON.stringify(action.item.notes)
+        console.log("I want to remove", item.uniqueProductId);
+        console.log(
+          "Checking",
+          item.uniqueProductId,
+          action.item.uniqueProductId
         );
+
+        return item.uniqueProductId !== action.item.uniqueProductId;
       });
     } else {
       const updatedItem = { ...existingItem, amount: existingItem.amount - 1 };

@@ -29,6 +29,7 @@ const StoreDetails = (props) => {
   const [modalProduct, setModalProduct] = useState({});
   const [amount, setAmount] = useState(1);
   const [notes, setNotes] = useState("");
+
   window.scrollTo(0, 0);
 
   const navigate = useNavigate();
@@ -243,7 +244,9 @@ const StoreDetails = (props) => {
             onShowModal={onShowModal}
             onAddAmount={addAmount}
             onMinusAmount={minusAmount}
-            onAddToCartHandler={addToCartHandler}
+            onAddToCartHandler={(item) =>
+              cartCtx.addItem({ ...item, amount: 1 })
+            }
             onRemoveFromCart={removeFromCartHandler}
           />
         </Col>
@@ -253,66 +256,3 @@ const StoreDetails = (props) => {
 };
 
 export default StoreDetails;
-
-/* <Container className="my-5">
-<Row className="align-items-center d-flex flex-column ">
-  <Col className="col-8 d-flex items-align-center">
-    <Image
-      className={`d-block m-auto ${classes.logoIcon}`}
-      src={storeLogoIcon}
-    ></Image>
-  </Col>
-  <Col className="col-4 d-flex justify-content-center"></Col>
-</Row>
-
-/* ----------------------------------------------- */
-
-/* <Container className="fluid px-0 py-3">
-  <Row className="align-items-center ">
-    <Col className="col-4 d-flex justify-content-center"></Col>
-    <Col className="col-4 d-flex justify-content-center ">
-      {storeTitle}
-    </Col>
-    <Col className="col-4 d-flex justify-content-center flex-column">
-      <Cart />
-    </Col>
-  </Row>
-</Container>  */
-
-{
-  /* ----------------------------------------------- */
-}
-
-{
-  /* {productCategories.map((productCategory) => {
-  return (
-    <Container key={productCategory.id} className="fluid px-0 py-5 my-5">
-      <Row className="align-items-center ">
-        <Col className="col-8 d-flex justify-content-between">
-          <Col className="col-12">
-            <div> {productCategory.title}</div>
-            <hr></hr>{" "}
-            {productCategory.products.map((product) => {
-              return (
-                <Row key={product.id} className="p-3">
-                  <Col className="col-8 ">
-                    <Row>{product.title}</Row>
-                    <Row>$ {product.price}</Row>
-                  </Col>
-                  <Col className="col-4 ">
-                    <Image
-                      className={`d-block m-auto ${classes.icon}`}
-                      src={product.iconUrl}
-                    ></Image>
-                  </Col>
-                </Row>
-              );
-            })}
-          </Col>
-        </Col>
-      </Row>
-    </Container>
-  );
-})}
-</Container> */
-}
