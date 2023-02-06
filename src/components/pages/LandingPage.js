@@ -12,29 +12,70 @@ import {
   Form,
   FormControl,
   Button,
+  Modal,
 } from "react-bootstrap";
 import CartContext from "../../store/cart-context";
 
 const LandingPage = () => {
   const [postalCode, setPostalCode] = useState("");
+  const [isPostalValid, setIsPostalValid] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const cartCtx = useContext(CartContext);
+  const pattern = /^[0-9a-zA-Z]+$/;
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
 
   const searchPostalCode = (event) => {
     setPostalCode(event.target.value);
+  };
+
+  const handlePostalValidation = () => {
+    if (postalCode.length === 5 && pattern.test(postalCode)) {
+      setIsPostalValid(true);
+      setError("");
+    } else {
+      setError(
+        "Postal code must be 5 characters long and can only contain letters and numbers."
+      );
+    }
   };
 
   console.log("postalCode", postalCode);
   console.log("type of postalCode", typeof postalCode);
   const onSubmitHandle = (event) => {
     event.preventDefault();
-    cartCtx.addPostal(postalCode);
-    navigate(`/available-stores/${postalCode}`);
+    if (isPostalValid) {
+      cartCtx.addPostal(postalCode);
+      navigate(`/available-stores/${postalCode}`);
+    } else {
+      setShow(true);
+    }
   };
 
   return (
     <>
       <Container className="">
+        <Modal
+          show={show}
+          onHide={handleClose}
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Oops...</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Postal code must be 5 characters long and can only contain letters
+            and numbers.
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleClose}>
+              Understood
+            </Button>
+          </Modal.Footer>
+        </Modal>
         <Row className="mx-0">
           <Col className="col-lg-6">
             <div
@@ -59,7 +100,11 @@ const LandingPage = () => {
                       id="location"
                       placeholder="e.g : 50100"
                     ></input>
-                    <Button className={classes["landing-btn"]} type="submit">
+                    <Button
+                      onClick={handlePostalValidation}
+                      className={classes["landing-btn"]}
+                      type="submit"
+                    >
                       Search!
                     </Button>
                   </Form>
@@ -76,29 +121,6 @@ const LandingPage = () => {
           </Col>
         </Row>
       </Container>
-
-      {/* <Container className="fluid px-0">
-        <Row className="align-items-center">
-          <Col className="col-lg-6 order-2 order-md-1">
-            <div
-              id="headingGroup"
-              class="text-white text-center d-none d-lg-block mt-5"
-            >
-              <h1>SOME INFO</h1>
-              <h1>SOME INFO</h1>
-              <h1>SOME INFO</h1>
-              <h1>SOME INFO</h1>
-            </div>
-          </Col>
-          <Col className="col-lg-6">
-            <Image
-              className=" d-none d-lg-inline"
-              src= "../../assets/delivery2.png"
-              alt=""
-            />
-          </Col>
-        </Row>
-      </Container> */}
     </>
   );
 };

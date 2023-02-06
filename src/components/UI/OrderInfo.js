@@ -31,6 +31,12 @@ const OrderInfo = () => {
   const [notes, setNotes] = useState("No Notes");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [show, setShow] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [isFloorValid, setIsFloorValid] = useState(false);
+  const [isDoorbellValid, setIsDoorbellValid] = useState(false);
+  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
+  const [isPaymentMethodValid, setIsPaymentMethodValid] = useState(false);
+  const pattern = /^[0-9a-zA-Z]*$/;
 
   const link = "https://localhost:7160";
 
@@ -61,20 +67,41 @@ const OrderInfo = () => {
     console.log("method.description", method.description);
     setPayment(method.id);
     setPaymentTitle(method.description);
+    setIsPaymentMethodValid(true);
   };
 
   const handleChangeFloor = (event) => {
-    setFloor(event.target.value);
+    if (!isNaN(event.target.value) && event.target.value < 100) {
+      setFloor(event.target.value);
+      setIsFloorValid(true);
+    }
   };
   const handleChangeDoorbell = (event) => {
-    setDoorbell(event.target.value);
+    if (pattern.test(event.target.value) && event.target.value.length < 31) {
+      setDoorbell(event.target.value);
+      setIsDoorbellValid(true);
+    }
   };
   const handleChangePhoneNumber = (event) => {
-    setPhoneNumber(event.target.value);
+    if (!isNaN(event.target.value) && event.target.value.length < 11) {
+      setPhoneNumber(event.target.value);
+      setIsPhoneNumberValid(true);
+    }
   };
   const handleChangeNotes = (event) => {
-    setNotes(event.target.value);
+    if (event.target.value.length < 100) setNotes(event.target.value);
   };
+
+  useEffect(() => {
+    if (
+      isFloorValid &&
+      isDoorbellValid &&
+      isPhoneNumberValid &&
+      isPaymentMethodValid
+    ) {
+      setIsFormValid(true);
+    }
+  }, [isFloorValid, isDoorbellValid, isPhoneNumberValid, isPaymentMethodValid]);
 
   const handleClose = () => {
     setShow(false);
@@ -199,7 +226,12 @@ const OrderInfo = () => {
                 placeholder="Notes"
               />
             </Form>
-            <Button type="submit" className="my-3" variant="secondary">
+            <Button
+              disabled={!isFormValid}
+              type="submit"
+              className="my-3"
+              variant="secondary"
+            >
               Submit Order!
             </Button>{" "}
           </Col>

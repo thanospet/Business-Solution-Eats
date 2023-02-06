@@ -29,6 +29,7 @@ const StoreDetails = (props) => {
   const [modalProduct, setModalProduct] = useState({});
   const [amount, setAmount] = useState(1);
   const [notes, setNotes] = useState("");
+  // const [error, setError] = useState(null);
 
   window.scrollTo(0, 0);
 
@@ -144,6 +145,9 @@ const StoreDetails = (props) => {
                     value={notes}
                     onChange={(event) => setNotes(event.target.value)}
                   />
+                  {/* <Form.Control.Feedback type="invalid">
+                    {error}
+                  </Form.Control.Feedback> */}
                 </FormGroup>
               </Row>
             </Modal.Body>
