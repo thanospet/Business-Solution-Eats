@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -29,6 +29,7 @@ const StoreDetails = (props) => {
   const [modalProduct, setModalProduct] = useState({});
   const [amount, setAmount] = useState(1);
   const [notes, setNotes] = useState("");
+
   // const [error, setError] = useState(null);
 
   window.scrollTo(0, 0);
@@ -56,6 +57,8 @@ const StoreDetails = (props) => {
       .catch((err) => {
         console.error(err);
       });
+
+    console.log("location");
   }, []);
 
   const modalHandler = (product) => {
@@ -145,9 +148,6 @@ const StoreDetails = (props) => {
                     value={notes}
                     onChange={(event) => setNotes(event.target.value)}
                   />
-                  {/* <Form.Control.Feedback type="invalid">
-                    {error}
-                  </Form.Control.Feedback> */}
                 </FormGroup>
               </Row>
             </Modal.Body>

@@ -12,12 +12,6 @@ const CartOrderBadge = (props) => {
   const numberOfCartItems = cartCtx.items.reduce((curNumber, item) => {
     return curNumber + item.amount;
   }, 0);
-
-  // const uid = cartCtx.items.reduce((curID, item) => {
-  //   return JSON.stringify(curID + item.notes);
-  // }, 0);
-
-  // console.log("uid", uid);
   console.log("cartCtx.items", cartCtx.items);
 
   const totalPrice = cartCtx.items.reduce((curPrice, item) => {

@@ -1,5 +1,5 @@
 import { React, useEffect, useState, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import classes from "./AvailableStores.module.css";
 import axios from "axios";
 import Card from "../UI/Card";
@@ -8,19 +8,27 @@ import "bootstrap/dist/css/bootstrap.css";
 import CartContext from "../../store/cart-context";
 import { Container, Row, Col, Modal } from "react-bootstrap";
 
-const AvailableStores = () => {
+const AvailableStores = (props) => {
   window.scrollTo(0, 0);
   const [availableStores, setAvailableStores] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
   const cartCtx = useContext(CartContext);
+  const location = useLocation();
 
   const dataPostal = params?.postal;
-
   console.log(dataPostal);
-
   const link = "https://localhost:7160";
+
+  useEffect(() => {
+    console.log("location", location);
+    console.log("location-dataPostal", dataPostal);
+
+    if (location.pathname === `/available-stores/${dataPostal}`) {
+      cartCtx.clearCart();
+    }
+  }, [location]);
 
   useEffect(() => {
     setIsLoading(true);

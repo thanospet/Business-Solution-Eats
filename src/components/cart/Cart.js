@@ -106,7 +106,18 @@ const Cart = (props) => {
         <hr></hr>
         {badgeIsShown && (
           <Row className="d-flex justify-content-start py-4 ">
-            {!props.forCheckOut && <CartOrderBadge />}
+            {!props.forCheckOut && cartCtx.items.length > 0 && (
+              <CartOrderBadge />
+            )}
+            {!props.forCheckOut && cartCtx.items.length > 0 && (
+              <Button
+                onClick={() => cartCtx.clearCart()}
+                variant="success"
+                size="sm"
+              >
+                Clear all
+              </Button>
+            )}
           </Row>
         )}
 

@@ -118,7 +118,7 @@ const cartReducer = (state, action) => {
   }
 
   if (action.type === "CLEAR") {
-    return { ...state, defaultCartState };
+    return defaultCartState;
   }
 
   if (action.type === "POSTAL") {
