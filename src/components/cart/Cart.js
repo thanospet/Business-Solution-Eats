@@ -25,19 +25,16 @@ const Cart = (props) => {
   const allItems = cartCtx.items;
 
   useEffect(() => {
-    console.log("EDW SPAEI ??? 1");
     if (allItems.length > 0) {
       setContainerIsShown(false);
-      console.log("EDW SPAEI ??? 2");
+
       setBadgeIsShown(true);
     } else {
-      console.log("EDW SPAEI ??? 3");
       return;
     }
   }, [allItems]);
 
   console.log("allItems", allItems);
-  console.log("EDW SPAEI ??? 4");
 
   return (
     <>
@@ -111,8 +108,8 @@ const Cart = (props) => {
         <hr></hr>
         {badgeIsShown && (
           <Row className="d-flex justify-content-start py-4 ">
-            {!props.forCheckOut &&
-              cartCtx.items.length > 0 && <CartOrderBadge /> && (
+            {!props.forCheckOut && cartCtx.items.length > 0 && (
+              <>
                 <Button
                   onClick={() => cartCtx.clearCart()}
                   variant="success"
@@ -120,7 +117,9 @@ const Cart = (props) => {
                 >
                   Clear all
                 </Button>
-              )}
+                <CartOrderBadge />
+              </>
+            )}
           </Row>
         )}
 

@@ -162,7 +162,7 @@ const StoreDetails = (props) => {
                               <Row
                                 key={product.id}
                                 className="py-3"
-                                onClick={() => modalHandler(product)} //kanw click edw kai sto modalHandler logika na valw to axios get gia ta options
+                                onClick={() => modalHandler(product)}
                               >
                                 <Col className="col-8 ">
                                   <Row>{product.title}</Row>
