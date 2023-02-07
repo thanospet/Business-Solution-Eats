@@ -1,10 +1,10 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import classes from "./StoreDetails.module.css";
 import { useContext } from "react";
 import CartContext from "../../store/cart-context";
+import "bootstrap/dist/css/bootstrap.css";
 import {
   Container,
   Row,
@@ -17,6 +17,7 @@ import {
   FormGroup,
 } from "react-bootstrap";
 import Cart from "../cart/Cart";
+import ModalProduct from "../UI/ModalProduct";
 
 const StoreDetails = (props) => {
   const [storeLogoIcon, setStoreLogoIcon] = useState("");
@@ -117,72 +118,18 @@ const StoreDetails = (props) => {
 
   return (
     <Container>
-      {
-        <>
-          <Modal show={modalShown} onHide={hideModalHandler}>
-            <Modal.Body>
-              <Row>
-                <Col className="col-12 d-flex justify-content-center">
-                  <Image
-                    className={`d-block m-auto ${classes.iconModal}`}
-                    src={modalProduct.iconUrl}
-                  ></Image>
-                </Col>
-              </Row>
-
-              <Row key={modalProduct.id} className="py-3">
-                <Col className="col-9 d-flex flex-column justify-content-space mx-3">
-                  <Row>{modalProduct.title}</Row>
-                  <Row>{modalProduct.description}</Row>
-                  <Row>${(modalProduct.price * amount).toFixed(2)}</Row>
-                </Col>
-                <Col className="col-3">
-                  <> </>
-                </Col>
-                <FormGroup className="pt-3">
-                  <FormControl
-                    as="textarea"
-                    placeholder="Notes"
-                    rows="3"
-                    style={{ resize: "none" }}
-                    value={notes}
-                    onChange={(event) => setNotes(event.target.value)}
-                  />
-                </FormGroup>
-              </Row>
-            </Modal.Body>
-
-            <Row className="p-1 m-1">
-              <Col className="col-8 d-flex align-items-center">
-                <Button
-                  variant="secondary"
-                  className="px-3 mx-3"
-                  onClick={minusAmount}
-                >
-                  -
-                </Button>{" "}
-                {amount}{" "}
-                <Button
-                  variant="secondary"
-                  className="px-3 mx-3"
-                  onClick={addAmount}
-                >
-                  +
-                </Button>
-              </Col>
-              <Col className="col-4 d-flex align-items-end justify-content-between">
-                <Button variant="secondary" onClick={hideModalHandler}>
-                  Close
-                </Button>
-                <Button onClick={addToCartHandler} variant="success">
-                  Add
-                </Button>
-              </Col>
-            </Row>
-          </Modal>
-        </>
-      }
-
+      <ModalProduct
+        modalProduct={modalProduct}
+        addToCartHandler={addToCartHandler}
+        hideModalHandler={hideModalHandler}
+        addAmount={addAmount}
+        minusAmount={minusAmount}
+        onShowModal={onShowModal}
+        modalShown={modalShown}
+        notes={notes}
+        setNotes={setNotes}
+        amount={amount}
+      />
       <Row className="my-4">
         <Col className={`col-8 ${classes.colInfo}`}>
           <Row className="align-items-center">

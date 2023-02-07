@@ -5,7 +5,7 @@ import { Badge, Button } from "react-bootstrap";
 import CartContext from "../../store/cart-context";
 import { useNavigate } from "react-router-dom";
 
-const CartOrderBadge = (props) => {
+const CartOrderBadge = () => {
   const navigate = useNavigate();
   const cartCtx = useContext(CartContext);
   //h reduce me afinei na metatrepsw ena array se ena value

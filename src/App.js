@@ -6,7 +6,6 @@ import LandingPage from "./components/pages/LandingPage";
 import AvailableStores from "./components/pages/AvailableStores";
 import StoresDescription from "./components/pages/StoresDescription";
 import ProductInfoModal from "./components/UI/ProductInfoModal";
-import Modal from "./components/UI/Modal";
 import ErrorPage from "./components/pages/Error";
 import StoreDetails from "./components/pages/StoreDetails";
 import CartContext from "./store/cart-context";
