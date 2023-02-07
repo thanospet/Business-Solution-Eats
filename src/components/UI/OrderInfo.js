@@ -97,11 +97,18 @@ const OrderInfo = () => {
       isFloorValid &&
       isDoorbellValid &&
       isPhoneNumberValid &&
+      phoneNumber.length === 10 &&
       isPaymentMethodValid
     ) {
       setIsFormValid(true);
     }
-  }, [isFloorValid, isDoorbellValid, isPhoneNumberValid, isPaymentMethodValid]);
+  }, [
+    isFloorValid,
+    isDoorbellValid,
+    isPhoneNumberValid,
+    isPaymentMethodValid,
+    phoneNumber,
+  ]);
 
   const handleClose = () => {
     setShow(false);

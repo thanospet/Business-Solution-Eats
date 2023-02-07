@@ -208,14 +208,14 @@ const StoreDetails = (props) => {
                     <Row className="align-items-center ">
                       <Col className="col-8 d-flex justify-content-between">
                         <Col className="col-12">
-                          <div> {productCategory.title}</div>
-                          <hr></hr>{" "}
+                          <div>{productCategory.title}</div>
+                          <hr />
                           {productCategory.products.map((product) => {
                             return (
                               <Row
                                 key={product.id}
                                 className="py-3"
-                                onClick={() => modalHandler(product)}
+                                onClick={() => modalHandler(product)} //kanw click edw kai sto modalHandler logika na valw to axios get gia ta options
                               >
                                 <Col className="col-8 ">
                                   <Row>{product.title}</Row>
