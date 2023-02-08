@@ -7,6 +7,10 @@
   object-fit: cover;
 }
 
+.mainItems{
+  cursor:pointer;
+}
+
 .icon {
   width: 100px;
   height: 100px;
@@ -33,4 +37,14 @@
   position: absolute;
   right:0;
 }
+
+/* .storeTitle{
+  background-color: white;
+  border-radius: 20rem;
+  background-image:
+    radial-gradient(
+      rgba(137, 194, 142, 0.267),
+      #ffffff41
+    );
+} */
 

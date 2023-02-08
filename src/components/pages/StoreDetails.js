@@ -2,20 +2,8 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import classes from "./StoreDetails.module.css";
-import { useContext } from "react";
-import CartContext from "../../store/cart-context";
 import "bootstrap/dist/css/bootstrap.css";
-import {
-  Container,
-  Row,
-  Col,
-  Image,
-  Button,
-  Modal,
-  Form,
-  FormControl,
-  FormGroup,
-} from "react-bootstrap";
+import { Container, Row, Col, Image } from "react-bootstrap";
 import Cart from "../cart/Cart";
 import ModalProduct from "../UI/ModalProduct";
 
@@ -28,17 +16,12 @@ const StoreDetails = (props) => {
   const [masterProductCategory, setMasterProductCategory] = useState("");
   const [modalShown, setModalShown] = useState(false);
   const [modalProduct, setModalProduct] = useState({});
-  const [amount, setAmount] = useState(1);
-  const [notes, setNotes] = useState("");
-
-  // const [error, setError] = useState(null);
+  const [optionCategories, setOptionCategories] = useState([]);
 
   window.scrollTo(0, 0);
 
-  const navigate = useNavigate();
   const params = useParams();
   const storeInfoId = params?.storeId;
-  const cartCtx = useContext(CartContext);
 
   const link = "https://localhost:7160";
 
@@ -66,8 +49,18 @@ const StoreDetails = (props) => {
     setModalProduct(product);
     setModalShown(true);
 
-    console.log("Clicked modalHandler", product);
-    console.log("setModalShown", modalShown);
+    axios
+      .get(`${link}/api/Product/productIngredientInfo/${product.id}`)
+      .then(function (res) {
+        setOptionCategories(res.data.items);
+        console.log("res.data.items", res.data.items);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+
+    // console.log("Clicked modalHandler", product);
+    // console.log("setModalShown", modalShown);
   };
 
   const onShowModal = () => {
@@ -75,77 +68,36 @@ const StoreDetails = (props) => {
   };
 
   const hideModalHandler = () => {
-    if (modalShown === true) {
+    if (modalShown) {
       setModalShown(false);
-      setAmount(1);
-      setNotes("");
-    } else {
-      return;
     }
-  };
-
-  const addAmount = () => {
-    if (amount >= 0) {
-      setAmount(amount + 1);
-    }
-  };
-  const minusAmount = () => {
-    if (amount === 1) {
-      return;
-    } else {
-      setAmount(amount - 1);
-    }
-  };
-
-  const addToCartHandler = () => {
-    setModalShown(false);
-    cartCtx.addItem({
-      id: modalProduct.id,
-      title: modalProduct.title,
-      amount: amount,
-      notes: notes,
-      price: modalProduct.price,
-    });
-
-    console.log("amount", amount);
-    setAmount(1);
-    setNotes("");
-  };
-
-  const removeFromCartHandler = (item) => {
-    cartCtx.removeItem(item);
   };
 
   return (
     <Container>
       <ModalProduct
         modalProduct={modalProduct}
-        addToCartHandler={addToCartHandler}
+        optionCategories={optionCategories}
         hideModalHandler={hideModalHandler}
-        addAmount={addAmount}
-        minusAmount={minusAmount}
         onShowModal={onShowModal}
         modalShown={modalShown}
-        notes={notes}
-        setNotes={setNotes}
-        amount={amount}
       />
       <Row className="my-4">
         <Col className={`col-8 ${classes.colInfo}`}>
-          <Row className="align-items-center">
+          <Row className={`align-items-center`}>
             <Col className="col-12 d-flex items-align-center">
               <Image
-                className={`d-block m-auto my-5 ${classes.logoIcon}`}
+                className={`d-block m-auto mt-5 ${classes.logoIcon}`}
                 src={storeLogoIcon}
               ></Image>
             </Col>
             <Col
-              className={`col-12 d-flex items-align-center${classes.storeTitle}`}
+              className={`col-12 d-flex justify-content-center mt-2 ${classes.storeTitle}`}
             >
-              {storeTitle}
+              <h3>{storeTitle}</h3>
             </Col>
 
-            <Col className="col-12 d-flex justify-content-start">
+            <Col className="col-12 d-flex justify-content-start ${classes.mainItems}">
               {productCategories.map((productCategory) => {
                 return (
                   <Container
@@ -154,14 +106,14 @@ const StoreDetails = (props) => {
                   >
                     <Row className="align-items-center ">
                       <Col className="col-8 d-flex justify-content-between">
-                        <Col className="col-12">
-                          <div>{productCategory.title}</div>
+                        <Col className="col-12 ">
+                          <h4>{productCategory.title}</h4>
                           <hr />
                           {productCategory.products.map((product) => {
                             return (
                               <Row
                                 key={product.id}
-                                className="py-3"
+                                className={`py-3 ${classes.mainItems}`}
                                 onClick={() => modalHandler(product)}
                               >
                                 <Col className="col-8 ">
@@ -191,15 +143,7 @@ const StoreDetails = (props) => {
         <Col
           className={`col-4 d-flex justify-content-center ${classes.colCart}`}
         >
-          <Cart
-            onShowModal={onShowModal}
-            onAddAmount={addAmount}
-            onMinusAmount={minusAmount}
-            onAddToCartHandler={(item) =>
-              cartCtx.addItem({ ...item, amount: 1 })
-            }
-            onRemoveFromCart={removeFromCartHandler}
-          />
+          <Cart onShowModal={onShowModal} modalProduct={modalProduct} />
         </Col>
       </Row>
     </Container>

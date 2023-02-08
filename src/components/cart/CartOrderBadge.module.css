@@ -1,4 +1,4 @@
-.button {
+ .button {
     cursor: pointer;
     font: inherit;
     border: none;
@@ -14,7 +14,7 @@
   
   .button:hover,
   .button:active {
-    background-color: rgba(58, 58, 58, 0.473);
+    background-color: rgba(194, 194, 194, 0.473);
   }
   
   .icon {
@@ -24,10 +24,11 @@
   }
   
   .badge {
-    background-color: #00a396;
-    padding: 0.25rem 1rem;
+    color: aliceblue;
+    background-color: #00a395af;
+    padding: 0.25rem 0.5rem;
     border: 2px solid white;
-    border-radius: 25px;
+    border-radius: 5px;
     margin-left: 1rem;
     font-weight: bold;
   }
@@ -39,4 +40,5 @@
   
   .bump {
     animation: bump 300ms ease-out;
-  }
+  } 
+

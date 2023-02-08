@@ -5,7 +5,7 @@ import { Badge, Button } from "react-bootstrap";
 import CartContext from "../../store/cart-context";
 import { useNavigate } from "react-router-dom";
 
-const CartOrderBadge = () => {
+const CartOrderBadge = (pops) => {
   const navigate = useNavigate();
   const cartCtx = useContext(CartContext);
   //h reduce me afinei na metatrepsw ena array se ena value
@@ -29,9 +29,11 @@ const CartOrderBadge = () => {
 
   return (
     <Button onClick={onCheckOut} className={btnClasses}>
-      <span className={classes.badge}>{numberOfCartItems}</span>
-      <span>Continue</span>
-      <Badge bg="secondary">Total: $ {totalPrice.toFixed(2)}</Badge>
+      <span className={`${classes.badge} mx-2`}>{numberOfCartItems}</span>
+      <span className="mx-2">Continue</span>
+      <Badge className="mx-2" bg="secondary">
+        $ {totalPrice.toFixed(2)}
+      </Badge>
     </Button>
   );
 };

@@ -21,6 +21,8 @@ const Cart = (props) => {
   const cartCtx = useContext(CartContext);
   const [containerIsShown, setContainerIsShown] = useState(true);
   const [badgeIsShown, setBadgeIsShown] = useState(false);
+  const [amount, setAmount] = useState(1);
+  const [notes, setNotes] = useState("");
 
   const allItems = cartCtx.items;
 
@@ -33,6 +35,31 @@ const Cart = (props) => {
       return;
     }
   }, [allItems]);
+
+  const addAmount = () => {
+    if (amount >= 0) {
+      setAmount(amount + 1);
+    }
+  };
+  const minusAmount = () => {
+    if (amount === 1) {
+      return;
+    } else {
+      setAmount(amount - 1);
+    }
+  };
+
+  const addToCartHandler = (item) => {
+    console.log("itemAAAA", item);
+    cartCtx.addItem({
+      ...item,
+      amount: 1,
+    });
+    console.log("amount", amount);
+  };
+  const removeFromCartHandler = (item) => {
+    cartCtx.removeItem(item);
+  };
 
   console.log("allItems", allItems);
 
@@ -53,14 +80,14 @@ const Cart = (props) => {
                     <Badge bg="secondary">{item.amount}</Badge>
                   </Col>
                   <Col
-                    onClick={() => props.onShowModal(item)}
+                    // onClick={() => props.onShowModal(item)}
                     className="col-4 "
                   >
                     {item.title}
                   </Col>
 
                   <Col
-                    onClick={() => props.onShowModal(item)}
+                    // onClick={() => props.onShowModal(item)}
                     className="col-2 "
                   >
                     $ {item.price}
@@ -73,8 +100,8 @@ const Cart = (props) => {
                           className={` px-2 ${classes.cartBtn}`}
                           size="sm"
                           onClick={() => {
-                            props.onMinusAmount();
-                            props.onRemoveFromCart(item);
+                            // minusAmount();
+                            removeFromCartHandler(item);
                           }}
                         >
                           -
@@ -85,8 +112,8 @@ const Cart = (props) => {
                           className={` px-2 ${classes.cartBtn}`}
                           size="sm"
                           onClick={() => {
-                            props.onAddAmount();
-                            props.onAddToCartHandler(item);
+                            // addAmount();
+                            addToCartHandler(item);
                           }}
                         >
                           +
@@ -109,16 +136,21 @@ const Cart = (props) => {
         {badgeIsShown && (
           <Row className="d-flex justify-content-start py-4 ">
             {!props.forCheckOut && cartCtx.items.length > 0 && (
-              <>
-                <Button
-                  onClick={() => cartCtx.clearCart()}
-                  variant="success"
-                  size="sm"
+              <Row className="d-flex align-items-center justify-content-center">
+                <Col className="d-flex align-items-center justify-content-center col-12">
+                  <Button
+                    className={classes.clearBtn}
+                    onClick={() => cartCtx.clearCart()}
+                  >
+                    Clear all
+                  </Button>
+                </Col>
+                <Col
+                  className={`d-flex align-items-center justify-content-center col-12 fixed-bottom ${classes.cartOrderBadge}`}
                 >
-                  Clear all
-                </Button>
-                <CartOrderBadge />
-              </>
+                  <CartOrderBadge />
+                </Col>
+              </Row>
             )}
           </Row>
         )}

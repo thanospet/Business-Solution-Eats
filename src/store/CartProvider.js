@@ -43,12 +43,12 @@ const cartReducer = (state, action) => {
     const uniqueProductId = hashCode(stringifiedProduct);
 
     console.log("uniqueProductId", uniqueProductId);
-
+    console.log("LEF- action.item", action.item);
     const product = {
       ...action.item,
       uniqueProductId,
     };
-
+    console.log("LEF- product", product);
     console.log("product", product);
 
     const updatedTotalAmount =
