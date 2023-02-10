@@ -63,54 +63,72 @@ const AvailableStores = (props) => {
   const loadingText = <p>Loading...</p>;
 
   return (
-    <div className={classes.main}>
-      <div>
-        <h1 className={classes.header}>
-          We found {availableStoresNumber} Available stores in {dataPostal}
-        </h1>
-      </div>
-      {isLoading && loadingText}
-      {availableStores.map((store) => {
-        return (
-          <>
-            {!isLoading && (
-              <CardWrap key={store.id}>
-                <div
-                  className={classes.stores}
-                  onClick={() => onCardClick(store.id)}
-                >
-                  <Card>
-                    <span key={store.id}></span>
-                    <span>
-                      <img
-                        src={store.logo_icon}
-                        alt=""
-                        height={100}
-                        width={100}
-                        fluid
-                      />{" "}
-                      <span className={classes.storeTitle}>{store.title}</span>
-                    </span>
-                  </Card>
-                  <Card>
-                    <span className={classes.textCategory}>
-                      {store.masterProductCategory}{" "}
-                    </span>
-                    <span className={classes.text}>
-                      Estimated Time: {store.averageDeliveryTime}{" "}
-                    </span>
-                    <span className={classes.text}>
-                      {" "}
-                      minimum order: ${store.minimumOrderPrice}{" "}
-                    </span>
-                  </Card>
-                </div>
-              </CardWrap>
-            )}
-          </>
-        );
-      })}
-    </div>
+    <Container className={classes.top}>
+      <Row>
+        <Col className="col-12">
+          {" "}
+          <div>
+            <Row
+              className={`d-flex align-items-center justify-content-center ${classes.header}`}
+            >
+              We found {availableStoresNumber} available stores in {dataPostal}
+            </Row>
+          </div>
+        </Col>
+      </Row>
+      <Container className={classes.main}>
+        {availableStores.map((store) => {
+          return (
+            <>
+              {!isLoading && (
+                <>
+                  {" "}
+                  {isLoading && loadingText}
+                  <Row key={store.id}>
+                    <Col className="col-12">
+                      <CardWrap>
+                        <div
+                          className={classes.stores}
+                          onClick={() => onCardClick(store.id)}
+                        >
+                          <Card key={store.id}>
+                            <span></span>
+                            <span>
+                              <img
+                                src={store.logo_icon}
+                                alt=""
+                                height={100}
+                                width={100}
+                                fluid
+                              />{" "}
+                              <span className={classes.storeTitle}>
+                                {store.title}
+                              </span>
+                            </span>
+                          </Card>
+                          <Card>
+                            <span className={classes.textCategory}>
+                              {store.masterProductCategory}{" "}
+                            </span>
+                            <span className={classes.text}>
+                              Estimated Time: {store.averageDeliveryTime}{" "}
+                            </span>
+                            <span className={classes.text}>
+                              {" "}
+                              minimum order: ${store.minimumOrderPrice}{" "}
+                            </span>
+                          </Card>
+                        </div>
+                      </CardWrap>
+                    </Col>
+                  </Row>
+                </>
+              )}
+            </>
+          );
+        })}
+      </Container>
+    </Container>
   );
 };
 

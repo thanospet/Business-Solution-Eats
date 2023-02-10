@@ -3,16 +3,7 @@ import { useContext, useState } from "react";
 import CartContext from "../../store/cart-context";
 import classes from "./Cart.module.css";
 import "bootstrap/dist/css/bootstrap.css";
-import {
-  Container,
-  Row,
-  Col,
-  Image,
-  Form,
-  FormControl,
-  Button,
-  Badge,
-} from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Badge } from "react-bootstrap";
 import CartOrderBadge from "./CartOrderBadge";
 import EmptyCart from "../UI/EmptyCart";
 import { useEffect } from "react";
@@ -67,7 +58,7 @@ const Cart = (props) => {
 
   return (
     <>
-      <Container className={`${classes.cart}`}>
+      <Container className={` ${classes.cart}`}>
         {containerIsShown && <EmptyCart />}
         {!containerIsShown && <h3>Your Order</h3>}
         <Row className="d-flex my-3">
@@ -76,24 +67,13 @@ const Cart = (props) => {
               <Row key={item.id}>
                 <Row
                   key={item.id}
-                  className={`py-3 my-3 d-flex justify-content-between${classes.rows}`}
+                  className={`py-3 my-3 d-flex justify-content-between align-items-center${classes.rows}`}
                 >
                   <Col className="col-2 ">
                     <Badge bg="secondary">{item.amount}</Badge>
                   </Col>
-                  <Col
-                    // onClick={() => props.onShowModal(item)}
-                    className="col-4 "
-                  >
-                    {item.title}
-                  </Col>
-
-                  <Col
-                    // onClick={() => props.onShowModal(item)}
-                    className="col-2 "
-                  >
-                    $ {item.price}
-                  </Col>
+                  <Col className="col-4 ">{item.title}</Col>
+                  <Col className="col-2 ">$ {item.price}</Col>
                   {!props.forCheckOut && (
                     <Col className="col-4 ">
                       <Form>
@@ -102,7 +82,6 @@ const Cart = (props) => {
                           className={` px-2 ${classes.cartBtn}`}
                           size="sm"
                           onClick={() => {
-                            // minusAmount();
                             removeFromCartHandler(item);
                           }}
                         >
@@ -114,7 +93,6 @@ const Cart = (props) => {
                           className={` px-2 ${classes.cartBtn}`}
                           size="sm"
                           onClick={() => {
-                            // addAmount();
                             addToCartHandler(item);
                           }}
                         >
@@ -140,24 +118,27 @@ const Cart = (props) => {
             {!props.forCheckOut && cartCtx.items.length > 0 && (
               <Row className="d-flex align-items-center justify-content-center">
                 <Col className="d-flex align-items-center justify-content-center col-12">
-                  <Button
-                    className={classes.clearBtn}
-                    onClick={() => cartCtx.clearCart()}
-                  >
-                    Clear all
-                  </Button>
-                </Col>
-                <Col
-                  className={`d-flex align-items-center justify-content-center col-12 fixed-bottom ${classes.cartOrderBadge}`}
-                >
-                  <CartOrderBadge />
+                  <Row>
+                    <Col className="col-12 d-flex align-items-center justify-content-center">
+                      <Button
+                        className={classes.clearBtn}
+                        onClick={() => cartCtx.clearCart()}
+                      >
+                        Clear all
+                      </Button>
+                    </Col>
+                    <Col
+                      className={`col-12 d-flex align-items-center justify-content-center fixed-bottom ${classes.cartOrderBadge}`}
+                    >
+                      <CartOrderBadge className={``} />
+                    </Col>
+                  </Row>
+                  <Row></Row>
                 </Col>
               </Row>
             )}
           </Row>
         )}
-
-        <Row className="d-flex justify-content-start"></Row>
       </Container>
     </>
   );

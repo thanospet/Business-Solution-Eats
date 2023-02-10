@@ -254,26 +254,19 @@ const ModalProduct = (props) => {
         </Modal.Body>
 
         <Row className="p-1 m-1">
-          <Col className="col-8 d-flex align-items-center">
-            <Button
-              variant="secondary"
-              className="px-3 mx-3"
-              onClick={minusAmount}
-            >
+          <Col className="col-6 d-flex justify-content-start">
+            <Button variant="light" className="px-2 mx-2" onClick={minusAmount}>
               -
-            </Button>{" "}
-            {amount}{" "}
-            <Button
-              variant="secondary"
-              className="px-3 mx-3"
-              onClick={addAmount}
-            >
+            </Button>
+            <span className="px-1 mx-1">{amount}</span>
+            <Button variant="light" className="px-2 mx-2" onClick={addAmount}>
               +
             </Button>
           </Col>
-          <Col className="col-4 d-flex align-items-end justify-content-between">
+          <Col className="col-6 d-flex align-items-end justify-content-end">
             <Button
-              variant="secondary"
+              className="mx-3 d-flex align-items-center justify-content-center"
+              variant="light"
               onClick={() => {
                 setNotes("");
                 props.hideModalHandler();
@@ -281,7 +274,11 @@ const ModalProduct = (props) => {
             >
               Close
             </Button>
-            <Button onClick={addToCartHandler} variant="success">
+            <Button
+              onClick={addToCartHandler}
+              variant="light"
+              className={`mx-3 d-flex align-items-center justify-content-center ${classes.addBtn}`}
+            >
               Add
             </Button>
           </Col>

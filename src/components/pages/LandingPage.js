@@ -71,7 +71,7 @@ const LandingPage = () => {
             and numbers.
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="primary" onClick={handleClose}>
+            <Button variant="secondary" onClick={handleClose}>
               Understood
             </Button>
           </Modal.Footer>
