@@ -2,16 +2,7 @@ import React from "react";
 import classes from "./EmptyCart.module.css";
 import emptycart from "../../assets/emptycart.png";
 import "bootstrap/dist/css/bootstrap.css";
-import {
-  Container,
-  Row,
-  Col,
-  Image,
-  Form,
-  FormControl,
-  Button,
-  Badge,
-} from "react-bootstrap";
+import { Container, Row, Image } from "react-bootstrap";
 const EmptyCart = () => {
   return (
     <Container>

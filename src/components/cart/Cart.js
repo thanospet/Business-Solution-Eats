@@ -19,10 +19,9 @@ const Cart = (props) => {
   useEffect(() => {
     if (allItems.length > 0) {
       setContainerIsShown(false);
-
       setBadgeIsShown(true);
     } else {
-      return;
+      setContainerIsShown(true);
     }
   }, [allItems]);
 
@@ -51,6 +50,7 @@ const Cart = (props) => {
     console.log("amount", amount);
   };
   const removeFromCartHandler = (item) => {
+    setContainerIsShown(false);
     cartCtx.removeItem(item);
   };
 
@@ -59,8 +59,8 @@ const Cart = (props) => {
   return (
     <>
       <Container className={` ${classes.cart}`}>
-        {containerIsShown && <EmptyCart />}
-        {!containerIsShown && <h3>Your Order</h3>}
+        {containerIsShown ? <EmptyCart /> : <h3>Your Order</h3>}
+
         <Row className="d-flex my-3">
           {allItems.map((item) => {
             return (
@@ -114,7 +114,6 @@ const Cart = (props) => {
           })}
         </Row>
 
-        <hr></hr>
         {badgeIsShown && (
           <Row className="d-flex justify-content-start py-4 ">
             {!props.forCheckOut && cartCtx.items.length > 0 && (
