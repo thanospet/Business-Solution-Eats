@@ -122,7 +122,6 @@ const OrderInfo = () => {
     setShow(true);
     setIsSubmitting(true);
     axios
-
       .post("https://localhost:7160/api/Order/order", {
         storeId: 1,
         paymentCodeId: payment,
@@ -135,6 +134,7 @@ const OrderInfo = () => {
         products: allitems.map((product) => {
           return {
             productId: product.id,
+            productOptions: product.options,
             productNotes: "",
             productCount: product.amount,
           };

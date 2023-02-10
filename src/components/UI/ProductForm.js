@@ -25,8 +25,6 @@ const ProductForm = (props) => {
     props.onAddToCart(enteredAmountNumber);
   };
 
-  // console.log("input id", props.modalThisProduct.id);
-
   return (
     <form className={classes.form} onSubmit={submitHandler}>
       <Input

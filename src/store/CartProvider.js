@@ -26,8 +26,6 @@ const defaultCartState = {
 
 const cartReducer = (state, action) => {
   if (action.type === "ADD") {
-    // console.log("ADDitem", state.item);
-
     const { id, title, notes, price } = {
       id: action.item.id,
       title: action.item.title,
@@ -44,12 +42,11 @@ const cartReducer = (state, action) => {
     const uniqueProductId = hashCode(stringifiedProduct);
 
     console.log("uniqueProductId", uniqueProductId);
-    console.log("LEF- action.item", action.item);
     const product = {
       ...action.item,
       uniqueProductId,
     };
-    console.log("product", product);
+    console.log("productttttttttttt", product);
 
     const updatedTotalAmount =
       state.totalAmount + product.price * product.amount;
@@ -134,7 +131,6 @@ const cartReducer = (state, action) => {
   return defaultCartState;
 };
 
-// console.log("postal", postalCode);
 console.log("defaultCartState", defaultCartState);
 
 const CartProvider = (props) => {

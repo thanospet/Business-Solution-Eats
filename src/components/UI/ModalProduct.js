@@ -135,24 +135,6 @@ const ModalProduct = (props) => {
     });
   };
 
-  // let radioChoices = [];
-  // let radioPrice = [];
-  // const handleRadio = (ingredient) => {
-  // radioChoices = [...radioChoices, ingredient];
-  // setRadioChoicesArray(radioChoices);
-  // radioPrice = [...radioPrice, ingredient.ingredientPrice];
-  // };
-  // console.log("radioChociesArray", radioChoicesArray);
-  // console.log("radioPrice", radioPrice);
-
-  // let checkboxChoices = [];
-  // const handleCheckbox = (ingredient) => {
-  //   checkboxChoices = [...checkboxChoices, ingredient];
-  //   setCheckboxChoicesArray(ingredient);
-  // };
-
-  // console.log("checkboxChoicesArray", checkboxChoicesArray);
-
   const renderGroupIngredients = (group) => {
     if (group.ingredientCategoryType === "radio") {
       return (
@@ -165,7 +147,6 @@ const ModalProduct = (props) => {
                     <input
                       onChange={() => {
                         handleRadio(ingredient, group);
-                        // setExtraPrice(ingredient.ingredientPrice);
                       }}
                       type="radio"
                       name="flexRadioDefault"
@@ -187,13 +168,6 @@ const ModalProduct = (props) => {
             ))}
           </Form>
         </>
-
-        // <div>
-        //   geia sou eimai radio{" "}
-        //   {group.ingredients
-        //     .map((ingredient) => ingredient.ingredientTitle)
-        //     .join(", ")}
-        // </div>
       );
     }
 
@@ -205,7 +179,6 @@ const ModalProduct = (props) => {
               <input
                 onChange={() => {
                   handleCheckbox(ingredient, group);
-                  // setExtraPrice(ingredient.ingredientPrice);
                 }}
                 type="checkbox"
                 name="flexCheckDefault"
@@ -222,27 +195,7 @@ const ModalProduct = (props) => {
             </label>
           ))}
         </Form>
-
-        {/* <Form>
-          {group.ingredients.map((ingredient) => (
-            <label className="form-check-label p-1">
-              <input
-                type="checkbox"
-                name="flexCheckDefault"
-                id="flexCheckDefault1"
-                className="form-check-input"
-              />
-              {ingredient.ingredientTitle} {ingredient.ingredientPrice}$
-            </label>
-          ))}
-        </Form> */}
       </>
-      // <div>
-      //   geia sou eimai checkbox{" "}
-      //   {group.ingredients
-      //     .map((ingredient) => ingredient.ingredientTitle)
-      //     .join(", ")}
-      // </div>
     );
   };
 
@@ -282,10 +235,6 @@ const ModalProduct = (props) => {
                   <Col className="col-12 p-1">
                     {renderGroupIngredients(optionCategory)}
                     <hr></hr>
-                    {/* 
-                    {optionCategory.ingredientCategoryType === "radio"
-                      ? "eimai radio"
-                      : "eimai cb"} */}
                   </Col>
                 </Row>
               );
