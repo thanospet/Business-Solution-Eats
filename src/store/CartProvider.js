@@ -26,14 +26,14 @@ const defaultCartState = {
 
 const cartReducer = (state, action) => {
   if (action.type === "ADD") {
-    const { id, title, notes, price } = {
+    const { id, title, notes, price, options } = {
       id: action.item.id,
       title: action.item.title,
       notes: action.item.notes,
       price: action.item.price,
       options: action.item.options,
     };
-    const updatedActionObject = { id, title, notes, price };
+    const updatedActionObject = { id, title, notes, price, options };
 
     console.log("updatedActionObject", updatedActionObject);
 

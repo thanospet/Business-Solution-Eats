@@ -104,8 +104,10 @@ const Cart = (props) => {
                 </Row>
                 <Row>
                   <Col className={`col-10 ${classes.itemNotes}`}>
-                    {item.notes.length > 0 && "Notes: " + item.notes}
+                    {item.notes.length > 0 && "Notes: " + item.notes}{" "}
                   </Col>
+                  <Col> {item.options && "This items has options"}</Col>
+                  <hr></hr>
                 </Row>
               </Row>
             );

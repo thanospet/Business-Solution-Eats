@@ -7,7 +7,7 @@ import { Container, Row, Col } from "react-bootstrap";
 const ErrorPage = () => {
   return (
     <>
-      {/* <MainNavigation /> */}
+      <MainNavigation />
       <Container
         className={`vh-100 d-flex align-items-center justify-content-center`}
       >
