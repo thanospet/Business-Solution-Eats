@@ -16,7 +16,6 @@ const StoreDetails = (props) => {
   const [masterProductCategory, setMasterProductCategory] = useState("");
   const [modalShown, setModalShown] = useState(false);
   const [modalProduct, setModalProduct] = useState({});
-  const [optionCategories, setOptionCategories] = useState([]);
 
   window.scrollTo(0, 0);
 
@@ -48,23 +47,6 @@ const StoreDetails = (props) => {
   const modalHandler = (product) => {
     setModalProduct(product);
     setModalShown(true);
-
-    axios
-      .get(`${link}/api/Product/productIngredientInfo/${product.id}`)
-      .then(function (res) {
-        setOptionCategories(res.data.items);
-        console.log("res.data.items", res.data.items);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-
-    // console.log("Clicked modalHandler", product);
-    // console.log("setModalShown", modalShown);
-  };
-
-  const onShowModal = () => {
-    setModalShown(true);
   };
 
   const hideModalHandler = () => {
@@ -77,9 +59,7 @@ const StoreDetails = (props) => {
     <Container>
       <ModalProduct
         modalProduct={modalProduct}
-        optionCategories={optionCategories}
         hideModalHandler={hideModalHandler}
-        onShowModal={onShowModal}
         modalShown={modalShown}
       />
       <Row className="my-4">
@@ -143,7 +123,7 @@ const StoreDetails = (props) => {
         <Col
           className={`col-4 d-flex justify-content-center ${classes.colCart}`}
         >
-          <Cart onShowModal={onShowModal} modalProduct={modalProduct} />
+          <Cart modalProduct={modalProduct} />
         </Col>
       </Row>
     </Container>

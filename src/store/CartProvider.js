@@ -33,6 +33,7 @@ const cartReducer = (state, action) => {
       title: action.item.title,
       notes: action.item.notes,
       price: action.item.price,
+      options: action.item.options,
     };
     const updatedActionObject = { id, title, notes, price };
 
@@ -48,7 +49,6 @@ const cartReducer = (state, action) => {
       ...action.item,
       uniqueProductId,
     };
-    console.log("LEF- product", product);
     console.log("product", product);
 
     const updatedTotalAmount =

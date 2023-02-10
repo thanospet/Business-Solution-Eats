@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import CartContext from "../../store/cart-context";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.css";
 import {
-  Container,
   Row,
   Col,
   Image,
@@ -12,8 +12,6 @@ import {
   Form,
   FormControl,
   FormGroup,
-  Label,
-  Input,
 } from "react-bootstrap";
 import classes from "./ModalProduct.module.css";
 
@@ -21,17 +19,29 @@ import React from "react";
 
 const ModalProduct = (props) => {
   const cartCtx = useContext(CartContext);
-  console.log("props.optionCategories", props.optionCategories);
-  const [radioChoice, setRadioChoice] = useState({});
-  const [checkboxChoice, setCheckboxChoice] = useState({});
+  // console.log("props.optionCategories", props.optionCategories);
+  // const [radioChoicesArray, setRadioChoicesArray] = useState([]);
+  // const [checkboxChoicesArray, setCheckboxChoicesArray] = useState([]);
+  const [options, setOptions] = useState({});
   const [amount, setAmount] = useState(1);
   const [notes, setNotes] = useState("");
   const [extraPrice, setExtraPrice] = useState(0);
   const [totalExtraPrice, setTotalExtraPrice] = useState(0);
+  const [optionCategories, setOptionCategories] = useState([]);
+
+  const link = "https://localhost:7160";
 
   useEffect(() => {
-    setTotalExtraPrice(totalExtraPrice + extraPrice);
-  }, [extraPrice]);
+    axios
+      .get(`${link}/api/Product/productIngredientInfo/${props.modalProduct.id}`)
+      .then(function (res) {
+        setOptionCategories(res.data.items);
+        console.log("res.data.items", res.data.items);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [props.modalShown]);
 
   console.log("totalExtraPrice", totalExtraPrice);
 
@@ -56,6 +66,7 @@ const ModalProduct = (props) => {
       amount: amount,
       notes: notes,
       price: props.modalProduct.price,
+      options: options,
     });
 
     console.log("amount", amount);
@@ -64,20 +75,83 @@ const ModalProduct = (props) => {
   };
   console.log("extraPrice", extraPrice);
 
-  const removeFromCartHandler = (item) => {
-    cartCtx.removeItem(item);
+  // let objArray = [];
+  // const handleRadio = (ingredient, group) => {
+  //   const index = objArray.findIndex(
+  //     (item) => Object.keys(item)[0] === group.ingredientCategoryId
+  //   );
+  //   if (index === -1) {
+  //     objArray.push({ [group.ingredientCategoryId]: ingredient.ingredientId });
+  //   } else {
+  //     objArray[index][group.ingredientCategoryId] = ingredient.ingredientId;
+  //   }
+  //   setOptions([...objArray]);
+
+  // };
+
+  // let objArray = [];
+  // let obj = {};
+
+  const handleRadio = (ingredient, group) => {
+    setOptions((prevOptions) => {
+      const temp = { ...prevOptions };
+
+      temp[group.ingredientCategoryId] = ingredient.ingredientId;
+
+      return temp;
+    });
+
+    // options: {2: 5}
+    // options: {2: 5, 3: [1, 60, 1020]}
+
+    return;
+    // obj = { [group.ingredientCategoryId]: ingredient.ingredientId };
+    // const index = objArray.findIndex(
+    //   (obj) => Object.keys(obj)[0] === group.ingredientCategoryId
+    // );
+    // if (index === -1) {
+    //   objArray = [...objArray, obj];
+    //   setOptions(...objArray);
+    // }
+  };
+  console.log("options", options);
+
+  const handleCheckbox = (ingredient, group) => {
+    setOptions((prevOptions) => {
+      const temp = { ...prevOptions };
+
+      if (temp[group.ingredientCategoryId]?.includes(ingredient.ingredientId)) {
+        temp[group.ingredientCategoryId] = temp[
+          group.ingredientCategoryId
+        ].filter((id) => id !== ingredient.ingredientId);
+      } else {
+        temp[group.ingredientCategoryId] = [
+          ...(temp[group.ingredientCategoryId] || []),
+          ingredient.ingredientId,
+        ];
+      }
+
+      return temp;
+    });
   };
 
-  console.log("radioChoice", radioChoice);
-  console.log("checkboxChoice", checkboxChoice);
+  // let radioChoices = [];
+  // let radioPrice = [];
+  // const handleRadio = (ingredient) => {
+  // radioChoices = [...radioChoices, ingredient];
+  // setRadioChoicesArray(radioChoices);
+  // radioPrice = [...radioPrice, ingredient.ingredientPrice];
+  // };
+  // console.log("radioChociesArray", radioChoicesArray);
+  // console.log("radioPrice", radioPrice);
 
-  const handleRadio = (ingredient) => {
-    setRadioChoice(ingredient);
-  };
+  // let checkboxChoices = [];
+  // const handleCheckbox = (ingredient) => {
+  //   checkboxChoices = [...checkboxChoices, ingredient];
+  //   setCheckboxChoicesArray(ingredient);
+  // };
 
-  const handleCheckbox = (ingredient) => {
-    setCheckboxChoice(ingredient);
-  };
+  // console.log("checkboxChoicesArray", checkboxChoicesArray);
 
   const renderGroupIngredients = (group) => {
     if (group.ingredientCategoryType === "radio") {
@@ -90,8 +164,8 @@ const ModalProduct = (props) => {
                   <label key={ingredient.id} className="form-check-label p-1">
                     <input
                       onChange={() => {
-                        handleRadio(ingredient);
-                        setExtraPrice(ingredient.ingredientPrice);
+                        handleRadio(ingredient, group);
+                        // setExtraPrice(ingredient.ingredientPrice);
                       }}
                       type="radio"
                       name="flexRadioDefault"
@@ -130,8 +204,8 @@ const ModalProduct = (props) => {
             <label key={ingredient.id} className="form-check-label p-1">
               <input
                 onChange={() => {
-                  handleCheckbox(ingredient);
-                  setExtraPrice(ingredient.ingredientPrice);
+                  handleCheckbox(ingredient, group);
+                  // setExtraPrice(ingredient.ingredientPrice);
                 }}
                 type="checkbox"
                 name="flexCheckDefault"
@@ -197,7 +271,7 @@ const ModalProduct = (props) => {
                 <hr></hr>
               </>
             </Col>
-            {props.optionCategories.map((optionCategory) => {
+            {optionCategories.map((optionCategory) => {
               return (
                 <Row className="edw einai ta extra option categories">
                   <Col className="col-12 p-1">

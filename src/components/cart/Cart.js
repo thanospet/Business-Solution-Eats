@@ -22,7 +22,6 @@ const Cart = (props) => {
   const [containerIsShown, setContainerIsShown] = useState(true);
   const [badgeIsShown, setBadgeIsShown] = useState(false);
   const [amount, setAmount] = useState(1);
-  const [notes, setNotes] = useState("");
 
   const allItems = cartCtx.items;
 
@@ -52,8 +51,11 @@ const Cart = (props) => {
   const addToCartHandler = (item) => {
     console.log("itemAAAA", item);
     cartCtx.addItem({
-      ...item,
+      id: item.id,
+      title: item.title,
       amount: 1,
+      notes: item.notes,
+      price: item.price,
     });
     console.log("amount", amount);
   };
