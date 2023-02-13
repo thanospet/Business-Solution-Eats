@@ -2,19 +2,18 @@
     cursor: pointer;
     font: inherit;
     border: none;
-    background-color: #ffffff6b;
+    background-color: #ffffff;
     color: rgb(0, 0, 0);
-    padding: 0.75rem 3rem;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    border-radius: 25px;
+    border-radius: 5px;
     font-weight: bold;
   }
   
   .button:hover,
   .button:active {
-    background-color: rgba(194, 194, 194, 0.473);
+    background-color: #00a395af;
   }
   
   .icon {
@@ -24,7 +23,7 @@
   }
   
   .badge {
-    color: aliceblue;
+    color: rgb(0, 0, 0);
     background-color: #00a395af;
     padding: 0.25rem 0.5rem;
     border: 2px solid white;
@@ -35,7 +34,7 @@
   
   .button:hover .badge,
   .button:active .badge {
-    background-color: #00a396;
+    background-color: #00a395af;
   }
   
   .bump {

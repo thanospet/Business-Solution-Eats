@@ -96,7 +96,7 @@ const ModalProduct = (props) => {
     setOptions((prevOptions) => {
       const temp = { ...prevOptions };
 
-      temp[group.ingredientCategoryId] = ingredient.ingredientId;
+      temp[group.ingredientCategoryId] = [ingredient.ingredientId];
 
       return temp;
     });

@@ -117,29 +117,44 @@ const OrderInfo = () => {
   // "https://localhost:7160/api/Order/order"
   // "http://192.168.84.174:5237/api/Order/order"
 
+  const formatProductOptions = (productOptions) => {
+    const result = Object.keys(productOptions).reduce((array, key) => {
+      return [
+        ...array,
+        { productCategoryId: Number(key), ingredientIds: productOptions[key] },
+      ];
+    }, []);
+
+    return result;
+  };
+
   const submitHandler = (event) => {
     event.preventDefault();
+
+    const payload = {
+      storeId: 1,
+      paymentCodeId: payment,
+      totalCost: totalPrice.toFixed(2),
+      floor: floor,
+      contactPhoneNum: phoneNumber,
+      doorBellName: doorbell,
+      notes: notes,
+      estimatedDeliveryTime: 40,
+      products: allitems.map((product) => {
+        return {
+          productId: product.id,
+          productCategoryAndIngredients: formatProductOptions(product.options),
+          productNotes: "",
+          productCount: product.amount,
+        };
+      }),
+    };
+
     setShow(true);
     setIsSubmitting(true);
+
     axios
-      .post("https://localhost:7160/api/Order/order", {
-        storeId: 1,
-        paymentCodeId: payment,
-        totalCost: totalPrice.toFixed(2),
-        floor: floor,
-        contactPhoneNum: phoneNumber,
-        doorBellName: doorbell,
-        notes: notes,
-        estimatedDeliveryTime: 40,
-        products: allitems.map((product) => {
-          return {
-            productId: product.id,
-            productOptions: product.options,
-            productNotes: "",
-            productCount: product.amount,
-          };
-        }),
-      })
+      .post("https://localhost:7160/api/Order/order", payload)
       .then((response) => {
         console.log(response.data);
         setIsSubmitting(false);
