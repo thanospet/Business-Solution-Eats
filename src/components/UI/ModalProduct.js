@@ -19,9 +19,6 @@ import React from "react";
 
 const ModalProduct = (props) => {
   const cartCtx = useContext(CartContext);
-  // console.log("props.optionCategories", props.optionCategories);
-  // const [radioChoicesArray, setRadioChoicesArray] = useState([]);
-  // const [checkboxChoicesArray, setCheckboxChoicesArray] = useState([]);
   const [options, setOptions] = useState({});
   const [amount, setAmount] = useState(1);
   const [notes, setNotes] = useState("");
@@ -75,51 +72,20 @@ const ModalProduct = (props) => {
   };
   console.log("extraPrice", extraPrice);
 
-  // let objArray = [];
-  // const handleRadio = (ingredient, group) => {
-  //   const index = objArray.findIndex(
-  //     (item) => Object.keys(item)[0] === group.ingredientCategoryId
-  //   );
-  //   if (index === -1) {
-  //     objArray.push({ [group.ingredientCategoryId]: ingredient.ingredientId });
-  //   } else {
-  //     objArray[index][group.ingredientCategoryId] = ingredient.ingredientId;
-  //   }
-  //   setOptions([...objArray]);
-
-  // };
-
-  // let objArray = [];
-  // let obj = {};
-
   const handleRadio = (ingredient, group) => {
     setOptions((prevOptions) => {
       const temp = { ...prevOptions };
-
       temp[group.ingredientCategoryId] = [ingredient.ingredientId];
-
       return temp;
     });
 
-    // options: {2: 5}
-    // options: {2: 5, 3: [1, 60, 1020]}
-
     return;
-    // obj = { [group.ingredientCategoryId]: ingredient.ingredientId };
-    // const index = objArray.findIndex(
-    //   (obj) => Object.keys(obj)[0] === group.ingredientCategoryId
-    // );
-    // if (index === -1) {
-    //   objArray = [...objArray, obj];
-    //   setOptions(...objArray);
-    // }
   };
   console.log("options", options);
 
   const handleCheckbox = (ingredient, group) => {
     setOptions((prevOptions) => {
       const temp = { ...prevOptions };
-
       if (temp[group.ingredientCategoryId]?.includes(ingredient.ingredientId)) {
         temp[group.ingredientCategoryId] = temp[
           group.ingredientCategoryId
@@ -129,10 +95,12 @@ const ModalProduct = (props) => {
           ...(temp[group.ingredientCategoryId] || []),
           ingredient.ingredientId,
         ];
-      }
 
-      return temp;
+        return temp;
+      }
     });
+
+    return;
   };
 
   const renderGroupIngredients = (group) => {
