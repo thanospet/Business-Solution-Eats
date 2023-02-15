@@ -22,9 +22,8 @@ const ModalProduct = (props) => {
   const [options, setOptions] = useState({});
   const [amount, setAmount] = useState(1);
   const [notes, setNotes] = useState("");
-  const [extraPrice, setExtraPrice] = useState(0);
-  const [totalExtraPrice, setTotalExtraPrice] = useState(0);
   const [optionCategories, setOptionCategories] = useState([]);
+  const [extraPrice, setExtraPrice] = useState(0);
 
   const link = "https://localhost:7160";
 
@@ -40,8 +39,6 @@ const ModalProduct = (props) => {
       });
   }, [props.modalShown]);
 
-  console.log("totalExtraPrice", totalExtraPrice);
-
   const addAmount = () => {
     if (amount >= 0) {
       setAmount(amount + 1);
@@ -55,6 +52,42 @@ const ModalProduct = (props) => {
     }
   };
 
+  // const formatOptions = (options) => {
+  //   const result = Object.keys(options).reduce((obj, key) => {
+  //     return {
+  //       ...obj,
+  //       key: [{ ingId: options[key][0], extraPrice: options[key][1] }],
+  //     };
+  //   }, {});
+  //   console.log("result", result);
+  //   return result;
+  // };
+
+  // const formatOptions = (options) => {
+  //   const result = Object.keys(options).reduce((obj, key) => {
+  //     return {
+  //       ...obj,
+  //       key: [
+  //         options[key].map((key) => {
+  //           console.log("options[key]", options[key]);
+  //           return { ingId: key[0], extraPrice: key[1] };
+  //         }),
+  //       ],
+  //     };
+  //   }, {});
+  //   console.log("result", result);
+  //   return result;
+  // };
+  useEffect(() => {
+    let total = 0;
+    Object.values(options).forEach((option) => {
+      option.forEach((item) => {
+        total += item.extraPrice;
+      });
+    });
+    setExtraPrice(total);
+  }, [options]);
+
   const addToCartHandler = () => {
     props.hideModalHandler();
     cartCtx.addItem({
@@ -62,45 +95,88 @@ const ModalProduct = (props) => {
       title: props.modalProduct.title,
       amount: amount,
       notes: notes,
-      price: props.modalProduct.price,
+      price: props.modalProduct.price + extraPrice,
       options: options,
     });
 
+    console.log("options", options);
     console.log("amount", amount);
     setAmount(1);
     setNotes("");
   };
+
   console.log("extraPrice", extraPrice);
 
   const handleRadio = (ingredient, group) => {
     setOptions((prevOptions) => {
       const temp = { ...prevOptions };
-      temp[group.ingredientCategoryId] = [ingredient.ingredientId];
+      console.log("group.ingredientCategoryId", group.ingredientCategoryId);
+      temp[group.ingredientCategoryId] = [
+        {
+          ingId: ingredient.ingredientId,
+          extraPrice: ingredient.ingredientPrice,
+        },
+      ];
       return temp;
     });
-
     return;
   };
+
+  // const temp = { ...prevOptions };
+  // if (temp[group.ingredientCategoryId]?.includes(ingredient.ingredientId)) {
+  // const newArray = temp[group.ingredientCategoryId].filter(
+  //   (element) => element.ingId !== ingredient.ingredientId
+  // );
+
+  // temp[group.ingredientCategoryId] = newArray;
+
   console.log("options", options);
 
   const handleCheckbox = (ingredient, group) => {
     setOptions((prevOptions) => {
+      // I create a copy of the previous options in order to manipulate them
       const temp = { ...prevOptions };
-      if (temp[group.ingredientCategoryId]?.includes(ingredient.ingredientId)) {
-        temp[group.ingredientCategoryId] = temp[
-          group.ingredientCategoryId
-        ].filter((id) => id !== ingredient.ingredientId);
-      } else {
+
+      // If it's the first time for this ingredient category,
+      // just create the array with the selected ingredient
+      if (!temp[group.ingredientCategoryId]) {
         temp[group.ingredientCategoryId] = [
-          ...(temp[group.ingredientCategoryId] || []),
-          ingredient.ingredientId,
+          {
+            ingId: ingredient.ingredientId,
+            extraPrice: ingredient.ingredientPrice,
+          },
         ];
 
         return temp;
       }
-    });
 
-    return;
+      // I check if the clicked ingredient is already selected
+      const alreadyExists = temp[group.ingredientCategoryId].find(
+        (element) => element.ingId === ingredient.ingredientId
+      );
+
+      // If it doesn't exist, we have to APPEND/PUSH it to the existing array
+      if (!alreadyExists) {
+        temp[group.ingredientCategoryId] = [
+          ...temp[group.ingredientCategoryId],
+          {
+            ingId: ingredient.ingredientId,
+            extraPrice: ingredient.ingredientPrice,
+          },
+        ];
+
+        return temp;
+      }
+
+      // If already exists, remove it from the array
+      const newArray = temp[group.ingredientCategoryId].filter(
+        (element) => element.ingId !== ingredient.ingredientId
+      );
+
+      temp[group.ingredientCategoryId] = newArray;
+
+      return temp;
+    });
   };
 
   const renderGroupIngredients = (group) => {
@@ -184,7 +260,9 @@ const ModalProduct = (props) => {
             <Col className="col-9 d-flex flex-column justify-content-space mx-3">
               <Row>{props.modalProduct.title}</Row>
               <Row>{props.modalProduct.description}</Row>
-              <Row>${(props.modalProduct.price * amount).toFixed(2)}</Row>
+              <Row>
+                ${((extraPrice + props.modalProduct.price) * amount).toFixed(2)}
+              </Row>
             </Col>
             <Col className="col-12">
               <>

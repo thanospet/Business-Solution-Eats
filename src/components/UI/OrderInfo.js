@@ -19,6 +19,7 @@ import {
   Toggle,
   Modal,
 } from "react-bootstrap";
+import LoaderSpinner from "../spinners/Spinner";
 
 const OrderInfo = () => {
   const cartCtx = useContext(CartContext);
@@ -73,19 +74,20 @@ const OrderInfo = () => {
   const handleChangeFloor = (event) => {
     if (!isNaN(event.target.value) && event.target.value < 100) {
       setFloor(event.target.value);
-      setIsFloorValid(true);
+      setIsFloorValid(event.target.value.length > 0);
     }
   };
   const handleChangeDoorbell = (event) => {
     if (pattern.test(event.target.value) && event.target.value.length < 31) {
       setDoorbell(event.target.value);
-      setIsDoorbellValid(true);
+      setIsDoorbellValid(event.target.value.length > 0);
     }
   };
   const handleChangePhoneNumber = (event) => {
-    if (!isNaN(event.target.value) && event.target.value.length < 11) {
-      setPhoneNumber(event.target.value);
-      setIsPhoneNumberValid(true);
+    const inputPhoneNumber = event.target.value;
+    if (/^\d{0,10}$/.test(inputPhoneNumber)) {
+      setPhoneNumber(inputPhoneNumber);
+      setIsPhoneNumberValid(inputPhoneNumber.length === 10);
     }
   };
   const handleChangeNotes = (event) => {
@@ -98,9 +100,12 @@ const OrderInfo = () => {
       isDoorbellValid &&
       isPhoneNumberValid &&
       phoneNumber.length === 10 &&
+      isPhoneNumberValid &&
       isPaymentMethodValid
     ) {
       setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
     }
   }, [
     isFloorValid,
@@ -121,7 +126,10 @@ const OrderInfo = () => {
     const result = Object.keys(productOptions).reduce((array, key) => {
       return [
         ...array,
-        { productCategoryId: Number(key), ingredientIds: productOptions[key] },
+        {
+          productCategoryId: Number(key),
+          ingredientIds: productOptions[key]?.map((i) => i.ingId),
+        },
       ];
     }, []);
 
@@ -157,11 +165,11 @@ const OrderInfo = () => {
       .post("https://localhost:7160/api/Order/order", payload)
       .then((response) => {
         console.log(response.data);
-        setIsSubmitting(false);
+        // setIsSubmitting(false);
       })
       .catch((error) => {
         console.error(error);
-        setIsSubmitting(false);
+        // setIsSubmitting(false);
       });
 
     console.log("data", payment);
@@ -178,7 +186,7 @@ const OrderInfo = () => {
         keyboard={false}
       >
         <Modal.Body>
-          {isSubmitting ? <p>Sending Order...</p> : <p>Order Send !</p>}
+          {isSubmitting ? <LoaderSpinner /> : <p>Order Send !</p>}
         </Modal.Body>
         <Modal.Footer>
           {!isSubmitting && (
@@ -190,8 +198,8 @@ const OrderInfo = () => {
       </Modal>
       <Form onSubmit={submitHandler}>
         <Row className={`${classes.orderInfo}`}>
-          <Col className="col-12 p-2">DELIVERY/TAKEAWAY</Col>
-          <Col className="col-12 p-2">{currentPostal}</Col>
+          {/* <Col className="col-12 p-2">DELIVERY/TAKEAWAY</Col>
+          <Col className="col-12 p-2">{currentPostal}</Col> */}
           <Col className="col-12 p-2">
             <Dropdown className={classes.button}>
               <DropdownButton

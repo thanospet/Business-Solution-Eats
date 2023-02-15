@@ -74,7 +74,7 @@ const Cart = (props) => {
                     <Badge bg="secondary">{item.amount}</Badge>
                   </Col>
                   <Col className="col-4 ">{item.title}</Col>
-                  <Col className="col-2 ">$ {item.price}</Col>
+                  <Col className="col-2 ">$ {item.price.toFixed(2)}</Col>
                   {!props.forCheckOut && (
                     <Col className="col-4 ">
                       <Form>
