@@ -25,7 +25,7 @@ const passwordReducer = (state, action) => {
   return { value: "", isValid: false };
 };
 
-const AuthComponent = () => {
+const AuthComponent = (props) => {
   const [formIsValid, setFormIsValid] = useState(false);
 
   //UseEffect here has a timer, every half a second, so it doesnt execute with every key stroke!
@@ -132,7 +132,7 @@ const AuthComponent = () => {
               className={classes.btn}
               disabled={!formIsValid}
             >
-              Login
+              {props.onRegister ? "Register" : "Login"}
             </button>
           </div>
         </form>

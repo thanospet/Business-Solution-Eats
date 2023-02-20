@@ -28,7 +28,12 @@ const MainNavigation = () => {
   };
 
   const handleClose = () => {
+    setShowLogin(true);
     setShow(false);
+  };
+
+  const handleRegister = () => {
+    setShowLogin(false);
   };
 
   return (
@@ -40,11 +45,12 @@ const MainNavigation = () => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Login your account!</Modal.Title>
+          <Modal.Title className="medium">Login your account!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <AuthComponent />
+          {showLogin ? <AuthComponent /> : <AuthComponent onRegister />}
         </Modal.Body>
+
         <Modal.Footer className="d-flex justify-content-between">
           <span>
             {" "}
@@ -55,7 +61,7 @@ const MainNavigation = () => {
           <span>
             <label>Not a member yet? </label>
             <span> </span>
-            <Button variant="primary" onClick={handleClose}>
+            <Button variant="primary" onClick={handleRegister}>
               Register
             </Button>
           </span>
