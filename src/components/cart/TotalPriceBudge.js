@@ -14,11 +14,7 @@ const TotalPriceBudge = (props) => {
 
   const divClasses = `${classes.div} ${classes.bump}`;
 
-  return (
-    <div className={divClasses}>
-      <Badge bg="secondary">Total: $ {totalPrice.toFixed(2)}</Badge>
-    </div>
-  );
+  return <div className={divClasses}>Total: $ {totalPrice.toFixed(2)}</div>;
 };
 
 export default TotalPriceBudge;

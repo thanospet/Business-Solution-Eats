@@ -6,16 +6,21 @@ import Card from "../UI/Card";
 import CardWrap from "../UI/CardWrap";
 import "bootstrap/dist/css/bootstrap.css";
 import CartContext from "../../store/cart-context";
-import { Container, Row, Col, Modal } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 
 const AvailableStores = (props) => {
   window.scrollTo(0, 0);
   const [availableStores, setAvailableStores] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
   const cartCtx = useContext(CartContext);
   const location = useLocation();
+
+  const navigateHome = () => {
+    navigate("/");
+  };
 
   const dataPostal = params?.postal;
   console.log(dataPostal);
@@ -24,7 +29,6 @@ const AvailableStores = (props) => {
   useEffect(() => {
     console.log("location", location);
     console.log("location-dataPostal", dataPostal);
-
     if (location.pathname === `/available-stores/${dataPostal}`) {
       cartCtx.clearCart();
     }
@@ -53,6 +57,10 @@ const AvailableStores = (props) => {
       });
   }, []);
 
+  const handleImageLoad = () => {
+    setImageLoading(true);
+  };
+
   const onCardClick = (storeId, storeTitle) => {
     console.log("Clicked");
     navigate(`/store-details/${storeId}`);
@@ -60,7 +68,6 @@ const AvailableStores = (props) => {
   };
 
   const availableStoresNumber = availableStores.length;
-  const loadingText = <p>Loading...</p>;
 
   return (
     <Container className={classes.top}>
@@ -73,17 +80,24 @@ const AvailableStores = (props) => {
             >
               We found {availableStoresNumber} available stores in {dataPostal}
             </Row>
+            {availableStores.length === 0 && (
+              <Button
+                className={`d-flex align-items-center justify-content-center ${classes.backBtn}`}
+                onClick={navigateHome}
+              >
+                Back to Home
+              </Button>
+            )}
           </div>
         </Col>
       </Row>
-      <Container className={classes.main}>
-        {availableStores.map((store) => {
-          return (
-            <>
-              {!isLoading && (
+      {!isLoading && (
+        <Container className={classes.main}>
+          {availableStores.map((store) => {
+            return (
+              <>
                 <>
                   {" "}
-                  {isLoading && loadingText}
                   <Row key={store.id}>
                     <Col className="col-12">
                       <CardWrap>
@@ -93,29 +107,36 @@ const AvailableStores = (props) => {
                         >
                           <Card key={store.id}>
                             <span></span>
-                            <span>
+                            <span className={classes.imageContainer}>
                               <img
                                 src={store.logo_icon}
                                 alt=""
                                 height={100}
                                 width={100}
                                 fluid
+                                onLoad={handleImageLoad}
+                                className={
+                                  imageLoading
+                                    ? classes.spinner
+                                    : classes.imageContainer
+                                }
                               />{" "}
                               <span className={classes.storeTitle}>
                                 {store.title}
                               </span>
                             </span>
                           </Card>
-                          <Card>
+
+                          <Card className={classes.mainCard}>
                             <span className={classes.textCategory}>
                               {store.masterProductCategory}{" "}
                             </span>
-                            <span className={classes.text}>
+                            <span className={`"${classes.text}`}>
                               Estimated Time: {store.averageDeliveryTime}{" "}
                             </span>
-                            <span className={classes.text}>
+                            <span className={`"${classes.text}`}>
                               {" "}
-                              minimum order: ${store.minimumOrderPrice}{" "}
+                              Minimum order: ${store.minimumOrderPrice}{" "}
                             </span>
                           </Card>
                         </div>
@@ -123,11 +144,11 @@ const AvailableStores = (props) => {
                     </Col>
                   </Row>
                 </>
-              )}
-            </>
-          );
-        })}
-      </Container>
+              </>
+            );
+          })}
+        </Container>
+      )}
     </Container>
   );
 };

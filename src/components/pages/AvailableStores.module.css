@@ -22,8 +22,22 @@
   padding: 10px;
   font-size: x-large;
   color: rgb(0, 0, 0);
-  /* box-shadow: 0 0px 5px rgba(0, 0, 0, 0.7); */
 }
+
+.backBtn{
+  margin-left: 45%;
+  padding: 10px;
+  color: rgb(255, 255, 255);
+  background-color: black;
+  border-color: white;
+}
+
+.backBtn:hover{
+  color: aquamarine;
+  background-color: black;
+  border-color: rgb(0, 0, 0);
+}
+
 
 img {
   border-radius: 10px;
@@ -43,10 +57,8 @@ img {
 .storeTitle {
   margin-left: 10px; 
 }
-/* 55 */
 
 .textCategory {
-  /* border: 1px solid black; */
   padding: auto;
   padding-bottom: auto;
   padding-left:2px;

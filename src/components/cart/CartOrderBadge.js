@@ -29,9 +29,9 @@ const CartOrderBadge = (pops) => {
 
   return (
     <Button onClick={onCheckOut} className={btnClasses}>
-      <span className={`${classes.badge} mx-2`}>{numberOfCartItems}</span>
-      <span className="mx-2">Continue</span>
-      <Badge className="mx-2" bg="secondary">
+      <span className={`${classes.badge} mx-4`}>{numberOfCartItems}</span>
+      <span className="mx-4">Continue</span>
+      <Badge className="mx-4" bg="secondary">
         $ {totalPrice.toFixed(2)}
       </Badge>
     </Button>

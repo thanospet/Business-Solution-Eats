@@ -3,16 +3,7 @@ import { useContext, useState } from "react";
 import classes from "./CheckOutPage.module.css";
 import "bootstrap/dist/css/bootstrap.css";
 import CartContext from "../../store/cart-context";
-import {
-  Container,
-  Row,
-  Col,
-  Image,
-  Form,
-  FormControl,
-  Button,
-  Badge,
-} from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import Cart from "../cart/Cart";
 import OrderInfo from "../UI/OrderInfo";
 import TotalPriceBudge from "../cart/TotalPriceBudge";
@@ -28,8 +19,10 @@ const CheckOutPage = () => {
           <OrderInfo />
         </Col>
         <Col className={` col-6 d-flex justify-content-center ${classes.cart}`}>
-          <Cart forCheckOut />
-          <TotalPriceBudge className={` ${classes.totalPriceBudge}`} />
+          <Cart forCheckOut />{" "}
+          <Col>
+            <TotalPriceBudge className={` ${classes.totalPriceBudge}`} />
+          </Col>
         </Col>
       </Row>
     </Container>

@@ -12,6 +12,7 @@ import {
   Form,
   FormControl,
   FormGroup,
+  FormLabel,
 } from "react-bootstrap";
 import classes from "./ModalProduct.module.css";
 
@@ -52,37 +53,12 @@ const ModalProduct = (props) => {
     }
   };
 
-  // const formatOptions = (options) => {
-  //   const result = Object.keys(options).reduce((obj, key) => {
-  //     return {
-  //       ...obj,
-  //       key: [{ ingId: options[key][0], extraPrice: options[key][1] }],
-  //     };
-  //   }, {});
-  //   console.log("result", result);
-  //   return result;
-  // };
-
-  // const formatOptions = (options) => {
-  //   const result = Object.keys(options).reduce((obj, key) => {
-  //     return {
-  //       ...obj,
-  //       key: [
-  //         options[key].map((key) => {
-  //           console.log("options[key]", options[key]);
-  //           return { ingId: key[0], extraPrice: key[1] };
-  //         }),
-  //       ],
-  //     };
-  //   }, {});
-  //   console.log("result", result);
-  //   return result;
-  // };
   useEffect(() => {
     let total = 0;
     Object.values(options).forEach((option) => {
       option.forEach((item) => {
         total += item.extraPrice;
+        console.log("total", total);
       });
     });
     setExtraPrice(total);
@@ -102,6 +78,8 @@ const ModalProduct = (props) => {
     console.log("options", options);
     console.log("amount", amount);
     setAmount(1);
+    setExtraPrice(0);
+    setOptions({});
     setNotes("");
   };
 
@@ -185,29 +163,32 @@ const ModalProduct = (props) => {
         <>
           <Form key={group.ingredientCategoryType.id}>
             {group.ingredients.map((ingredient) => (
-              <Row className="d-flex">
-                <Col className="col-12">
-                  <label key={ingredient.id} className="form-check-label p-1">
-                    <input
-                      onChange={() => {
-                        handleRadio(ingredient, group);
-                      }}
-                      type="radio"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault1"
-                      className="form-check-input"
-                    />
-                    <Row className="d-flex justify-content-start">
-                      <Col className="col-6 mx-3 px-2">
-                        {ingredient.ingredientTitle}
-                        {}
-                      </Col>
-                      <Col className="col-6 mx-3 px-2">
-                        {ingredient.ingredientPrice}$
-                      </Col>
-                    </Row>
-                  </label>
-                </Col>
+              <Row className="">
+                <FormLabel
+                  key={ingredient.id}
+                  className="form-check-label px-1 d-flex align-items-center"
+                >
+                  <input
+                    onChange={() => {
+                      handleRadio(ingredient, group);
+                    }}
+                    type="radio"
+                    name="flexRadioDefault"
+                    id="flexRadioDefault1"
+                    className="form-radio-input me-3"
+                  />
+                  <div className="d-inline-block me-3">
+                    <span className="fw-bold">
+                      {ingredient.ingredientTitle}
+                    </span>
+                    <span> </span>
+                    {ingredient.ingredientPrice === 0 ? (
+                      <span> </span>
+                    ) : (
+                      <span>${ingredient.ingredientPrice}</span>
+                    )}
+                  </div>
+                </FormLabel>
               </Row>
             ))}
           </Form>
@@ -227,15 +208,19 @@ const ModalProduct = (props) => {
                 type="checkbox"
                 name="flexCheckDefault"
                 id="flexCheckDefault1"
-                className="form-check-input"
+                className={`${classes.myCheckbox}`}
               />
-              <Row className="">
-                <Col className="col-12 mx-3 px-2">
+              <div className="d-inline-block me-3">
+                <span className="px-2 fw-bold">
                   {ingredient.ingredientTitle}
-                  {}
-                  {ingredient.ingredientPrice}$
-                </Col>
-              </Row>
+                </span>
+                <span> </span>
+                {ingredient.ingredientPrice === 0 ? (
+                  <span> </span>
+                ) : (
+                  <span>${ingredient.ingredientPrice}</span>
+                )}
+              </div>
             </label>
           ))}
         </Form>
@@ -245,7 +230,16 @@ const ModalProduct = (props) => {
 
   return (
     <>
-      <Modal show={props.modalShown} onHide={props.hideModalHandler} size="lg">
+      <Modal
+        show={props.modalShown}
+        onHide={() => {
+          props.hideModalHandler();
+          setExtraPrice(0);
+          setOptions({});
+          setNotes("");
+        }}
+        size="lg"
+      >
         <Modal.Body>
           <Row>
             <Col className="col-12 d-flex justify-content-center">
@@ -258,11 +252,12 @@ const ModalProduct = (props) => {
 
           <Row key={props.modalProduct.id} className="py-3">
             <Col className="col-9 d-flex flex-column justify-content-space mx-3">
-              <Row>{props.modalProduct.title}</Row>
+              <Row className="fw-bold fs-5">{props.modalProduct.title}</Row>
               <Row>{props.modalProduct.description}</Row>
-              <Row>
+
+              <h5 className="py-1 my-1 fw-bold ">
                 ${((extraPrice + props.modalProduct.price) * amount).toFixed(2)}
-              </Row>
+              </h5>
             </Col>
             <Col className="col-12">
               <>
@@ -272,14 +267,13 @@ const ModalProduct = (props) => {
             </Col>
             {optionCategories.map((optionCategory) => {
               return (
-                <Row className="edw einai ta extra option categories">
-                  <Col className="col-12 p-1">
-                    {" "}
+                <Row className="d-flex justify-content-center">
+                  <Col className="col-12">
                     <h5>{optionCategory.ingredientCategoryTitle}</h5>
-                  </Col>
-
-                  <Col className="col-12 p-1">
                     {renderGroupIngredients(optionCategory)}
+                  </Col>
+                  <Col className="col-12">
+                    <Row></Row>
                     <hr></hr>
                   </Col>
                 </Row>
@@ -301,11 +295,18 @@ const ModalProduct = (props) => {
 
         <Row className="p-1 m-1">
           <Col className="col-6 d-flex justify-content-start">
-            <Button variant="light" className="px-2 mx-2" onClick={minusAmount}>
+            <Button
+              size="lg"
+              variant="light"
+              className="px-3 mx-2"
+              onClick={minusAmount}
+            >
               -
             </Button>
-            <span className="px-1 mx-1">{amount}</span>
-            <Button variant="light" className="px-2 mx-2" onClick={addAmount}>
+            <span className="d-flex align-items-center px-1 mx-1">
+              {amount}
+            </span>
+            <Button variant="light" className="px-3 mx-2 " onClick={addAmount}>
               +
             </Button>
           </Col>
@@ -321,6 +322,7 @@ const ModalProduct = (props) => {
               Close
             </Button>
             <Button
+              size="md"
               onClick={addToCartHandler}
               variant="light"
               className={`mx-3 d-flex align-items-center justify-content-center ${classes.addBtn}`}

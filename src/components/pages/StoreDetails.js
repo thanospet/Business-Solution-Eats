@@ -74,18 +74,31 @@ const StoreDetails = (props) => {
             <Col
               className={`col-12 d-flex justify-content-center mt-2 ${classes.storeTitle}`}
             >
-              <h3>{storeTitle}</h3>
+              <div>
+                <h3>{storeTitle}</h3>
+              </div>
+            </Col>
+            <Col
+              className={`col-12 d-flex justify-content-evenly mt-3 ${classes.storeInformation}`}
+            >
+              {" "}
+              <h5 className="text-muted ">
+                Minimum order price: ${minimumOrderPrice}
+              </h5>
+              <h5 className="text-muted ">
+                Average delivery time: {averageDeliveryTime}
+              </h5>
             </Col>
 
-            <Col className="col-12 d-flex justify-content-start ${classes.mainItems}">
+            <Col className={`col-12 d-flex justify-content-center `}>
               {productCategories.map((productCategory) => {
                 return (
                   <Container
                     key={productCategory.id}
-                    className="fluid py-5 my-5"
+                    className="fluid py-5 my-5 justify-content-between"
                   >
                     <Row className="align-items-center ">
-                      <Col className="col-8 d-flex justify-content-between">
+                      <Col className="col-10 d-flex justify-content-between">
                         <Col className="col-12 ">
                           <h4>{productCategory.title}</h4>
                           <hr />
@@ -93,12 +106,16 @@ const StoreDetails = (props) => {
                             return (
                               <Row
                                 key={product.id}
-                                className={`py-3 ${classes.mainItems}`}
+                                className={`py-3 ${classes.mainItems} align-items-center`}
                                 onClick={() => modalHandler(product)}
                               >
-                                <Col className="col-8 ">
-                                  <Row>{product.title}</Row>
-                                  <Row>$ {product.price}</Row>
+                                <Col className="px-5 col-8 justify-content-center">
+                                  <Row className="d-flex fw-bold">
+                                    {product.title}
+                                  </Row>
+                                  <Row className="text-muted small">
+                                    from: ${product.price}
+                                  </Row>
                                 </Col>
 
                                 <Col className="col-4 ">

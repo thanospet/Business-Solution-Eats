@@ -122,12 +122,12 @@ const Cart = (props) => {
                 <Col className="d-flex align-items-center justify-content-center col-12">
                   <Row>
                     <Col className="col-12 d-flex align-items-center justify-content-center">
-                      <Button
+                      {/* <Button
                         className={classes.clearBtn}
                         onClick={() => cartCtx.clearCart()}
                       >
                         Clear all
-                      </Button>
+                      </Button> */}
                     </Col>
                     <Col
                       className={`col-12 d-flex align-items-center justify-content-center fixed-bottom ${classes.cartOrderBadge}`}

@@ -1,23 +1,20 @@
 import React from "react";
 import { useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import classes from "./OrderInfo.module.css";
 import "bootstrap/dist/css/bootstrap.css";
 import CartContext from "../../store/cart-context";
 import axios from "axios";
 import {
-  Container,
   Row,
   Col,
-  Image,
   Form,
   FormControl,
   Button,
-  Badge,
-  InputGroup,
   Dropdown,
   DropdownButton,
-  Toggle,
   Modal,
+  FormLabel,
 } from "react-bootstrap";
 import LoaderSpinner from "../spinners/Spinner";
 
@@ -37,6 +34,11 @@ const OrderInfo = () => {
   const [isDoorbellValid, setIsDoorbellValid] = useState(false);
   const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
   const [isPaymentMethodValid, setIsPaymentMethodValid] = useState(false);
+  const navigate = useNavigate();
+  const navigateHome = () => {
+    navigate("/");
+  };
+
   const pattern = /^[0-9a-zA-Z]*$/;
 
   const link = "https://localhost:7160";
@@ -119,9 +121,6 @@ const OrderInfo = () => {
     setShow(false);
   };
 
-  // "https://localhost:7160/api/Order/order"
-  // "http://192.168.84.174:5237/api/Order/order"
-
   const formatProductOptions = (productOptions) => {
     const result = Object.keys(productOptions).reduce((array, key) => {
       return [
@@ -165,11 +164,11 @@ const OrderInfo = () => {
       .post("https://localhost:7160/api/Order/order", payload)
       .then((response) => {
         console.log(response.data);
-        // setIsSubmitting(false);
+        setIsSubmitting(false);
       })
       .catch((error) => {
         console.error(error);
-        // setIsSubmitting(false);
+        setIsSubmitting(false);
       });
 
     console.log("data", payment);
@@ -186,20 +185,26 @@ const OrderInfo = () => {
         keyboard={false}
       >
         <Modal.Body>
-          {isSubmitting ? <LoaderSpinner /> : <p>Order Send !</p>}
+          {isSubmitting ? <LoaderSpinner /> : <p>Your order has been sent !</p>}
         </Modal.Body>
         <Modal.Footer>
           {!isSubmitting && (
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
+            <>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  handleClose();
+                  navigateHome();
+                }}
+              >
+                Back to home
+              </Button>
+            </>
           )}
         </Modal.Footer>
       </Modal>
       <Form onSubmit={submitHandler}>
         <Row className={`${classes.orderInfo}`}>
-          {/* <Col className="col-12 p-2">DELIVERY/TAKEAWAY</Col>
-          <Col className="col-12 p-2">{currentPostal}</Col> */}
           <Col className="col-12 p-2">
             <Dropdown className={classes.button}>
               <DropdownButton
@@ -225,30 +230,34 @@ const OrderInfo = () => {
           </Col>
           <Col className="col-12 p-2">
             <Form className={classes.text}>
+              <FormLabel className=" px-1 fw-bold">Floor</FormLabel>
               <FormControl
                 onChange={handleChangeFloor}
                 value={floor}
                 type="text"
-                placeholder="Floor"
+                placeholder="e.g: 2"
               />
             </Form>
             <Form className={classes.text}>
+              <FormLabel className=" px-1 fw-bold">DoorBell</FormLabel>
               <FormControl
                 onChange={handleChangeDoorbell}
                 value={doorbell}
                 type="text"
-                placeholder="DoorBell"
+                placeholder="e.g: Papadopoulos"
               />
             </Form>
             <Form className={classes.text}>
+              <FormLabel className=" px-1 fw-bold">Phone Number</FormLabel>
               <FormControl
                 onChange={handleChangePhoneNumber}
                 value={phoneNumber}
                 type="text"
-                placeholder="Phone Number"
+                placeholder="696969696969"
               />
             </Form>
             <Form className={classes.textNotes}>
+              <FormLabel className=" px-1 fw-bold">Add notes</FormLabel>
               <FormControl
                 onChange={handleChangeNotes}
                 value={notes}
