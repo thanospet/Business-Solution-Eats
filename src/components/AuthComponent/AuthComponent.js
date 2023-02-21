@@ -1,143 +1,123 @@
 import React from "react";
 import classes from "./AuthComponent.module.css";
 import "bootstrap/dist/css/bootstrap.css";
-import { Container, Row, Col, Image, Modal } from "react-bootstrap";
-import { useState, useEffect, useReducer, Fragment } from "react";
+import { Container, Row, Col, Image, Modal, Button } from "react-bootstrap";
+import { useState, useContext, useEffect } from "react";
 import StrengthMeter from "../StrengthMeter/StrengthMeter";
-
-const emailReducer = (state, action) => {
-  if (action.type === "USER_INPUT") {
-    return { value: action.val, isValid: action.val.includes("@") };
-  }
-  if (action.type === "INPUT_BLUR") {
-    return { value: state.value, isValid: state.value.includes("@") };
-  }
-  return { value: "", isValid: false };
-};
-
-const passwordReducer = (state, action) => {
-  if (action.type === "USER_INPUT") {
-    return { value: action.val, isValid: action.val.trim().length > 6 };
-  }
-  if (action.type === "INPUT_BLUR") {
-    return { value: state.value, isValid: state.value.trim().length > 6 };
-  }
-  return { value: "", isValid: false };
-};
+import AuthContext from "../../store/auth-context";
 
 const AuthComponent = (props) => {
-  const [formIsValid, setFormIsValid] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
-  //UseEffect here has a timer, every half a second, so it doesnt execute with every key stroke!
-  //Because that would cause a lot of traffic if it needs to sent an http request.
-  //BUT the timer needs to ""reset". Because if we just put a timeout, useEffect will just
-  //execute normaly, and just after half a second, the results would be visible.
-  //Also the timer only activates once. So every keystroke after 500 milisecs, will still cause
-  //the state to re-render. So we need to to add return () => {}; to clean it (cleanup function).
+  const authCtx = useContext(AuthContext);
 
-  const [emailState, dispatchEmail] = useReducer(emailReducer, {
-    value: "",
-    isValid: false,
-  });
-
-  const [passwordState, dispatchPassword] = useReducer(passwordReducer, {
-    value: "",
-    isValid: false,
-  });
-
-  //----------------------------------------------------------
-  useEffect(() => {
-    const identifier = setTimeout(() => {
-      console.log("Check form validity!");
-      setFormIsValid(emailState.isValid && passwordState.isValid);
-    }, 500);
-
-    return () => {
-      console.log("CLEANUP");
-      clearTimeout(identifier);
-    };
-  }, [emailState.isValid, passwordState.isValid]);
-  //----------------------------------------------------------
-
-  //Edw to dispatchEmail pernei ena action! Edw einai object me type kai  value(val to onomasa)
-  //giati thelw na apothikeuete kiolas h timh toy target value (oti grafw diladi)
-  //Ayto to action pernaei sto const emailReducer = (state, action). Ekei exw to logic.
-  //to eimailReducer pernei to action tou dispatch.
-  //To state nomizw afora to emailState...giauto panw exoume state.value kai oxi val san to action.val.
-  const emailChangeHandler = (event) => {
-    dispatchEmail({ type: "USER_INPUT", val: event.target.value });
-    // setFormIsValid(
-    //   event.target.value.includes("@") && passwordState.isValid
-    // );
+  const addEmail = (eventEmail) => {
+    setEmail(eventEmail);
   };
 
-  const passwordChangeHandler = (event) => {
-    dispatchPassword({ type: "USER_INPUT", val: event.target.value });
-    // setFormIsValid(
-    //   emailState.isValid && event.target.value.trim().length > 6
-    //   );
+  const addPassword = (eventPassword) => {
+    setPassword(eventPassword);
   };
 
-  const validateEmailHandler = () => {
-    // setEmailIsValid(emailState.isValid);
-    dispatchEmail({ type: "INPUT_BLUR" });
+  const addFirstName = (eventName) => {
+    setFirstName(eventName);
   };
 
-  const validatePasswordHandler = () => {
-    // setPasswordIsValid(passwordState.trim().length > 6);
-    dispatchPassword({ type: "INPUT_BLUR" });
+  const addLastName = (eventName) => {
+    setLastName(eventName);
   };
 
-  const submitHandler = (event) => {
+  const Login = (event) => {
     event.preventDefault();
-    // props.onLogin(emailState.value, passwordState.value);
+
+    authCtx.checkAuthentication(email, password);
+  };
+
+  const Register = (event) => {
+    event.preventDefault();
+
+    authCtx.registerUser(email, password, firstName, lastName);
   };
 
   return (
     <>
       <div className={classes.login}>
-        <form onSubmit={submitHandler}>
-          <div
-            className={`${classes.control} ${
-              emailState.isValid === false ? classes.invalid : ""
-            }`}
-          >
+        <form>
+          <div className={`${classes.control}`}>
             <label htmlFor="email">E-Mail</label>
             <input
               type="email"
               id="email"
-              value={emailState.value}
-              onChange={emailChangeHandler}
-              onBlur={validateEmailHandler}
+              value={email}
+              onChange={(event) => addEmail(event.target.value)}
             />
           </div>
-          <div
-            className={`${classes.control} ${
-              passwordState.isValid === false ? classes.invalid : ""
-            }`}
-          >
+          <div className={`${classes.control}`}>
             <label htmlFor="password">Password</label>
             <input
               type="password"
               id="password"
-              value={passwordState.value}
-              onChange={passwordChangeHandler}
-              onBlur={validatePasswordHandler}
+              value={password}
+              onChange={(event) => addPassword(event.target.value)}
+              // onBlur={authCtx.validatePassword}
             />
           </div>
 
-          <div className={classes.actions}>
-            <button
-              type="submit"
-              className={classes.btn}
-              disabled={!formIsValid}
-            >
-              {props.onRegister ? "Register" : "Login"}
-            </button>
-          </div>
+          {props.onRegister && (
+            <>
+              <div className={`${classes.control}`}>
+                <label htmlFor="firstname">First Name </label>
+                <input
+                  type="text"
+                  id="name"
+                  value={firstName}
+                  onChange={(event) => addFirstName(event.target.value)}
+                  // onBlur={authCtx.validatePassword}
+                />
+              </div>
+              <div className={`${classes.control}`}>
+                <label htmlFor="lastname">Last Name </label>
+                <input
+                  type="text"
+                  id="name"
+                  value={lastName}
+                  onChange={(event) => addLastName(event.target.value)}
+                  // onBlur={authCtx.validatePassword}
+                />
+              </div>
+            </>
+          )}
+
+          {!props.onRegister ? (
+            <div className={classes.actions}>
+              <Button
+                type="submit"
+                className={`${classes.btn}`}
+                onClick={Login}
+                // disabled={!authCtx.formIsValid}
+              >
+                Login
+              </Button>
+            </div>
+          ) : (
+            <div className={classes.actions}>
+              <Button
+                type="submit"
+                className={`${classes.btn}`}
+                onClick={Register}
+                // disabled={!authCtx.formIsValid}
+              >
+                Register
+              </Button>
+            </div>
+          )}
         </form>
-        <div>
-          <StrengthMeter passwordState={passwordState} />
+
+        <div className="mt-4">
+          {props.onRegister && <StrengthMeter passwordState={password} />}
         </div>
       </div>
     </>

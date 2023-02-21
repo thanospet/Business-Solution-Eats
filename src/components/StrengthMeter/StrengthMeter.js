@@ -6,7 +6,7 @@ import { Container, Row, Col, Image, Modal } from "react-bootstrap";
 const StrengthMeter = (props) => {
   const [showMeter, setShowMeter] = useState(true);
 
-  const password = props.passwordState.value;
+  const password = props.passwordState;
 
   const atLeastOneUppercase = /[A-Z]/g;
   const atLeastOneLowercase = /[a-z]/g;
@@ -28,8 +28,8 @@ const StrengthMeter = (props) => {
 
   console.log("passwordStrength", passwordStrength);
 
-  let green =
-    "linear-gradient(90deg, rgba(26,48,14,1) 0%, rgba(65,170,46,1) 50%, rgba(0,251,155,1) 100%)";
+  // let green =
+  //   "linear-gradient(90deg, rgba(26,48,14,1) 0%, rgba(65,170,46,1) 50%, rgba(0,251,155,1) 100%)";
 
   return (
     <Fragment>

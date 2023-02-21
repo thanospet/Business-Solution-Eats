@@ -2,19 +2,13 @@ import React from "react";
 import classes from "./MainNavigation.module.css";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
-import {
-  Container,
-  Row,
-  Col,
-  Image,
-  Modal,
-  Button,
-  LabelForm,
-} from "react-bootstrap";
-import { useState } from "react";
+import { Modal, Button, Dropdown, DropdownButton } from "react-bootstrap";
+import { useState, useContext } from "react";
 import AuthComponent from "./AuthComponent/AuthComponent";
+import AuthContext from "../store/auth-context";
 
 const MainNavigation = () => {
+  const authCtx = useContext(AuthContext);
   const [show, setShow] = useState(false);
   const [showLogin, setShowLogin] = useState(true);
   const navigate = useNavigate();
@@ -34,6 +28,10 @@ const MainNavigation = () => {
 
   const handleRegister = () => {
     setShowLogin(false);
+  };
+
+  const handleLogout = () => {
+    authCtx.onLogout();
   };
 
   return (
@@ -91,12 +89,34 @@ const MainNavigation = () => {
               </a>
             </li>
             <li className="nav-item">
-              <span
-                onClick={handleAuthComponent}
-                className={`nav-link text-secondary ${classes.login}`}
-              >
-                LOGIN
-              </span>
+              {!authCtx.isLoggedIn ? (
+                <span
+                  onClick={handleAuthComponent}
+                  className={`nav-link text-secondary ${classes.login}`}
+                >
+                  LOGIN
+                </span>
+              ) : (
+                <DropdownButton
+                  title={authCtx.name}
+                  className={`text-secondary ${classes.dropdown}`}
+                  variant="light"
+                >
+                  <Dropdown>
+                    {" "}
+                    <Dropdown.Item eventKey="settings">Settings</Dropdown.Item>
+                    <Dropdown.Item
+                      eventKey="logout"
+                      onClick={() => {
+                        handleLogout();
+                        navigateHome();
+                      }}
+                    >
+                      Logout
+                    </Dropdown.Item>
+                  </Dropdown>
+                </DropdownButton>
+              )}
             </li>
           </ul>
         </div>

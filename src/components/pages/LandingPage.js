@@ -3,6 +3,7 @@ import classes from "./LandingPage.module.css";
 import { useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.css";
+import AuthContext from "../../store/auth-context";
 
 import {
   Container,
@@ -17,6 +18,7 @@ import {
 import CartContext from "../../store/cart-context";
 
 const LandingPage = () => {
+  const authCtx = useContext(AuthContext);
   const [postalCode, setPostalCode] = useState("");
   const [isPostalValid, setIsPostalValid] = useState(false);
   const [error, setError] = useState("");
@@ -54,6 +56,8 @@ const LandingPage = () => {
     }
   };
 
+  console.log("authCtx", authCtx);
+
   return (
     <>
       <Container className="">
@@ -87,27 +91,36 @@ const LandingPage = () => {
                 <div className={classes["landing-page-form"]}>
                   <h1>Food, takeaway and groceries. Delivered.</h1>
 
-                  <Form
-                    className={classes["landing-page-form"]}
-                    onSubmit={onSubmitHandle}
-                  >
-                    <h4>Enter a postal code.</h4>
-                    <input
-                      value={postalCode}
-                      onChange={searchPostalCode}
-                      className={classes.input}
-                      type="text"
-                      id="location"
-                      placeholder="e.g : 50100"
-                    ></input>
-                    <Button
-                      onClick={handlePostalValidation}
-                      className={classes["landing-btn"]}
-                      type="submit"
+                  {authCtx.isLoggedIn ? (
+                    <Form
+                      className={classes["landing-page-form"]}
+                      onSubmit={onSubmitHandle}
                     >
-                      Search!
-                    </Button>
-                  </Form>
+                      <h4>Enter a postal code.</h4>
+                      <input
+                        value={postalCode}
+                        onChange={searchPostalCode}
+                        className={classes.input}
+                        type="text"
+                        id="location"
+                        placeholder="e.g : 50100"
+                      ></input>
+                      <Button
+                        onClick={handlePostalValidation}
+                        className={classes["landing-btn"]}
+                        type="submit"
+                      >
+                        Search!
+                      </Button>
+                    </Form>
+                  ) : (
+                    <Form className={classes["landing-page-form"]}>
+                      <h4>
+                        Welcome to Business Solutions Eats! Please login or
+                        register to continue...
+                      </h4>
+                    </Form>
+                  )}
                 </div>
               </h1>
             </div>

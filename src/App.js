@@ -10,6 +10,8 @@ import ErrorPage from "./components/pages/Error";
 import StoreDetails from "./components/pages/StoreDetails";
 import CartContext from "./store/cart-context";
 import CartProvider from "./store/CartProvider";
+import AuthContext from "./store/auth-context";
+import AuthProvider from "./store/AuthProvider";
 import CheckOutPage from "./components/pages/CheckOutPage";
 
 const router = createBrowserRouter([
@@ -39,9 +41,11 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <CartProvider>
-      <RouterProvider router={router} />
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <RouterProvider router={router} />
+      </CartProvider>
+    </AuthProvider>
   );
 }
 
