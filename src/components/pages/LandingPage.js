@@ -115,10 +115,10 @@ const LandingPage = () => {
                     </Form>
                   ) : (
                     <Form className={classes["landing-page-form"]}>
-                      <h4>
+                      <h2>
                         Welcome to Business Solutions Eats! Please login or
                         register to continue...
-                      </h4>
+                      </h2>
                     </Form>
                   )}
                 </div>

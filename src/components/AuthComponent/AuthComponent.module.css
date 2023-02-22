@@ -46,6 +46,11 @@
   .actions {
     text-align: center;
   }
+
+  .btn{
+    border-color: white;
+    background-color: #00a396;
+  }
   
   @media (min-width: 768px) {
     .control {

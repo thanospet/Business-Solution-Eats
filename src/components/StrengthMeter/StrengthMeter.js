@@ -33,7 +33,7 @@ const StrengthMeter = (props) => {
 
   return (
     <Fragment>
-      <div className="text-muted small"> Password Strength</div>
+      <div className="text-muted small"> Password Strength :</div>
       <div
         className={classes[("password-strength-meter", "input")]}
         style={{

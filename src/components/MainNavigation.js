@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classes from "./MainNavigation.module.css";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
@@ -32,6 +32,8 @@ const MainNavigation = () => {
 
   const handleLogout = () => {
     authCtx.onLogout();
+    navigateHome();
+    window.location.reload();
   };
 
   return (
@@ -43,7 +45,7 @@ const MainNavigation = () => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title className="medium">Login your account!</Modal.Title>
+          <Modal.Title className="medium">Login to your account.</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {showLogin ? <AuthComponent /> : <AuthComponent onRegister />}
@@ -52,14 +54,14 @@ const MainNavigation = () => {
         <Modal.Footer className="d-flex justify-content-between">
           <span>
             {" "}
-            <Button className="mx-2" variant="primary" onClick={handleClose}>
+            <Button className="mx-1" variant="light" onClick={handleClose}>
               Close
             </Button>
           </span>
           <span>
             <label>Not a member yet? </label>
             <span> </span>
-            <Button variant="primary" onClick={handleRegister}>
+            <Button variant="secondary" onClick={handleRegister}>
               Register
             </Button>
           </span>
@@ -109,7 +111,6 @@ const MainNavigation = () => {
                       eventKey="logout"
                       onClick={() => {
                         handleLogout();
-                        navigateHome();
                       }}
                     >
                       Logout

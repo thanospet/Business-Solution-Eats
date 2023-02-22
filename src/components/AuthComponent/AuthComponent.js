@@ -11,6 +11,7 @@ const AuthComponent = (props) => {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const authCtx = useContext(AuthContext);
 
@@ -32,8 +33,10 @@ const AuthComponent = (props) => {
 
   const Login = (event) => {
     event.preventDefault();
-
     authCtx.checkAuthentication(email, password);
+    if (authCtx.isLoggedIn) {
+      setShowModal(false);
+    }
   };
 
   const Register = (event) => {
@@ -95,7 +98,7 @@ const AuthComponent = (props) => {
             <div className={classes.actions}>
               <Button
                 type="submit"
-                className={`${classes.btn}`}
+                className={` ${classes.btn}`}
                 onClick={Login}
                 // disabled={!authCtx.formIsValid}
               >
