@@ -16,7 +16,7 @@
   color: rgb(0, 0, 0);
   background-color: rgb(253, 253, 253);
   border-radius: 50%;
-  padding: 0.4em;
+  /* padding: 0.4em; */
 }
 
 .landing-page-form h4 {
@@ -31,6 +31,10 @@
   
 }
 
+.spanButtons{
+  display: flex;
+  justify-content: center;
+}
 
 .input {
   padding: 18px;
@@ -39,11 +43,16 @@
   border-radius: 30px;
   border: 1px solid rgba(182, 182, 182, 0.712);
   font-size:large;
+  cursor: pointer;
 }
 
 
 .landing-btn {
+  display: flex;
+  justify-content: center;
   margin: 1rem;
+  margin-left: 2rem;
+  margin-right: 3rem;
   padding: 10px;
   border-radius: 10px;
   border: 1px solid #00ccbc !important;

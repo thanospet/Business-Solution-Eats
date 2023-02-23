@@ -1,17 +1,39 @@
 import { useReducer } from "react";
 import AuthContext from "./auth-context";
+import axios from "axios";
 
 const defaultAuthState = {
   isLoggedIn: false,
   authToken: null,
   email: null,
-  name: null,
+  firstName: null,
+  lastName: null,
   id: null,
   isLoading: false,
   error: null, // DEN EIMAI BOOL, EIMAI STRING
+  modalShow: false,
 };
 
+console.log("modalShow", defaultAuthState.modalShow);
+const link = "https://localhost:7160";
+
 const authReducer = (state, action) => {
+  if (action.type === "MODAL_SHOW") {
+    console.log("modal SHOW");
+    return {
+      ...state,
+      modalShow: action.item,
+    };
+  }
+
+  if (action.type === "MODAL_CLOSE") {
+    console.log("modal CLOSE");
+    return {
+      ...state,
+      modalShow: action.item,
+    };
+  }
+
   if (action.type === "SIGN_IN_INIT") {
     return {
       ...state,
@@ -32,7 +54,8 @@ const authReducer = (state, action) => {
     return {
       ...state,
       isLoading: false,
-      name: action.item.firstName,
+      firstName: action.item.firstName,
+      lastName: action.item.lastName,
       email: action.item.email,
       id: action.item.id,
       authToken: action.item.token,
@@ -62,11 +85,12 @@ const authReducer = (state, action) => {
     return {
       ...state,
       isLoading: false,
-      name: action.item.firstName,
-      email: action.item.email,
-      id: action.item.id,
-      authToken: action.item.token,
-      isLoggedIn: true,
+      // firstName: action.item.firstName,
+      // lastName: action.item.lastName,
+      // email: action.item.email,
+      // id: action.item.id,
+      // authToken: action.item.token,
+      // isLoggedIn: true,
     };
   }
 
@@ -83,6 +107,12 @@ const AuthProvider = (props) => {
     defaultAuthState
   );
 
+  const handleModalState = (condition) => {
+    dispatchAuthAction({ type: "MODAL_SHOW", item: condition });
+
+    dispatchAuthAction({ type: "MODAL_CLOSE", item: condition });
+  };
+
   const checkUserAuthentication = async (email, password) => {
     // Init sign-in
     dispatchAuthAction({ type: "SIGN_IN_INIT" });
@@ -90,11 +120,10 @@ const AuthProvider = (props) => {
     // Init sign-in request
     try {
       // TODO: Send `email` & `password` to API
-
       // Fake
       const response = {
         id: 1,
-        email: "thanasis@petsas.com",
+        email: email,
         firstName: "Thanasis",
         lastName: "Peja",
         token: "abc1234",
@@ -118,12 +147,21 @@ const AuthProvider = (props) => {
 
       // Fake
       const response = {
-        id: 1,
-        email: "thanasis@petsas.com",
-        firstName: firstName,
-        lastName: "Peja ",
-        token: "abc1234678",
+        email: email,
+        fName: firstName,
+        lName: lastName,
+        phone: "1234567890",
+        password: password,
       };
+
+      axios
+        .post("https://localhost:7160/api/auth/register/registration", response)
+        .then((response) => {
+          console.log("response.data", response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
 
       dispatchAuthAction({ type: "SIGN_UP_SUCCESS", item: response });
     } catch (error) {
@@ -143,6 +181,7 @@ const AuthProvider = (props) => {
     checkAuthentication: checkUserAuthentication,
     registerUser: registerUser,
     onLogout: userLogout,
+    handleModalState: handleModalState,
   };
 
   return (

@@ -11,7 +11,7 @@ const AuthComponent = (props) => {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
 
   const authCtx = useContext(AuthContext);
 
@@ -34,15 +34,13 @@ const AuthComponent = (props) => {
   const Login = (event) => {
     event.preventDefault();
     authCtx.checkAuthentication(email, password);
-    if (authCtx.isLoggedIn) {
-      setShowModal(false);
-    }
+    props.onCloseModal();
   };
 
   const Register = (event) => {
     event.preventDefault();
-
     authCtx.registerUser(email, password, firstName, lastName);
+    props.onCloseModal();
   };
 
   return (
