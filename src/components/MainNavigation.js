@@ -1,41 +1,29 @@
 import React, { useEffect } from "react";
 import classes from "./MainNavigation.module.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import { Modal, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import { useState, useContext } from "react";
 import AuthComponent from "./AuthComponent/AuthComponent";
 import AuthContext from "../store/auth-context";
-import LandingPage from "./pages/LandingPage";
 
 const MainNavigation = () => {
   const authCtx = useContext(AuthContext);
   // const [show, setShow] = useState(false);
-  const [showLogin, setShowLogin] = useState(true);
+
   const navigate = useNavigate();
 
   const navigateHome = () => {
     navigate("/");
   };
 
-  const handleAuthComponent = () => {
-    // setShow(true);
-    authCtx.handleModalState(true);
-  };
-
   const handleClose = () => {
-    setShowLogin(true);
-    // setShow(false);
-    authCtx.handleModalState(false);
-  };
-
-  const handleCloseModal = () => {
-    // setShow(false);
-    authCtx.handleModalState(false);
+    authCtx.toggleShowModal();
+    authCtx.resetShowSignIn();
   };
 
   const handleRegister = () => {
-    setShowLogin(false);
+    authCtx.toggleSignIn();
   };
 
   const handleLogout = () => {
@@ -44,25 +32,30 @@ const MainNavigation = () => {
     window.location.reload();
   };
 
-  console.log("authCtx.isLoggedIn", authCtx.isLoggedIn);
+  // console.log("authCtx.isLoggedIn", authCtx.isLoggedIn);
 
   return (
     <>
       <Modal
-        show={authCtx.modalShow}
+        show={authCtx.modalState.showModal}
         onHide={handleClose}
         backdrop="static"
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title className="medium">Login to your account.</Modal.Title>
+          <Modal.Title className="medium">
+            {authCtx.modalState.showSignIn ? (
+              <span>Login to your account.</span>
+            ) : (
+              <span>Enter your credentials bellow.</span>
+            )}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {showLogin ? (
-            <AuthComponent onCloseModal={handleCloseModal} />
-          ) : (
-            <AuthComponent onCloseModal={handleCloseModal} onRegister />
-          )}
+          <AuthComponent
+            onCloseModal={handleClose}
+            onRegister={!authCtx.modalState.showSignIn}
+          />
         </Modal.Body>
 
         <Modal.Footer className="d-flex justify-content-between">
@@ -72,22 +65,29 @@ const MainNavigation = () => {
               Close
             </Button>
           </span>
-          <span>
-            <label>Not a member yet? </label>
-            <span> </span>
-            <Button variant="secondary" onClick={handleRegister}>
-              Register
+
+          {authCtx.modalState.showSignIn ? (
+            <span>
+              <label>Not a member yet? </label>
+              <span> </span>
+              <Button variant="secondary" onClick={handleRegister}>
+                Register
+              </Button>
+            </span>
+          ) : (
+            <Button variant="secondary" onClick={() => authCtx.toggleSignIn()}>
+              Back
             </Button>
-          </span>
+          )}
         </Modal.Footer>
       </Modal>
       <nav
         id="mainNavbar"
         className={`navbar navbar-dark navbar-expand-md py-0 fixed-top   ${classes.mainNav}`}
       >
-        <a href="/" className={`${classes.bsText}`}>
-          BUSINESS SOLUTION EATS
-        </a>
+        <Link to="/" className={`${classes.bsText}`}>
+          BUSINESS SOLUTIONS EATS
+        </Link>
         <button
           className="navbar-toggler"
           data-toggle="collapse"
@@ -100,17 +100,15 @@ const MainNavigation = () => {
         <div className="collapse navbar-collapse" id="navLinks">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <a href="" className="nav-link text-secondary">
-                ABOUT
-              </a>
+              <a className="nav-link text-secondary">About</a>
             </li>
             <li className="nav-item">
               {!authCtx.isLoggedIn ? (
                 <span
-                  onClick={handleAuthComponent}
+                  onClick={() => authCtx.toggleShowModal()}
                   className={`nav-link text-secondary ${classes.login}`}
                 >
-                  LOGIN
+                  Sign In
                 </span>
               ) : (
                 <>
