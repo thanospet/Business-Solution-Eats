@@ -41,7 +41,7 @@ const StoreDetails = (props) => {
         console.error(err);
       });
 
-    console.log("location");
+    // console.log("location");
   }, []);
 
   const modalHandler = (product) => {

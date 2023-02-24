@@ -1,10 +1,12 @@
 import React from "react";
 import classes from "./LandingPage.module.css";
 import { useNavigate } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import AuthContext from "../../store/auth-context";
-// import GoogleMapComponent from "../GoogleMap/GoogleMapComponent";
+import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
+import GoogleMapComponent from "../GoogleMap/GoogleMapComponent";
 
 import {
   Container,
@@ -27,6 +29,39 @@ const LandingPage = (props) => {
   const pattern = /^[0-9a-zA-Z]+$/;
   const [show, setShow] = useState(false);
   const [showAddressModal, setShowAddressModal] = useState(false);
+
+  useEffect(() => {
+    if (authCtx.registerSuccess) {
+      toast("Registration Successfull!", {
+        type: "success",
+      });
+    }
+  }, [authCtx.registerSuccess]);
+
+  const getAuthFunc = async () => {
+    try {
+      const token = authCtx.authToken;
+
+      const res = await axios.get(
+        "https://localhost:7160/api/GetUserWithAuth/UserAuth",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("AXIOS GET AUTH DATA", res.data);
+      console.log("TOKEN", token);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (authCtx.authToken) {
+      getAuthFunc();
+    }
+  }, [authCtx.authToken]);
+
+  console.log("authCtx.registerSuccess", authCtx.registerSuccess);
 
   const handleClose = () => {
     setShow(false);
@@ -61,7 +96,7 @@ const LandingPage = (props) => {
   };
 
   const onOpenModal = () => {
-    authCtx.handleModalState(true);
+    authCtx.toggleShowModal();
   };
 
   const handleAddAddress = () => {
@@ -73,6 +108,7 @@ const LandingPage = (props) => {
   return (
     <>
       <Container className="">
+        <Toaster />
         <Modal
           //add address modal
           show={showAddressModal}
@@ -84,11 +120,15 @@ const LandingPage = (props) => {
             <Modal.Title></Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            AAAAAAAAAAAAAAAA{/* <GoogleMapComponent /> */}
+            {" "}
+            <GoogleMapComponent />
           </Modal.Body>
           <Modal.Footer>
+            <Form.Group controlId="formAddress">
+              <Form.Control type="text" placeholder="Enter address" value="" />
+            </Form.Group>
             <Button variant="secondary" onClick={handleClose}>
-              AAAAAAA
+              OK
             </Button>
           </Modal.Footer>
         </Modal>
@@ -129,17 +169,9 @@ const LandingPage = (props) => {
                       className={classes["landing-page-form"]}
                       onSubmit={onSubmitHandle}
                     >
-                      {/* <h4>Enter a postal code.</h4>
-                      <input
-                        value={postalCode}
-                        onChange={searchPostalCode}
-                        className={classes.input}
-                        type="text"
-                        id="location"
-                        placeholder="e.g : 50100"
-                      ></input> */}
-
-                      <h4 className="pb-2">Welcome back {authCtx.firstName}</h4>
+                      <h4 className="pb-2">
+                        Welcome back, {authCtx.firstName}
+                      </h4>
                       <select
                         value={postalCode}
                         onChange={searchPostalCode}
@@ -189,12 +221,18 @@ const LandingPage = (props) => {
                   ) : (
                     <Form className={classes["landing-page-form"]}>
                       <h2>
-                        Welcome to Business Solutions Eats! Please login or
-                        register to continue...
+                        Welcome to Business Solutions Eats! Login or register to
+                        continue...
                       </h2>
-                      <Button variant="success" onClick={onOpenModal}>
-                        Add account
-                      </Button>
+                      {authCtx.registerSuccess ? (
+                        <Button variant="warning" onClick={onOpenModal}>
+                          Account set up completed! Login to continue.
+                        </Button>
+                      ) : (
+                        <Button variant="warning" onClick={onOpenModal}>
+                          Add account
+                        </Button>
+                      )}
                     </Form>
                   )}
                 </div>

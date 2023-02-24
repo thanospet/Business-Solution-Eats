@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useState, useReducer } from "react";
 import AuthContext from "./auth-context";
 import axios from "axios";
 
@@ -11,29 +11,19 @@ const defaultAuthState = {
   id: null,
   isLoading: false,
   error: null, // DEN EIMAI BOOL, EIMAI STRING
-  modalShow: false,
+  registerSuccess: false,
+  loginSuccess: false,
 };
 
-console.log("modalShow", defaultAuthState.modalShow);
+const defaultModalState = {
+  showModal: false,
+  showSignIn: true,
+  rememberMe: false,
+};
+
 const link = "https://localhost:7160";
 
 const authReducer = (state, action) => {
-  if (action.type === "MODAL_SHOW") {
-    console.log("modal SHOW");
-    return {
-      ...state,
-      modalShow: action.item,
-    };
-  }
-
-  if (action.type === "MODAL_CLOSE") {
-    console.log("modal CLOSE");
-    return {
-      ...state,
-      modalShow: action.item,
-    };
-  }
-
   if (action.type === "SIGN_IN_INIT") {
     return {
       ...state,
@@ -54,12 +44,15 @@ const authReducer = (state, action) => {
     return {
       ...state,
       isLoading: false,
-      firstName: action.item.firstName,
-      lastName: action.item.lastName,
+      loginSuccess: true,
+      firstName: action.item.userFirstName,
+      lastName: action.item.userLastName,
       email: action.item.email,
-      id: action.item.id,
+      id: action.item.userId,
       authToken: action.item.token,
       isLoggedIn: true,
+      registerSuccess: false,
+      rememberMe: action.item.rememberMe,
     };
   }
 
@@ -82,15 +75,11 @@ const authReducer = (state, action) => {
   }
 
   if (action.type === "SIGN_UP_SUCCESS") {
+    console.log("action.item", action.item);
     return {
       ...state,
       isLoading: false,
-      // firstName: action.item.firstName,
-      // lastName: action.item.lastName,
-      // email: action.item.email,
-      // id: action.item.id,
-      // authToken: action.item.token,
-      // isLoggedIn: true,
+      registerSuccess: action.item,
     };
   }
 
@@ -107,13 +96,27 @@ const AuthProvider = (props) => {
     defaultAuthState
   );
 
-  const handleModalState = (condition) => {
-    dispatchAuthAction({ type: "MODAL_SHOW", item: condition });
+  const [modalState, setModalState] = useState(defaultModalState);
 
-    dispatchAuthAction({ type: "MODAL_CLOSE", item: condition });
-  };
+  const toggleSignIn = () =>
+    setModalState((prev) => ({
+      ...prev,
+      showSignIn: !prev.showSignIn,
+    }));
 
-  const checkUserAuthentication = async (email, password) => {
+  const toggleShowModal = () =>
+    setModalState((prev) => ({
+      ...prev,
+      showModal: !prev.showModal,
+    }));
+
+  const resetShowSignIn = () =>
+    setModalState((prev) => ({
+      ...prev,
+      showSignIn: true,
+    }));
+
+  const checkUserAuthentication = async (email, password, rememberMe) => {
     // Init sign-in
     dispatchAuthAction({ type: "SIGN_IN_INIT" });
 
@@ -121,15 +124,18 @@ const AuthProvider = (props) => {
     try {
       // TODO: Send `email` & `password` to API
       // Fake
-      const response = {
-        id: 1,
+      const payload = {
         email: email,
-        firstName: "Thanasis",
-        lastName: "Peja",
-        token: "abc1234",
+        password: password,
+        rememberMe: rememberMe,
       };
 
-      dispatchAuthAction({ type: "SIGN_IN_SUCCESS", item: response });
+      const res = await axios.post(
+        "https://localhost:7160/api/auth/register/login",
+        payload
+      );
+      console.log("LOGIN RESPONSE", res.data.item);
+      dispatchAuthAction({ type: "SIGN_IN_SUCCESS", item: res.data.item });
     } catch (error) {
       console.error(error);
 
@@ -146,7 +152,7 @@ const AuthProvider = (props) => {
       // TODO: Send `email` & `password` to API
 
       // Fake
-      const response = {
+      const payload = {
         email: email,
         fName: firstName,
         lName: lastName,
@@ -154,16 +160,12 @@ const AuthProvider = (props) => {
         password: password,
       };
 
-      axios
-        .post("https://localhost:7160/api/auth/register/registration", response)
-        .then((response) => {
-          console.log("response.data", response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-
-      dispatchAuthAction({ type: "SIGN_UP_SUCCESS", item: response });
+      const res = await axios.post(
+        "https://localhost:7160/api/auth/register/registration",
+        payload
+      );
+      // console.log("Request response data", res.data);
+      dispatchAuthAction({ type: "SIGN_UP_SUCCESS", item: res.data.value });
     } catch (error) {
       console.error(error);
 
@@ -181,7 +183,10 @@ const AuthProvider = (props) => {
     checkAuthentication: checkUserAuthentication,
     registerUser: registerUser,
     onLogout: userLogout,
-    handleModalState: handleModalState,
+    modalState,
+    toggleSignIn,
+    toggleShowModal,
+    resetShowSignIn,
   };
 
   return (

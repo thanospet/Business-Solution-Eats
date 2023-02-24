@@ -26,7 +26,7 @@ const StrengthMeter = (props) => {
     (value) => value
   ).length;
 
-  console.log("passwordStrength", passwordStrength);
+  // console.log("passwordStrength", passwordStrength);
 
   // let green =
   //   "linear-gradient(90deg, rgba(26,48,14,1) 0%, rgba(65,170,46,1) 50%, rgba(0,251,155,1) 100%)";
