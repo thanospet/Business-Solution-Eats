@@ -90,11 +90,17 @@ const FormAddress = (props, apiKey) => {
     }
   }, [marker]);
 
-  const parts = address.split(/(\d+\s*\d{0,3})/); // split by one or more digits, optionally followed by whitespace and more digits
+  const parts = address.split(/(\d+\s*,?\s*\d{0,3})/); // split by one or more digits, optionally followed by whitespace and more digits
   const formattedParts = parts
     .map((part) => part.trim())
     .filter((part) => part !== ""); // remove leading/trailing whitespace and empty parts
   console.log("formattedParts", formattedParts); // output: ["Ptolemeou", "46", "Kavala", "653 02", "Greece"]
+
+  // const parts = address.split(/(\d+\s*\d{0,3}\D+)/); // split by one or more digits, optionally followed by whitespace and more digits, but only if they are followed by non-digits
+  // const formattedParts = parts
+  //   .map((part) => part.trim())
+  //   .filter((part) => part !== ""); // remove leading/trailing whitespace and empty parts
+  // console.log("formattedParts", formattedParts);
 
   //-----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -171,11 +177,10 @@ const FormAddress = (props, apiKey) => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    props.getAddresses();
     resetFields();
     setShow(true);
     setIsSubmitting(true);
-    navigateHome();
+    props.onNavigateHome();
     props.onCloseModal();
 
     try {

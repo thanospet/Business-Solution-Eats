@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./LandingPage.module.css";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useState, useContext, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import AuthContext from "../../store/auth-context";
@@ -25,11 +26,16 @@ const LandingPage = (props) => {
   const [postalCode, setPostalCode] = useState("");
   const [isPostalValid, setIsPostalValid] = useState(false);
   const [error, setError] = useState("");
-  const navigate = useNavigate();
   const cartCtx = useContext(CartContext);
   const pattern = /^[0-9a-zA-Z]+$/;
   const [show, setShow] = useState(false);
   const [showAddressModal, setShowAddressModal] = useState(false);
+  const [addresses, setAddresses] = useState();
+  const navigate = useNavigate();
+  const navigateHome = () => {
+    console.log("KALESTIKA navigateHome");
+    navigate("/");
+  };
 
   useEffect(() => {
     if (authCtx.registerSuccess) {
@@ -39,21 +45,6 @@ const LandingPage = (props) => {
     }
   }, [authCtx.registerSuccess]);
 
-  const getAddresses = async () => {
-    //paw na kane get sto add address den yparxoun akoma omws address mallon giauto exw error
-    try {
-      const token = authCtx.authToken;
-      const res = await axios.get(
-        "https://localhost:7160/api/Address/address",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      console.log("Response from get address", res.data.item);
-    } catch (error) {
-      console.error(error);
-    }
-  };
   const getAuthFunc = async () => {
     try {
       const token = authCtx.authToken;
@@ -98,9 +89,6 @@ const LandingPage = (props) => {
       );
     }
   };
-
-  console.log("postalCode", postalCode);
-  console.log("type of postalCode", typeof postalCode);
   const onSubmitHandle = (event) => {
     event.preventDefault();
     if (isPostalValid) {
@@ -123,6 +111,24 @@ const LandingPage = (props) => {
     setShowAddressModal(false);
   };
 
+  // get user addresses
+
+  const fetchAddresses = async () => {
+    const token = authCtx.authToken;
+    try {
+      const res = await axios.get(
+        "https://localhost:7160/api/Address/Addresses",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("ADDRESSES", res.data.items);
+      setAddresses(res.data.items);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   console.log("authCtx", authCtx);
 
   return (
@@ -143,8 +149,8 @@ const LandingPage = (props) => {
               <Modal.Body>
                 {" "}
                 <FormAddress
-                  getAddresses={getAddresses}
                   onCloseModal={closeModal}
+                  onNavigateHome={navigateHome}
                 />
               </Modal.Body>
             </Col>
@@ -196,12 +202,24 @@ const LandingPage = (props) => {
                       <select
                         value={postalCode}
                         onChange={searchPostalCode}
+                        onClick={fetchAddresses}
                         className={classes.input}
                         id="location"
                       >
-                        <option value="">Select a postal code</option>
-                        <option value="50100">50100</option>
-                        <option value="65302">65302</option>
+                        <option value="">Select an address</option>
+                        {addresses &&
+                          addresses.map((address) => {
+                            return (
+                              <option value={`${address.postalCodeId}`}>
+                                {address.city}
+                                <span> </span>
+                                {address.streetName}
+                                <span> </span>
+                                {address.postalCodeId}
+                                <span> </span>
+                              </option>
+                            );
+                          })}
                       </select>
                       <span className={`${classes.spanButtons}`}>
                         <Button
