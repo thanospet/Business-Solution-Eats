@@ -76,3 +76,10 @@
   0 4px 15px 0px #ccc,
   0 99px 5px 0px #fff;
 }
+
+.footerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+}

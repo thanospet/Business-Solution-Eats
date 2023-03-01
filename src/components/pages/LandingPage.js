@@ -6,8 +6,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import AuthContext from "../../store/auth-context";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
-import GoogleMapComponent from "../GoogleMap/GoogleMapComponent";
-
+// import GoogleMapComponent from "../FormAddress/GoogleMapComponent";
 import {
   Container,
   Row,
@@ -18,9 +17,11 @@ import {
   Modal,
 } from "react-bootstrap";
 import CartContext from "../../store/cart-context";
+import FormAddress from "../FormAddress/FormAddress";
 
 const LandingPage = (props) => {
   const authCtx = useContext(AuthContext);
+  const [googleMapAddress, setGoogleMapAddress] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [isPostalValid, setIsPostalValid] = useState(false);
   const [error, setError] = useState("");
@@ -38,6 +39,21 @@ const LandingPage = (props) => {
     }
   }, [authCtx.registerSuccess]);
 
+  const getAddresses = async () => {
+    //paw na kane get sto add address den yparxoun akoma omws address mallon giauto exw error
+    try {
+      const token = authCtx.authToken;
+      const res = await axios.get(
+        "https://localhost:7160/api/Address/address",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("Response from get address", res.data.item);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const getAuthFunc = async () => {
     try {
       const token = authCtx.authToken;
@@ -103,34 +119,39 @@ const LandingPage = (props) => {
     setShowAddressModal(true);
   };
 
+  const closeModal = () => {
+    setShowAddressModal(false);
+  };
+
   console.log("authCtx", authCtx);
 
   return (
     <>
-      <Container className="">
+      <Container>
         <Toaster />
         <Modal
           //add address modal
           show={showAddressModal}
           onHide={handleClose}
-          backdrop="static"
+          // backdrop="static"
           keyboard={false}
+          size="lg"
         >
-          <Modal.Header>
-            <Modal.Title></Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {" "}
-            <GoogleMapComponent />
-          </Modal.Body>
-          <Modal.Footer>
-            <Form.Group controlId="formAddress">
-              <Form.Control type="text" placeholder="Enter address" value="" />
-            </Form.Group>
-            <Button variant="secondary" onClick={handleClose}>
-              OK
-            </Button>
-          </Modal.Footer>
+          <Row>
+            <Col className="col-12">
+              {" "}
+              <Modal.Body>
+                {" "}
+                <FormAddress
+                  getAddresses={getAddresses}
+                  onCloseModal={closeModal}
+                />
+              </Modal.Body>
+            </Col>
+          </Row>
+          <Row>
+            <Col className="col-12 px-4"> </Col>
+          </Row>
         </Modal>
 
         <Modal

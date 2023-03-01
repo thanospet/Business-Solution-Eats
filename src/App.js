@@ -5,7 +5,6 @@ import RootLayout from "./components/pages/Root";
 import LandingPage from "./components/pages/LandingPage";
 import AvailableStores from "./components/pages/AvailableStores";
 import StoresDescription from "./components/pages/StoresDescription";
-import ProductInfoModal from "./components/UI/ProductInfoModal";
 import ErrorPage from "./components/pages/Error";
 import StoreDetails from "./components/pages/StoreDetails";
 import CartContext from "./store/cart-context";

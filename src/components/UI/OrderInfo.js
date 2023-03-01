@@ -206,7 +206,7 @@ const OrderInfo = () => {
       <Form onSubmit={submitHandler}>
         <Row className={`${classes.orderInfo}`}>
           <Col className="col-12 p-2">
-            <Dropdown className={classes.button}>
+            <Dropdown className={classes.dropdown}>
               <DropdownButton
                 id="dropdown-basic-button"
                 variant="secondary"
