@@ -22,7 +22,7 @@ const StoreDetails = (props) => {
   const params = useParams();
   const storeInfoId = params?.storeId;
 
-  const link = "https://localhost:7160";
+  const link = "http://localhost:7160";
 
   useEffect(() => {
     window.scrollTo(0, 0);

@@ -26,7 +26,7 @@ const ModalProduct = (props) => {
   const [optionCategories, setOptionCategories] = useState([]);
   const [extraPrice, setExtraPrice] = useState(0);
 
-  const link = "https://localhost:7160";
+  const link = "http://localhost:7160";
 
   useEffect(() => {
     axios

@@ -24,7 +24,7 @@ const AvailableStores = (props) => {
 
   const dataPostal = params?.postal;
   console.log(dataPostal);
-  const link = "https://localhost:7160";
+  const link = "http://localhost:7160";
 
   useEffect(() => {
     console.log("location", location);

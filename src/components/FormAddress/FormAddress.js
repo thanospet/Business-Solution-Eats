@@ -105,7 +105,7 @@ const FormAddress = (props, apiKey) => {
   //-----------------------------------------------------------------------------------------------------------------------------------------
 
   const pattern = /^[0-9a-zA-Z]*$/;
-  const link = "https://localhost:7160";
+  const link = "http://localhost:7160";
 
   const allitems = cartCtx.items;
   console.log("allitems", allitems);
@@ -196,7 +196,7 @@ const FormAddress = (props, apiKey) => {
       };
 
       const res = await axios.post(
-        "https://localhost:7160/api/Address/address",
+        "http://localhost:7160/api/Address/address",
         payload,
         {
           headers: { Authorization: `Bearer ${token}` },

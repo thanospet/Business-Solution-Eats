@@ -41,7 +41,7 @@ const OrderInfo = () => {
 
   const pattern = /^[0-9a-zA-Z]*$/;
 
-  const link = "https://localhost:7160";
+  const link = "http://localhost:7160";
 
   const currentPostal = cartCtx.postalCode;
   const allitems = cartCtx.items;
@@ -161,7 +161,7 @@ const OrderInfo = () => {
     setIsSubmitting(true);
 
     axios
-      .post("https://localhost:7160/api/Order/order", payload)
+      .post("http://localhost:7160/api/Order/order", payload)
       .then((response) => {
         console.log(response.data);
         setIsSubmitting(false);

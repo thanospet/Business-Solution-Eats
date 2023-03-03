@@ -30,7 +30,9 @@ const LandingPage = (props) => {
   const pattern = /^[0-9a-zA-Z]+$/;
   const [show, setShow] = useState(false);
   const [showAddressModal, setShowAddressModal] = useState(false);
-  const [addresses, setAddresses] = useState();
+  const [addresses, setAddresses] = useState([]);
+  const [selectedAddress, setSelectedAddresses] = useState();
+  const location = useLocation();
   const navigate = useNavigate();
   const navigateHome = () => {
     console.log("KALESTIKA navigateHome");
@@ -50,7 +52,7 @@ const LandingPage = (props) => {
       const token = authCtx.authToken;
 
       const res = await axios.get(
-        "https://localhost:7160/api/GetUserWithAuth/UserAuth",
+        "http://localhost:7160/api/GetUserWithAuth/UserAuth",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -100,6 +102,7 @@ const LandingPage = (props) => {
   };
 
   const onOpenModal = () => {
+    fetchAddresses();
     authCtx.toggleShowModal();
   };
 
@@ -111,13 +114,17 @@ const LandingPage = (props) => {
     setShowAddressModal(false);
   };
 
+  const handleSelectedAddress = () => {
+    setSelectedAddresses();
+  };
+
   // get user addresses
 
   const fetchAddresses = async () => {
     const token = authCtx.authToken;
     try {
       const res = await axios.get(
-        "https://localhost:7160/api/Address/Addresses",
+        "http://localhost:7160/api/Address/Addresses",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -128,6 +135,13 @@ const LandingPage = (props) => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    console.log("location", location);
+    if (location.pathname === `/` && authCtx.isLoggedIn) {
+      fetchAddresses();
+    }
+  }, [location, authCtx.isLoggedIn]);
 
   console.log("authCtx", authCtx);
 
@@ -202,24 +216,33 @@ const LandingPage = (props) => {
                       <select
                         value={postalCode}
                         onChange={searchPostalCode}
-                        onClick={fetchAddresses}
+                        onClick={() => {}}
                         className={classes.input}
                         id="location"
                       >
-                        <option value="">Select an address</option>
-                        {addresses &&
-                          addresses.map((address) => {
-                            return (
-                              <option value={`${address.postalCodeId}`}>
-                                {address.city}
-                                <span> </span>
-                                {address.streetName}
-                                <span> </span>
-                                {address.postalCodeId}
-                                <span> </span>
-                              </option>
-                            );
-                          })}
+                        <option value="">
+                          {selectedAddress
+                            ? selectedAddress
+                            : "Select an address"}
+                        </option>
+
+                        {addresses.map((address, idx) => {
+                          //alliws kanei map undefined
+                          return (
+                            <option
+                              key={idx}
+                              value={address.postalCodeId}
+                              onClick={() => handleSelectedAddress(address)}
+                            >
+                              {address.city}
+                              <span> </span>
+                              {address.streetName}
+                              <span> </span>
+                              {address.postalCodeId}
+                              <span> </span>
+                            </option>
+                          );
+                        })}
                       </select>
                       <span className={`${classes.spanButtons}`}>
                         <Button

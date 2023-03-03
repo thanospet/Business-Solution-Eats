@@ -21,7 +21,7 @@ const defaultModalState = {
   rememberMe: false,
 };
 
-const link = "https://localhost:7160";
+const link = "http://localhost:7160/";
 
 const authReducer = (state, action) => {
   if (action.type === "SIGN_IN_INIT") {
@@ -131,7 +131,7 @@ const AuthProvider = (props) => {
       };
 
       const res = await axios.post(
-        "https://localhost:7160/api/auth/register/login",
+        "http://localhost:7160/api/auth/register/login",
         payload
       );
       console.log("LOGIN RESPONSE", res.data.item);
@@ -161,7 +161,7 @@ const AuthProvider = (props) => {
       };
 
       const res = await axios.post(
-        "https://localhost:7160/api/auth/register/registration",
+        "http://localhost:7160/api/auth/register/registration",
         payload
       );
       // console.log("Request response data", res.data);
