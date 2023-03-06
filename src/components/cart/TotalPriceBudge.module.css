@@ -2,7 +2,6 @@
   margin-left: 100px;
   width: 50%;
   margin: 1rem;
-  cursor: pointer;
   font: inherit;
   border: none;
   background-color: #00ccbc;
@@ -11,7 +10,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  border-radius: 12px;
+  border-radius: 10px;
   font-weight: bold;
   font-size: 1.2rem;
 }

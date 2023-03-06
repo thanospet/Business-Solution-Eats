@@ -166,7 +166,7 @@ const ModalProduct = (props) => {
               <Row className="">
                 <FormLabel
                   key={ingredient.id}
-                  className="form-check-label px-1 d-flex align-items-center"
+                  className="form-check-label px-3 d-flex align-items-center"
                 >
                   <input
                     onChange={() => {
@@ -176,6 +176,7 @@ const ModalProduct = (props) => {
                     name="flexRadioDefault"
                     id="flexRadioDefault1"
                     className="form-radio-input me-3"
+                    defaultChecked={ingredient === group.ingredients[0]} //to prwto apo ola ta ingredients tou radio checked
                   />
                   <div className="d-inline-block me-3">
                     <span className="fw-bold">
@@ -185,7 +186,7 @@ const ModalProduct = (props) => {
                     {ingredient.ingredientPrice === 0 ? (
                       <span> </span>
                     ) : (
-                      <span>${ingredient.ingredientPrice}</span>
+                      <span>${ingredient.ingredientPrice.toFixed(2)}</span>
                     )}
                   </div>
                 </FormLabel>
@@ -218,7 +219,7 @@ const ModalProduct = (props) => {
                 {ingredient.ingredientPrice === 0 ? (
                   <span> </span>
                 ) : (
-                  <span>${ingredient.ingredientPrice}</span>
+                  <span>${ingredient.ingredientPrice.toFixed(2)}</span>
                 )}
               </div>
             </label>

@@ -114,7 +114,7 @@ const StoreDetails = (props) => {
                                     {product.title}
                                   </Row>
                                   <Row className="text-muted small">
-                                    from: ${product.price}
+                                    from: ${product.price.toFixed(2)}
                                   </Row>
                                 </Col>
 
