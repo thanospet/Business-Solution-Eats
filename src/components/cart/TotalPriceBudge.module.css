@@ -1,15 +1,17 @@
 .div {
-    margin: 1rem;
-    cursor: pointer;
-    font: inherit;
-    border: none;
-    background-color: #22aaa38c;
-    color: white;
-    padding: 0.75rem 3rem;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border-radius: 12px;
-    font-weight: bold;
-  }
-  
+  margin-left: 100px;
+  width: 50%;
+  margin: 1rem;
+  cursor: pointer;
+  font: inherit;
+  border: none;
+  background-color: #00ccbc;
+  color: rgb(255, 255, 255);
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 1.2rem;
+}

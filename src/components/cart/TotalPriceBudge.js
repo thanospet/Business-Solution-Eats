@@ -1,11 +1,9 @@
 import { useContext } from "react";
 import classes from "./TotalPriceBudge.module.css";
 import "bootstrap/dist/css/bootstrap.css";
-import { Badge, Button } from "react-bootstrap";
 import CartContext from "../../store/cart-context";
-import { useNavigate } from "react-router-dom";
 
-const TotalPriceBudge = (props) => {
+const TotalPriceBudge = () => {
   const cartCtx = useContext(CartContext);
 
   const totalPrice = cartCtx.items.reduce((curPrice, item) => {

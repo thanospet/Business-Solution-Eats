@@ -7,6 +7,7 @@ import { Container, Row, Col, Form, Button, Badge } from "react-bootstrap";
 import CartOrderBadge from "./CartOrderBadge";
 import EmptyCart from "../UI/EmptyCart";
 import { useEffect } from "react";
+import TotalPriceBudge from "../cart/TotalPriceBudge";
 
 const Cart = (props) => {
   const cartCtx = useContext(CartContext);
@@ -114,6 +115,12 @@ const Cart = (props) => {
             );
           })}
         </Row>
+        <Row className={classes.rowTotalPrice}>
+          {" "}
+          {props.forCheckOut && (
+            <TotalPriceBudge className={` ${classes.totalPriceBudge}`} />
+          )}
+        </Row>
 
         {badgeIsShown && (
           <Row className="d-flex justify-content-start py-4 ">
@@ -121,14 +128,7 @@ const Cart = (props) => {
               <Row className="d-flex align-items-center justify-content-center">
                 <Col className="d-flex align-items-center justify-content-center col-12">
                   <Row>
-                    <Col className="col-12 d-flex align-items-center justify-content-center">
-                      {/* <Button
-                        className={classes.clearBtn}
-                        onClick={() => cartCtx.clearCart()}
-                      >
-                        Clear all
-                      </Button> */}
-                    </Col>
+                    <Col className="col-12 d-flex align-items-center justify-content-center"></Col>
                     <Col
                       className={`col-12 d-flex align-items-center justify-content-center fixed-bottom ${classes.cartOrderBadge}`}
                     >

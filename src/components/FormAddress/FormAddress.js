@@ -41,6 +41,7 @@ const FormAddress = (props, apiKey) => {
   const [isFloorValid, setIsFloorValid] = useState(false);
   const [isDoorbellValid, setIsDoorbellValid] = useState(false);
   const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
+  const [apiLoaded, setApiLoaded] = useState(false);
   const navigate = useNavigate();
   const navigateHome = () => {
     console.log("KALESTIKA navigateHome");
@@ -96,12 +97,6 @@ const FormAddress = (props, apiKey) => {
     .filter((part) => part !== ""); // remove leading/trailing whitespace and empty parts
   console.log("formattedParts", formattedParts); // output: ["Ptolemeou", "46", "Kavala", "653 02", "Greece"]
 
-  // const parts = address.split(/(\d+\s*\d{0,3}\D+)/); // split by one or more digits, optionally followed by whitespace and more digits, but only if they are followed by non-digits
-  // const formattedParts = parts
-  //   .map((part) => part.trim())
-  //   .filter((part) => part !== ""); // remove leading/trailing whitespace and empty parts
-  // console.log("formattedParts", formattedParts);
-
   //-----------------------------------------------------------------------------------------------------------------------------------------
 
   const pattern = /^[0-9a-zA-Z]*$/;
@@ -131,9 +126,20 @@ const FormAddress = (props, apiKey) => {
     }
   };
 
-  const handleGoogleAddress = (address) => {
-    setIsAddressValid(address.length > 0);
-    console.log("setIsAddressValid");
+  const handleGoogleAddress = (event) => {
+    setAddress(event.target.value);
+    if (map && apiLoaded && window.google.maps.places) {
+      const autocomplete = new window.google.maps.places.Autocomplete(
+        event.target,
+        { types: ["address"] }
+      );
+      autocomplete.addListener("place_changed", () => {
+        const place = autocomplete.getPlace();
+        setAddress(place.formatted_address);
+        map.setCenter(place.geometry.location);
+        marker.setPosition(place.geometry.location);
+      });
+    }
   };
 
   const handleChangeDoorbell = (event) => {
@@ -231,6 +237,7 @@ const FormAddress = (props, apiKey) => {
             <Form className={classes.text}>
               <FormLabel className=" px-1 fw-bold">Address Name</FormLabel>
               <FormControl
+                id="address-input"
                 onChange={handleGoogleAddress}
                 value={address}
                 type="text"

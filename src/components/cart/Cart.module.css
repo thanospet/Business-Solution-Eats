@@ -11,8 +11,6 @@
 
 .itemNotes{
     color: rgba(0, 0, 0, 0.788);
-
-  
 }
 .cartBtn:hover{
     background-color: #00a396 !important;
@@ -47,6 +45,12 @@
   transform: translateZ(0) scale(1);
   transition: transform .2s;
   touch-action: manipulation;
+}
+
+.rowTotalPrice{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .clearBtn:not(:disabled):hover {
