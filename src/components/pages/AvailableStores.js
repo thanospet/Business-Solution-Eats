@@ -100,36 +100,24 @@ const AvailableStores = (props) => {
                   {" "}
                   <Row key={store.id}>
                     <Col className="col-12">
-                      <CardWrap>
-                        <div
-                          className={classes.stores}
-                          onClick={() => onCardClick(store.id)}
-                        >
-                          <Card key={store.id}>
-                            <span></span>
-                            <span className={classes.imageContainer}>
-                              <img
-                                src={store.logo_icon}
-                                alt=""
-                                height={100}
-                                width={100}
-                                fluid
-                                onLoad={handleImageLoad}
-                                className={
-                                  imageLoading
-                                    ? classes.spinner
-                                    : classes.imageContainer
-                                }
-                              />{" "}
-                              <span className={classes.storeTitle}>
-                                {store.title}
-                              </span>
-                            </span>
-                          </Card>
-
-                          <Card className={classes.mainCard}>
-                            <span className={classes.textCategory}>
-                              {store.masterProductCategory}{" "}
+                      {/* <CardWrap> */}
+                      <div
+                        className={classes.stores}
+                        onClick={() => onCardClick(store.id)}
+                      >
+                        <Card key={store.id}>
+                          {" "}
+                          <span>
+                            <img
+                              className={classes.imageContainer}
+                              src={store.logo_icon}
+                              alt=""
+                              onLoad={handleImageLoad}
+                            />
+                          </span>
+                          <Row>
+                            <span className={classes.storeTitle}>
+                              {store.title}
                             </span>
                             <span className={`"${classes.text}`}>
                               Estimated Time: {store.averageDeliveryTime}{" "}
@@ -138,9 +126,10 @@ const AvailableStores = (props) => {
                               {" "}
                               Minimum order: ${store.minimumOrderPrice}{" "}
                             </span>
-                          </Card>
-                        </div>
-                      </CardWrap>
+                          </Row>
+                        </Card>
+                      </div>
+                      {/* </CardWrap> */}
                     </Col>
                   </Row>
                 </>
