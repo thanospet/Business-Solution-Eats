@@ -12,6 +12,7 @@ import CartProvider from "./store/CartProvider";
 import AuthContext from "./store/auth-context";
 import AuthProvider from "./store/AuthProvider";
 import CheckOutPage from "./components/pages/CheckOutPage";
+import ThankYouPage from "./components/pages/ThankYouPage";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/check-out-page",
         element: <CheckOutPage />,
+      },
+      {
+        path: "/thank-you-page",
+        element: <ThankYouPage />,
       },
     ],
   },

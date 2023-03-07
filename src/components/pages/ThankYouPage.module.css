@@ -1,0 +1,25 @@
+.main{
+    margin: 0;
+    min-height: 100vh;
+}
+
+.rowText{
+    color: black;
+    font-size:5rem;
+    margin-bottom: 1rem;
+}
+
+.backBtn{
+    margin-top: 1rem;
+    text-decoration: underline;
+    border: none;
+    background-color: transparent;
+    color: rgb(0, 0, 0);
+    font-size: x-large;
+}
+
+.backBtn:hover{
+    text-decoration: none;
+    background-color: #00ccbc;
+    color: rgb(0, 0, 0);
+}

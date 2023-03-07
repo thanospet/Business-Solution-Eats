@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import classes from "./OrderInfo.module.css";
 import "bootstrap/dist/css/bootstrap.css";
 import CartContext from "../../store/cart-context";
+import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import {
   Row,
@@ -35,8 +36,12 @@ const OrderInfo = () => {
   const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
   const [isPaymentMethodValid, setIsPaymentMethodValid] = useState(false);
   const navigate = useNavigate();
+
   const navigateHome = () => {
     navigate("/");
+  };
+  const navigateThankYouPage = () => {
+    navigate("/thank-you-page");
   };
 
   const pattern = /^[0-9a-zA-Z]*$/;
@@ -169,8 +174,11 @@ const OrderInfo = () => {
       .catch((error) => {
         console.error(error);
         setIsSubmitting(false);
+        toast("Order Failed", {
+          type: "danger",
+        });
       });
-
+    navigateThankYouPage();
     console.log("data", payment);
     console.log("totalPrice", totalPrice);
   };
@@ -203,6 +211,7 @@ const OrderInfo = () => {
           )}
         </Modal.Footer>
       </Modal>
+      <Toaster />
       <Form onSubmit={submitHandler}>
         <Row className={`${classes.orderInfo}`}>
           <Col className="col-12 p-2">

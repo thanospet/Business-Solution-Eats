@@ -14,10 +14,9 @@ const AvailableStores = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
   const params = useParams();
-  const navigate = useNavigate();
   const cartCtx = useContext(CartContext);
   const location = useLocation();
-
+  const navigate = useNavigate();
   const navigateHome = () => {
     navigate("/");
   };
