@@ -104,13 +104,21 @@ const OrderInfo = () => {
   const submitHandler = (event) => {
     event.preventDefault();
 
+    const configToken = {
+      headers: {
+        Authorization: `Bearer ${authCtx.authToken}`,
+      },
+    };
+
+    console.log("orderCtx.selectedAddress.id", orderCtx.selectedAddress.id);
+    console.log("authToken", authCtx.authToken);
+
     const payload = {
       storeId: 1,
       paymentCodeId: payment,
       totalCost: totalPrice.toFixed(2),
-      floor: orderCtx.floor,
-      contactPhoneNum: authCtx.phoneNumber,
-      doorBellName: orderCtx.doorbell,
+      addressId: 12,
+      contactPhoneNum: authCtx.phone,
       notes: notes,
       estimatedDeliveryTime: 40,
       products: allitems.map((product) => {
@@ -126,7 +134,7 @@ const OrderInfo = () => {
     setIsSubmitting(true);
 
     axios
-      .post("http://localhost:7160/api/Order/order", payload)
+      .post("http://localhost:7160/api/Order/order", payload, configToken)
       .then((response) => {
         console.log(response.data);
         setIsSubmitting(false);
