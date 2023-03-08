@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { useState, useContext, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import AuthContext from "../../store/auth-context";
+import OrderContext from "../../store/order-context";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 // import GoogleMapComponent from "../FormAddress/GoogleMapComponent";
@@ -16,12 +17,15 @@ import {
   Form,
   Button,
   Modal,
+  Dropdown,
+  DropdownButton,
 } from "react-bootstrap";
 import CartContext from "../../store/cart-context";
 import FormAddress from "../FormAddress/FormAddress";
 
 const LandingPage = (props) => {
   const authCtx = useContext(AuthContext);
+  const orderCtx = useContext(OrderContext);
   const [googleMapAddress, setGoogleMapAddress] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [isPostalValid, setIsPostalValid] = useState(false);
@@ -38,6 +42,8 @@ const LandingPage = (props) => {
     console.log("KALESTIKA navigateHome");
     navigate("/");
   };
+
+  console.log(postalCode);
 
   useEffect(() => {
     if (authCtx.registerSuccess) {
@@ -70,35 +76,34 @@ const LandingPage = (props) => {
     }
   }, [authCtx.authToken]);
 
-  console.log("authCtx.registerSuccess", authCtx.registerSuccess);
+  // console.log("authCtx.registerSuccess", authCtx.registerSuccess);
 
   const handleClose = () => {
     setShow(false);
     setShowAddressModal(false);
   };
 
-  const searchPostalCode = (event) => {
-    setPostalCode(event.target.value);
-  };
-
   const handlePostalValidation = () => {
-    if (postalCode.length === 5 && pattern.test(postalCode)) {
+    if (postalCode) {
       setIsPostalValid(true);
       setError("");
     } else {
+      setShow(true);
+      setIsPostalValid(false);
       setError(
         "Postal code must be 5 characters long and can only contain letters and numbers."
       );
     }
   };
   const onSubmitHandle = (event) => {
+    console.log("isPostalValid", isPostalValid);
     event.preventDefault();
-    if (isPostalValid) {
-      cartCtx.addPostal(postalCode);
-      navigate(`/available-stores/${postalCode}`);
-    } else {
-      setShow(true);
-    }
+    // if (isPostalValid) {
+    cartCtx.addPostal(postalCode);
+    navigate(`/available-stores/${postalCode}`);
+    // } else {
+    //   setShow(true);
+    // }
   };
 
   const onOpenModal = () => {
@@ -114,14 +119,29 @@ const LandingPage = (props) => {
     setShowAddressModal(false);
   };
 
-  const handleSelectedAddress = () => {
-    setSelectedAddresses();
+  const handleDropDown = (address) => {
+    setSelectedAddresses(address);
+    setPostalCode(address.postalCodeId);
+    orderCtx.selectAddressOrder(address);
+    console.log("address", address);
+    console.log("postalCodeId", address.postalCodeId);
   };
+
+  // const searchPostalCode = (event) => {
+  //   setPostalCode(event.target.value);
+  // };
+
+  // const handleSelectedAddress = (address) => {
+  //   console.log("address handle select dropdown", address);
+  //   setSelectedAddresses(address);
+  //   // orderCtx.selectAddressOrder()
+  // };
 
   // get user addresses
 
   const fetchAddresses = async () => {
     const token = authCtx.authToken;
+
     try {
       const res = await axios.get(
         "http://localhost:7160/api/Address/Addresses",
@@ -140,10 +160,12 @@ const LandingPage = (props) => {
     console.log("location", location);
     if (location.pathname === `/` && authCtx.isLoggedIn) {
       fetchAddresses();
+      orderCtx.addAddressOrder(addresses);
     }
   }, [location, authCtx.isLoggedIn]);
 
   console.log("authCtx", authCtx);
+  console.log("orderCtx", orderCtx);
 
   return (
     <>
@@ -213,26 +235,23 @@ const LandingPage = (props) => {
                       <h4 className="pb-2">
                         Welcome back, {authCtx.firstName}
                       </h4>
-                      <select
-                        value={postalCode}
-                        onChange={searchPostalCode}
-                        onClick={() => {}}
-                        className={classes.input}
-                        id="location"
-                      >
-                        <option value="">
-                          {selectedAddress
-                            ? selectedAddress
-                            : "Select an address"}
-                        </option>
 
+                      <DropdownButton
+                        title={
+                          selectedAddress
+                            ? `${selectedAddress.streetName} ${selectedAddress.postalCodeId}`
+                            : "Select an address"
+                        }
+                        variant="outline-secondary"
+                      >
                         {addresses.map((address, idx) => {
-                          //alliws kanei map undefined
                           return (
-                            <option
+                            <Dropdown.Item
                               key={idx}
-                              value={address.postalCodeId}
-                              onClick={() => handleSelectedAddress(address)}
+                              eventKey={address.postalCodeId}
+                              onClick={() => {
+                                handleDropDown(address);
+                              }}
                             >
                               {address.city}
                               <span> </span>
@@ -240,10 +259,10 @@ const LandingPage = (props) => {
                               <span> </span>
                               {address.postalCodeId}
                               <span> </span>
-                            </option>
+                            </Dropdown.Item>
                           );
                         })}
-                      </select>
+                      </DropdownButton>
                       <span className={`${classes.spanButtons}`}>
                         <Button
                           onClick={handleAddAddress}
@@ -272,7 +291,10 @@ const LandingPage = (props) => {
                           Add address
                         </Button>
                         <Button
-                          onClick={handlePostalValidation}
+                          onClick={(event) => {
+                            handlePostalValidation();
+                            onSubmitHandle(event);
+                          }}
                           className={classes["landing-btn"]}
                           type="submit"
                         >

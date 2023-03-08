@@ -40,7 +40,6 @@ const FormAddress = (props, apiKey) => {
   const [isAddressValid, setIsAddressValid] = useState(false);
   const [isFloorValid, setIsFloorValid] = useState(false);
   const [isDoorbellValid, setIsDoorbellValid] = useState(false);
-  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
   const [apiLoaded, setApiLoaded] = useState(false);
   const navigate = useNavigate();
   const navigateHome = () => {
@@ -103,8 +102,8 @@ const FormAddress = (props, apiKey) => {
   const link = "http://localhost:7160";
 
   const allitems = cartCtx.items;
-  console.log("allitems", allitems);
-  console.log("address", address);
+  // console.log("allitems", allitems);
+  // console.log("address", address);
 
   useEffect(() => {
     axios
@@ -112,7 +111,7 @@ const FormAddress = (props, apiKey) => {
       .then(function (res) {
         const methodsArray = res.data.item.paymentMethods;
         setPaymentMethods(methodsArray);
-        console.log("res.data.item", res.data.item.paymentMethods);
+        // console.log("res.data.item", res.data.item.paymentMethods);
       })
       .catch((err) => {
         console.error(err);
@@ -148,13 +147,6 @@ const FormAddress = (props, apiKey) => {
       setIsDoorbellValid(event.target.value.length > 0);
     }
   };
-  const handleChangePhoneNumber = (event) => {
-    const inputPhoneNumber = event.target.value;
-    if (/^\d{0,10}$/.test(inputPhoneNumber)) {
-      setPhoneNumber(inputPhoneNumber);
-      setIsPhoneNumberValid(inputPhoneNumber.length === 10);
-    }
-  };
   const handleChangeNotes = (event) => {
     if (event.target.value.length < 100) setFriendlyName(event.target.value);
   };
@@ -163,16 +155,13 @@ const FormAddress = (props, apiKey) => {
     if (
       // isAddressValid &&
       isFloorValid &&
-      isDoorbellValid &&
-      isPhoneNumberValid &&
-      phoneNumber.length === 10 &&
-      isPhoneNumberValid
+      isDoorbellValid
     ) {
       setIsFormValid(true);
     } else {
       setIsFormValid(false);
     }
-  }, [isFloorValid, isDoorbellValid, isPhoneNumberValid, phoneNumber]);
+  }, [isFloorValid, isDoorbellValid, , phoneNumber]);
 
   const resetFields = () => {
     setFloor("");
@@ -186,7 +175,7 @@ const FormAddress = (props, apiKey) => {
     resetFields();
     setShow(true);
     setIsSubmitting(true);
-    props.onNavigateHome();
+
     props.onCloseModal();
 
     try {
@@ -213,6 +202,7 @@ const FormAddress = (props, apiKey) => {
       console.error(error);
       setIsSubmitting(false);
     }
+    props.onNavigateHome();
     setIsSubmitting(false);
     toast("Address Successfull!", {
       type: "success",
@@ -262,15 +252,6 @@ const FormAddress = (props, apiKey) => {
                 value={doorbell}
                 type="text"
                 placeholder="e.g: Papadopoulos"
-              />
-            </Form>
-            <Form className={classes.text}>
-              <FormLabel className=" px-1 fw-bold">Phone Number</FormLabel>
-              <FormControl
-                onChange={handleChangePhoneNumber}
-                value={phoneNumber}
-                type="text"
-                placeholder="696969696969"
               />
             </Form>
             <Form className={classes.textNotes}>

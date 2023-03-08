@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import classes from "./OrderInfo.module.css";
 import "bootstrap/dist/css/bootstrap.css";
 import CartContext from "../../store/cart-context";
+import OrderContext from "../../store/order-context";
+import AuthContext from "../../store/auth-context";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import {
@@ -21,19 +23,14 @@ import LoaderSpinner from "../spinners/Spinner";
 
 const OrderInfo = () => {
   const cartCtx = useContext(CartContext);
+  const orderCtx = useContext(OrderContext);
+  const authCtx = useContext(AuthContext);
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [payment, setPayment] = useState();
   const [paymentTitle, setPaymentTitle] = useState("Payment Method");
-  const [floor, setFloor] = useState("");
-  const [doorbell, setDoorbell] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [notes, setNotes] = useState("No Notes");
+  const [notes, setNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [show, setShow] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
-  const [isFloorValid, setIsFloorValid] = useState(false);
-  const [isDoorbellValid, setIsDoorbellValid] = useState(false);
-  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
   const [isPaymentMethodValid, setIsPaymentMethodValid] = useState(false);
   const navigate = useNavigate();
 
@@ -78,53 +75,17 @@ const OrderInfo = () => {
     setIsPaymentMethodValid(true);
   };
 
-  const handleChangeFloor = (event) => {
-    if (!isNaN(event.target.value) && event.target.value < 100) {
-      setFloor(event.target.value);
-      setIsFloorValid(event.target.value.length > 0);
-    }
-  };
-  const handleChangeDoorbell = (event) => {
-    if (pattern.test(event.target.value) && event.target.value.length < 31) {
-      setDoorbell(event.target.value);
-      setIsDoorbellValid(event.target.value.length > 0);
-    }
-  };
-  const handleChangePhoneNumber = (event) => {
-    const inputPhoneNumber = event.target.value;
-    if (/^\d{0,10}$/.test(inputPhoneNumber)) {
-      setPhoneNumber(inputPhoneNumber);
-      setIsPhoneNumberValid(inputPhoneNumber.length === 10);
-    }
-  };
   const handleChangeNotes = (event) => {
     if (event.target.value.length < 100) setNotes(event.target.value);
   };
 
   useEffect(() => {
-    if (
-      isFloorValid &&
-      isDoorbellValid &&
-      isPhoneNumberValid &&
-      phoneNumber.length === 10 &&
-      isPhoneNumberValid &&
-      isPaymentMethodValid
-    ) {
+    if (isPaymentMethodValid) {
       setIsFormValid(true);
     } else {
       setIsFormValid(false);
     }
-  }, [
-    isFloorValid,
-    isDoorbellValid,
-    isPhoneNumberValid,
-    isPaymentMethodValid,
-    phoneNumber,
-  ]);
-
-  const handleClose = () => {
-    setShow(false);
-  };
+  }, [isPaymentMethodValid]);
 
   const formatProductOptions = (productOptions) => {
     const result = Object.keys(productOptions).reduce((array, key) => {
@@ -147,9 +108,9 @@ const OrderInfo = () => {
       storeId: 1,
       paymentCodeId: payment,
       totalCost: totalPrice.toFixed(2),
-      floor: floor,
-      contactPhoneNum: phoneNumber,
-      doorBellName: doorbell,
+      floor: orderCtx.floor,
+      contactPhoneNum: authCtx.phoneNumber,
+      doorBellName: orderCtx.doorbell,
       notes: notes,
       estimatedDeliveryTime: 40,
       products: allitems.map((product) => {
@@ -162,7 +123,6 @@ const OrderInfo = () => {
       }),
     };
 
-    setShow(true);
     setIsSubmitting(true);
 
     axios
@@ -185,40 +145,15 @@ const OrderInfo = () => {
 
   return (
     <>
-      <Modal
-        closeButton
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Body>
-          {isSubmitting ? <LoaderSpinner /> : <p>Your order has been sent !</p>}
-        </Modal.Body>
-        <Modal.Footer>
-          {!isSubmitting && (
-            <>
-              <Button
-                variant="secondary"
-                onClick={() => {
-                  handleClose();
-                  navigateHome();
-                }}
-              >
-                Back to home
-              </Button>
-            </>
-          )}
-        </Modal.Footer>
-      </Modal>
       <Toaster />
       <Form onSubmit={submitHandler}>
         <Row className={`${classes.orderInfo}`}>
           <Col className="col-12 p-2">
             <Dropdown className={classes.dropdown}>
+              <FormLabel className="fw-bold">Payment</FormLabel>
               <DropdownButton
                 id="dropdown-basic-button"
-                variant="secondary"
+                variant="light"
                 title={paymentTitle}
               >
                 {paymentMethods.map((method) => {
@@ -241,8 +176,7 @@ const OrderInfo = () => {
             <Form className={classes.text}>
               <FormLabel className=" px-1 fw-bold">Floor</FormLabel>
               <FormControl
-                onChange={handleChangeFloor}
-                value={floor}
+                value={orderCtx.selectedAddress.floor}
                 type="text"
                 placeholder="e.g: 2"
               />
@@ -250,8 +184,7 @@ const OrderInfo = () => {
             <Form className={classes.text}>
               <FormLabel className=" px-1 fw-bold">DoorBell</FormLabel>
               <FormControl
-                onChange={handleChangeDoorbell}
-                value={doorbell}
+                value={orderCtx.selectedAddress.doorBellName}
                 type="text"
                 placeholder="e.g: Papadopoulos"
               />
@@ -259,8 +192,7 @@ const OrderInfo = () => {
             <Form className={classes.text}>
               <FormLabel className=" px-1 fw-bold">Phone Number</FormLabel>
               <FormControl
-                onChange={handleChangePhoneNumber}
-                value={phoneNumber}
+                value={authCtx.phone}
                 type="text"
                 placeholder="696969696969"
               />
@@ -274,14 +206,18 @@ const OrderInfo = () => {
                 placeholder="Notes"
               />
             </Form>
-            <Button
-              disabled={!isFormValid}
-              type="submit"
-              className="my-3"
-              variant="secondary"
-            >
-              Submit Order!
-            </Button>{" "}
+            <span className="d-flex mx-5 px-5 mt-3">
+              {" "}
+              <Button
+                disabled={!isFormValid}
+                type="submit"
+                className="my-3"
+                variant="warning"
+                size="lg"
+              >
+                Submit Order!
+              </Button>{" "}
+            </span>
           </Col>
         </Row>
       </Form>

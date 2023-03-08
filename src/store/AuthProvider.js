@@ -8,6 +8,7 @@ const defaultAuthState = {
   email: null,
   firstName: null,
   lastName: null,
+  phone: null,
   id: null,
   isLoading: false,
   error: null, // DEN EIMAI BOOL, EIMAI STRING
@@ -48,6 +49,7 @@ const authReducer = (state, action) => {
       firstName: action.item.userFirstName,
       lastName: action.item.userLastName,
       email: action.item.email,
+      phone: action.item.phone,
       id: action.item.userId,
       authToken: action.item.token,
       isLoggedIn: true,

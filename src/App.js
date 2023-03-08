@@ -13,6 +13,8 @@ import AuthContext from "./store/auth-context";
 import AuthProvider from "./store/AuthProvider";
 import CheckOutPage from "./components/pages/CheckOutPage";
 import ThankYouPage from "./components/pages/ThankYouPage";
+import OrderProvider from "./store/OrderProvider";
+import OrderContext from "./store/order-context";
 
 const router = createBrowserRouter([
   {
@@ -41,11 +43,13 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <AuthProvider>
-      <CartProvider>
-        <RouterProvider router={router} />
-      </CartProvider>
-    </AuthProvider>
+    <OrderProvider>
+      <AuthProvider>
+        <CartProvider>
+          <RouterProvider router={router} />
+        </CartProvider>
+      </AuthProvider>
+    </OrderProvider>
   );
 }
 
