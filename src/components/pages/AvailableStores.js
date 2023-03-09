@@ -7,6 +7,7 @@ import CardWrap from "../UI/CardWrap";
 import "bootstrap/dist/css/bootstrap.css";
 import CartContext from "../../store/cart-context";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import toast, { Toaster } from "react-hot-toast";
 
 const AvailableStores = (props) => {
   window.scrollTo(0, 0);
@@ -33,27 +34,33 @@ const AvailableStores = (props) => {
     }
   }, [location]);
 
-  useEffect(() => {
+  const fetchAvailableStores = async () => {
     setIsLoading(true);
-    axios
-      .get(`${link}/api/Store/open-stores/${dataPostal}`)
-      .then(function (res) {
-        const storesArray = Array.from(res.data.items);
-        const newStoresArray = storesArray.map((store) => {
-          const newStore = { ...store, logo_icon: store.logoIcon };
-
-          return newStore;
-        });
-        console.log(res.data.items);
-        setIsLoading(false);
-
-        setAvailableStores(newStoresArray);
-        cartCtx.clearCart();
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        console.error(err);
+    try {
+      const res = await axios.get(
+        `${link}/api/Store/open-stores/${dataPostal}`
+      );
+      const storesArray = Array.from(res.data.items);
+      const newStoresArray = storesArray.map((store) => {
+        const newStore = { ...store, logo_icon: store.logoIcon };
+        return newStore;
       });
+      console.log(res.data.items);
+      setIsLoading(false);
+      setAvailableStores(newStoresArray);
+      cartCtx.clearCart();
+    } catch (error) {
+      toast("Error loading stores", {
+        duration: 2000,
+        type: "error", // trexei kai otan kanw back sto homepage mono gia 0.1 second nomizw
+      });
+      setIsLoading(false);
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAvailableStores();
   }, []);
 
   const handleImageLoad = () => {
@@ -70,6 +77,7 @@ const AvailableStores = (props) => {
 
   return (
     <Container className={classes.top}>
+      <Toaster />
       <Row>
         <Col className="col-12">
           {" "}

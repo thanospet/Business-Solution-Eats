@@ -1,6 +1,7 @@
 import { useState, useReducer } from "react";
 import AuthContext from "./auth-context";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 
 const defaultAuthState = {
   isLoggedIn: false,
@@ -140,6 +141,10 @@ const AuthProvider = (props) => {
       dispatchAuthAction({ type: "SIGN_IN_SUCCESS", item: res.data.item });
     } catch (error) {
       console.error(error);
+      toast("Failed to login", {
+        duration: 2000,
+        type: "error",
+      });
 
       dispatchAuthAction({ type: "SIGN_IN_FAILURE", item: "Sign-in failed!" });
     }
@@ -170,6 +175,10 @@ const AuthProvider = (props) => {
       dispatchAuthAction({ type: "SIGN_UP_SUCCESS", item: res.data.value });
     } catch (error) {
       console.error(error);
+      toast("Failed to register", {
+        duration: 2000,
+        type: "error",
+      });
 
       dispatchAuthAction({ type: "SIGN_UP_FAILURE", item: "Sign-Up failed!" });
     }

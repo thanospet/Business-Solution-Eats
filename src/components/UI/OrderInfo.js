@@ -63,6 +63,10 @@ const OrderInfo = () => {
       })
       .catch((err) => {
         console.error(err);
+        toast("Error with payment methods", {
+          duration: 2000,
+          type: "error",
+        });
       });
   }, []);
 
@@ -111,7 +115,7 @@ const OrderInfo = () => {
     };
 
     console.log("orderCtx.selectedAddress.id", orderCtx.selectedAddress.id);
-    console.log("authToken", authCtx.authToken);
+    // console.log("authToken", authCtx.authToken);
 
     const payload = {
       storeId: 1,
@@ -138,17 +142,19 @@ const OrderInfo = () => {
       .then((response) => {
         console.log(response.data);
         setIsSubmitting(false);
+        navigateThankYouPage();
       })
       .catch((error) => {
         console.error(error);
         setIsSubmitting(false);
-        toast("Order Failed", {
-          type: "danger",
+        toast("Failed to post order", {
+          duration: 2000,
+          type: "error",
         });
       });
-    navigateThankYouPage();
-    console.log("data", payment);
-    console.log("totalPrice", totalPrice);
+
+    // console.log("data", payment);
+    // console.log("totalPrice", totalPrice);
   };
 
   return (

@@ -67,6 +67,10 @@ const LandingPage = (props) => {
       console.log("TOKEN", token);
     } catch (error) {
       console.error(error);
+      toast("User not authenticated", {
+        duration: 2000,
+        type: "error",
+      });
     }
   };
 
@@ -153,6 +157,12 @@ const LandingPage = (props) => {
       setAddresses(res.data.items);
     } catch (error) {
       console.error(error);
+      if (authCtx.authToken) {
+        toast("Failed to load addresses !", {
+          duration: 2000,
+          type: "error", //edw exei thema an ginei mia fora register trexei to toast,na trexei mono an exei token prepei
+        });
+      }
     }
   };
 

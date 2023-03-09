@@ -15,7 +15,7 @@ import {
   FormLabel,
 } from "react-bootstrap";
 import classes from "./ModalProduct.module.css";
-
+import toast, { Toaster } from "react-hot-toast";
 import React from "react";
 
 const ModalProduct = (props) => {
@@ -37,6 +37,10 @@ const ModalProduct = (props) => {
       })
       .catch((err) => {
         console.error(err);
+        toast("Error loading store details ", {
+          duration: 2000,
+          type: "error",
+        });
       });
   }, [props.modalShown]);
 
@@ -199,6 +203,7 @@ const ModalProduct = (props) => {
 
     return (
       <>
+        <Toaster />
         <Form key={group.ingredientCategoryType.id}>
           {group.ingredients.map((ingredient) => (
             <label key={ingredient.id} className="form-check-label p-1">

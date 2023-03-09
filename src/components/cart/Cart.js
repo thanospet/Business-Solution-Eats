@@ -65,6 +65,11 @@ const Cart = (props) => {
 
         <Row className="d-flex my-3">
           {allItems.map((item) => {
+            console.log("item.options:", item.options);
+            console.log(
+              "Object.values item.options:",
+              Object.values(item.options)
+            );
             return (
               <Row key={item.id}>
                 <Row
@@ -105,10 +110,16 @@ const Cart = (props) => {
                   )}
                 </Row>
                 <Row>
-                  <Col className={`col-10 ${classes.itemNotes}`}>
+                  <Col className="col-12">
+                    {Object.values(item.options).map((option, idx) => (
+                      <div key={idx}></div>
+                    ))}
+                  </Col>
+                  <Col
+                    className={`text-muted small col-12 ${classes.itemNotes}`}
+                  >
                     {item.notes.length > 0 && "Notes: " + item.notes}{" "}
                   </Col>
-                  <Col> {item.options && "+Options"}</Col>
                   <hr></hr>
                 </Row>
               </Row>

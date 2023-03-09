@@ -27,17 +27,11 @@ const FormAddress = (props, apiKey) => {
   const mapRef = useRef(null);
   const authCtx = useContext(AuthContext);
   const cartCtx = useContext(CartContext);
-  const [payment, setPayment] = useState();
-  const [paymentMethods, setPaymentMethods] = useState([]);
-  const [paymentTitle, setPaymentTitle] = useState("Payment Method");
   const [floor, setFloor] = useState("");
   const [doorbell, setDoorbell] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [friendlyName, setFriendlyName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [show, setShow] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
-  const [isAddressValid, setIsAddressValid] = useState(false);
   const [isFloorValid, setIsFloorValid] = useState(false);
   const [isDoorbellValid, setIsDoorbellValid] = useState(false);
   const [apiLoaded, setApiLoaded] = useState(false);
@@ -105,19 +99,6 @@ const FormAddress = (props, apiKey) => {
   // console.log("allitems", allitems);
   // console.log("address", address);
 
-  useEffect(() => {
-    axios
-      .get(`${link}/api/Store/code-info/1`)
-      .then(function (res) {
-        const methodsArray = res.data.item.paymentMethods;
-        setPaymentMethods(methodsArray);
-        // console.log("res.data.item", res.data.item.paymentMethods);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
-
   const handleChangeFloor = (event) => {
     if (!isNaN(event.target.value) && event.target.value < 100) {
       setFloor(event.target.value);
@@ -161,21 +142,18 @@ const FormAddress = (props, apiKey) => {
     } else {
       setIsFormValid(false);
     }
-  }, [isFloorValid, isDoorbellValid, , phoneNumber]);
+  }, [isFloorValid, isDoorbellValid]);
 
   const resetFields = () => {
     setFloor("");
     setDoorbell("");
-    setPhoneNumber("");
     setFriendlyName("");
   };
 
   const submitHandler = async (event) => {
     event.preventDefault();
     resetFields();
-    setShow(true);
     setIsSubmitting(true);
-
     props.onCloseModal();
 
     try {
@@ -197,16 +175,22 @@ const FormAddress = (props, apiKey) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+      toast("Address added Successfully!", {
+        icon: "👏",
+        duration: 2000,
+        type: "success",
+      });
       console.log("RESPONSE FROM FORM ADDRESS POST", res.data.item);
     } catch (error) {
-      console.error(error);
+      console.error("skartaaaaaaaaaaaa");
       setIsSubmitting(false);
+      toast("Error when adding address", {
+        duration: 2000,
+        type: "error",
+      });
     }
     props.onNavigateHome();
     setIsSubmitting(false);
-    toast("Address Successfull!", {
-      type: "success",
-    });
   };
 
   return (
