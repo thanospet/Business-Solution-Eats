@@ -2,20 +2,20 @@
   cursor: pointer;
   font: inherit;
   border: none;
-  background-color: #00a395af;
+  /* background-color: #00a395af; */
   color: rgb(0, 0, 0);
   display: flex;
   justify-content: space-around;
   align-items: center;
   border-radius: 5px;
   font-weight: bold;
-  padding: 12px;
+  padding-right: 20px;
 }
-
+/* 
 .button:hover,
 .button:active {
   background-color: #00a395af;
-}
+} */
 
 .icon {
   width: 1.35rem;

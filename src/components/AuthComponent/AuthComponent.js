@@ -9,6 +9,7 @@ import {
   Modal,
   Button,
   Checkbox,
+  Spinner,
 } from "react-bootstrap";
 import { useState, useContext, useEffect } from "react";
 import StrengthMeter from "../StrengthMeter/StrengthMeter";
@@ -21,6 +22,7 @@ const AuthComponent = (props) => {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  // const [isLoading, setIsLoading] = useState("");
   const [rememberMe, setRememberMe] = useState(
     localStorage.getItem("rememberMe") === "true"
   );
@@ -116,11 +118,16 @@ const AuthComponent = (props) => {
               <div className={classes.actions}>
                 <Button
                   type="submit"
-                  className={` ${classes.btn}`}
+                  // className={` ${classes.btn}`}
+                  variant="success"
                   onClick={Login}
                   // disabled={!authCtx.formIsValid}
                 >
-                  Login
+                  {authCtx.isLoading ? (
+                    <Spinner animation="border" variant="white" />
+                  ) : (
+                    <> Login</>
+                  )}
                 </Button>
               </div>
               <label className="form-check-label" for="flexCheckDefault">
@@ -146,7 +153,11 @@ const AuthComponent = (props) => {
                 onClick={Register}
                 // disabled={!authCtx.formIsValid}
               >
-                Register
+                {authCtx.isLoading ? (
+                  <Spinner animation="border" variant="white" />
+                ) : (
+                  <> Register</>
+                )}
               </Button>
             </div>
           )}

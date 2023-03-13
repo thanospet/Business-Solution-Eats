@@ -6,7 +6,7 @@ import Card from "../UI/Card";
 import CardWrap from "../UI/CardWrap";
 import "bootstrap/dist/css/bootstrap.css";
 import CartContext from "../../store/cart-context";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 
 const AvailableStores = (props) => {
@@ -45,7 +45,7 @@ const AvailableStores = (props) => {
         const newStore = { ...store, logo_icon: store.logoIcon };
         return newStore;
       });
-      console.log(res.data.items);
+      console.log("AAAAAAAAAAAAAAAAAAAAA", res.data.items);
       setIsLoading(false);
       setAvailableStores(newStoresArray);
       cartCtx.clearCart();
@@ -98,53 +98,56 @@ const AvailableStores = (props) => {
           </div>
         </Col>
       </Row>
-      {!isLoading && (
+      {/* edw eixa {!isLoading && olo to epomeno Container } */}
+      <>
         <Container className={classes.main}>
           {availableStores.map((store) => {
             return (
               <>
-                <>
-                  {" "}
-                  <Row key={store.id}>
-                    <Col className="col-12">
-                      {/* <CardWrap> */}
-                      <div
-                        className={classes.stores}
-                        onClick={() => onCardClick(store.id)}
-                      >
-                        <Card key={store.id}>
-                          {" "}
-                          <span>
-                            <img
-                              className={classes.imageContainer}
-                              src={store.logo_icon}
-                              alt=""
-                              onLoad={handleImageLoad}
-                            />
-                          </span>
-                          <Row>
-                            <span className={classes.storeTitle}>
-                              {store.title}
+                {isLoading ? (
+                  <Spinner animation="border" variant="seconadry" />
+                ) : (
+                  <>
+                    {" "}
+                    <Row key={store.id}>
+                      <Col className="col-12">
+                        <div
+                          className={classes.stores}
+                          onClick={() => onCardClick(store.id)}
+                        >
+                          <Card key={store.id}>
+                            {" "}
+                            <span>
+                              <img
+                                className={classes.imageContainer}
+                                src={store.logo_icon}
+                                alt=""
+                                onLoad={handleImageLoad}
+                              />
                             </span>
-                            <span className={`"${classes.text}`}>
-                              Estimated Time: {store.averageDeliveryTime}{" "}
-                            </span>
-                            <span className={`"${classes.text}`}>
-                              {" "}
-                              Minimum order: ${store.minimumOrderPrice}{" "}
-                            </span>
-                          </Row>
-                        </Card>
-                      </div>
-                      {/* </CardWrap> */}
-                    </Col>
-                  </Row>
-                </>
+                            <Row>
+                              <span className={classes.storeTitle}>
+                                {store.title}
+                              </span>
+                              <span className={`"${classes.text}`}>
+                                Estimated Time: {store.averageDeliveryTime}{" "}
+                              </span>
+                              <span className={`"${classes.text}`}>
+                                {" "}
+                                Minimum order: ${store.minimumOrderPrice}{" "}
+                              </span>
+                            </Row>
+                          </Card>
+                        </div>
+                      </Col>
+                    </Row>
+                  </>
+                )}
               </>
             );
           })}
         </Container>
-      )}
+      </>
     </Container>
   );
 };

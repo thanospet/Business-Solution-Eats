@@ -18,8 +18,9 @@ import {
   DropdownButton,
   Modal,
   FormLabel,
+  Spinner,
 } from "react-bootstrap";
-import LoaderSpinner from "../spinners/Spinner";
+// import LoaderSpinner from "../spinners/Spinner";
 
 const OrderInfo = () => {
   const cartCtx = useContext(CartContext);
@@ -121,7 +122,7 @@ const OrderInfo = () => {
       storeId: 1,
       paymentCodeId: payment,
       totalCost: totalPrice.toFixed(2),
-      addressId: 12,
+      addressId: orderCtx.selectedAddress.id,
       contactPhoneNum: authCtx.phone,
       notes: notes,
       estimatedDeliveryTime: 40,
@@ -229,7 +230,11 @@ const OrderInfo = () => {
                 variant="warning"
                 size="lg"
               >
-                Submit Order!
+                {isSubmitting ? (
+                  <Spinner animation="border" variant="seconadry" />
+                ) : (
+                  <>Submit Order!</>
+                )}
               </Button>{" "}
             </span>
           </Col>

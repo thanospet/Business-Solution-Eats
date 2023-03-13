@@ -1,4 +1,6 @@
-
+.html{
+  overflow: hidden;
+}
 .logoIcon {
   border: 2px solid #000000;
   border-radius: 50%;
@@ -42,4 +44,11 @@ padding-bottom: 1rem;
 
 .storeInformation{
   color: grey
+}
+
+.spinner{
+  position: absolute;
+  top:50%;
+  left:32%
+  
 }

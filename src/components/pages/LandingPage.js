@@ -19,6 +19,7 @@ import {
   Modal,
   Dropdown,
   DropdownButton,
+  Spinner,
 } from "react-bootstrap";
 import CartContext from "../../store/cart-context";
 import FormAddress from "../FormAddress/FormAddress";
@@ -36,6 +37,7 @@ const LandingPage = (props) => {
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddresses] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const navigateHome = () => {
@@ -54,6 +56,7 @@ const LandingPage = (props) => {
   }, [authCtx.registerSuccess]);
 
   const getAuthFunc = async () => {
+    setIsLoading(true);
     try {
       const token = authCtx.authToken;
 
@@ -65,7 +68,9 @@ const LandingPage = (props) => {
       );
       console.log("AXIOS GET AUTH DATA", res.data);
       console.log("TOKEN", token);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.error(error);
       toast("User not authenticated", {
         duration: 2000,
@@ -145,7 +150,7 @@ const LandingPage = (props) => {
 
   const fetchAddresses = async () => {
     const token = authCtx.authToken;
-
+    setIsLoading(true);
     try {
       const res = await axios.get(
         "http://localhost:7160/api/Address/Addresses",
@@ -155,7 +160,9 @@ const LandingPage = (props) => {
       );
       console.log("ADDRESSES", res.data.items);
       setAddresses(res.data.items);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.error(error);
       if (authCtx.authToken) {
         toast("Failed to load addresses !", {
@@ -246,33 +253,49 @@ const LandingPage = (props) => {
                         Welcome back, {authCtx.firstName}
                       </h4>
 
-                      <DropdownButton
-                        title={
-                          selectedAddress
-                            ? `${selectedAddress.streetName} ${selectedAddress.postalCodeId}`
-                            : "Select an address"
-                        }
-                        variant="outline-secondary"
-                      >
-                        {addresses.map((address, idx) => {
-                          return (
-                            <Dropdown.Item
-                              key={idx}
-                              eventKey={address.postalCodeId}
-                              onClick={() => {
-                                handleDropDown(address);
-                              }}
-                            >
-                              {address.city}
-                              <span> </span>
-                              {address.streetName}
-                              <span> </span>
-                              {address.postalCodeId}
-                              <span> </span>
-                            </Dropdown.Item>
-                          );
-                        })}
-                      </DropdownButton>
+                      {isLoading ? (
+                        <Spinner animation="border" variant="secondary" />
+                      ) : (
+                        <DropdownButton
+                          size="large"
+                          className={`${classes.dropdownAddresses}`}
+                          title={
+                            selectedAddress
+                              ? `${selectedAddress.streetName} ${selectedAddress.postalCodeId}`
+                              : "Select an address"
+                          }
+                          variant="outline-secondary"
+                        >
+                          {addresses.map((address, idx) => {
+                            return (
+                              <>
+                                {isLoading ? (
+                                  <Spinner
+                                    animation="border"
+                                    variant="primary"
+                                  />
+                                ) : (
+                                  <Dropdown.Item
+                                    key={idx}
+                                    eventKey={address.postalCodeId}
+                                    onClick={() => {
+                                      handleDropDown(address);
+                                    }}
+                                  >
+                                    {address.city}
+                                    <span> </span>
+                                    {address.streetName}
+                                    <span> </span>
+                                    {address.postalCodeId}
+                                    <span> </span>
+                                  </Dropdown.Item>
+                                )}
+                              </>
+                            );
+                          })}
+                        </DropdownButton>
+                      )}
+
                       <span className={`${classes.spanButtons}`}>
                         <Button
                           onClick={handleAddAddress}

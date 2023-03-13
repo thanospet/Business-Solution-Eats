@@ -13,6 +13,7 @@ import {
   FormControl,
   FormGroup,
   FormLabel,
+  Spinner,
 } from "react-bootstrap";
 import classes from "./ModalProduct.module.css";
 import toast, { Toaster } from "react-hot-toast";
@@ -25,17 +26,21 @@ const ModalProduct = (props) => {
   const [notes, setNotes] = useState("");
   const [optionCategories, setOptionCategories] = useState([]);
   const [extraPrice, setExtraPrice] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const link = "http://localhost:7160";
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(`${link}/api/Product/productIngredientInfo/${props.modalProduct.id}`)
       .then(function (res) {
         setOptionCategories(res.data.items);
         console.log("res.data.items", res.data.items);
+        setIsLoading(false);
       })
       .catch((err) => {
+        setIsLoading(false);
         console.error(err);
         toast("Error loading store details ", {
           duration: 2000,
@@ -234,6 +239,8 @@ const ModalProduct = (props) => {
     );
   };
 
+  console.log("optionCategories", optionCategories);
+
   return (
     <>
       <Modal
@@ -246,58 +253,69 @@ const ModalProduct = (props) => {
         }}
         size="lg"
       >
-        <Modal.Body>
-          <Row>
-            <Col className="col-12 d-flex justify-content-center">
-              <Image
-                className={`d-block m-auto ${classes.iconModal}`}
-                src={props.modalProduct.iconUrl}
-              ></Image>
-            </Col>
-          </Row>
+        {isLoading ? (
+          <Spinner
+            className={classes.spinner}
+            animation="border"
+            variant="seconadry"
+          />
+        ) : (
+          <Modal.Body>
+            <Row>
+              <Col className="col-12 d-flex justify-content-center">
+                <Image
+                  className={`d-block m-auto ${classes.iconModal}`}
+                  src={props.modalProduct.iconUrl}
+                ></Image>
+              </Col>
+            </Row>
 
-          <Row key={props.modalProduct.id} className="py-3">
-            <Col className="col-9 d-flex flex-column justify-content-space mx-3">
-              <Row className="fw-bold fs-5">{props.modalProduct.title}</Row>
-              <Row>{props.modalProduct.description}</Row>
+            <Row key={props.modalProduct.id} className="py-3">
+              <Col className="col-9 d-flex flex-column justify-content-space mx-3">
+                <Row className="fw-bold fs-5">{props.modalProduct.title}</Row>
+                <Row>{props.modalProduct.description}</Row>
 
-              <h5 className="py-1 my-1 fw-bold ">
-                ${((extraPrice + props.modalProduct.price) * amount).toFixed(2)}
-              </h5>
-            </Col>
-            <Col className="col-12">
-              <>
-                {" "}
-                <hr></hr>
-              </>
-            </Col>
-            {optionCategories.map((optionCategory) => {
-              return (
-                <Row className="d-flex justify-content-center">
-                  <Col className="col-12">
-                    <h5>{optionCategory.ingredientCategoryTitle}</h5>
-                    {renderGroupIngredients(optionCategory)}
-                  </Col>
-                  <Col className="col-12">
-                    <Row></Row>
-                    <hr></hr>
-                  </Col>
-                </Row>
-              );
-            })}
+                <h5 className="py-1 my-1 fw-bold ">
+                  $
+                  {((extraPrice + props.modalProduct.price) * amount).toFixed(
+                    2
+                  )}
+                </h5>
+              </Col>
+              <Col className="col-12">
+                <>
+                  {" "}
+                  <hr></hr>
+                </>
+              </Col>
+              {optionCategories.map((optionCategory) => {
+                return (
+                  <Row className="d-flex justify-content-center">
+                    <Col className="col-12">
+                      <h5>{optionCategory.ingredientCategoryTitle}</h5>
+                      {renderGroupIngredients(optionCategory)}
+                    </Col>
+                    <Col className="col-12">
+                      <Row></Row>
+                      <hr></hr>
+                    </Col>
+                  </Row>
+                );
+              })}
 
-            <FormGroup className="pt-3">
-              <FormControl
-                as="textarea"
-                placeholder="Notes"
-                rows="3"
-                style={{ resize: "none" }}
-                value={notes}
-                onChange={(event) => setNotes(event.target.value)}
-              />
-            </FormGroup>
-          </Row>
-        </Modal.Body>
+              <FormGroup className="pt-3">
+                <FormControl
+                  as="textarea"
+                  placeholder="Notes"
+                  rows="3"
+                  style={{ resize: "none" }}
+                  value={notes}
+                  onChange={(event) => setNotes(event.target.value)}
+                />
+              </FormGroup>
+            </Row>
+          </Modal.Body>
+        )}
 
         <Row className="p-1 m-1">
           <Col className="col-6 d-flex justify-content-start">

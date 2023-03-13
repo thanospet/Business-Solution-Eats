@@ -12,6 +12,7 @@ import {
   FormControl,
   Button,
   FormLabel,
+  Spinner,
 } from "react-bootstrap";
 import LoaderSpinner from "../spinners/Spinner";
 import toast, { Toaster } from "react-hot-toast";
@@ -61,6 +62,7 @@ const FormAddress = (props, apiKey) => {
   }, [apiKey]);
 
   // Update the marker's position when it's dragged
+
   useEffect(() => {
     if (marker) {
       const listener = marker.addListener("dragend", () => {
@@ -195,7 +197,6 @@ const FormAddress = (props, apiKey) => {
 
   return (
     <>
-      {isSubmitting && <LoaderSpinner />}
       <div
         style={{
           width: "100%",
@@ -253,7 +254,11 @@ const FormAddress = (props, apiKey) => {
               className="my-3"
               variant="warning"
             >
-              Add address
+              {isSubmitting ? (
+                <Spinner animation="border" variant="seconadry" />
+              ) : (
+                <> Add address</>
+              )}
             </Button>{" "}
           </Col>
         </Row>

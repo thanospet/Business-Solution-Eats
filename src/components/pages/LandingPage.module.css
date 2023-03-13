@@ -83,3 +83,13 @@
   align-items: center;
   justify-content: center;
 }
+
+.dropdownAddresses{
+  padding-top: 1rem;
+  position: inherit;
+  min-width: 380px;
+  width:350;
+  height: 180px; 
+  overflow-x: hidden;
+  overflow-y:auto;
+}

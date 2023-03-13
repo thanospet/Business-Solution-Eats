@@ -8,6 +8,7 @@ import CartOrderBadge from "./CartOrderBadge";
 import EmptyCart from "../UI/EmptyCart";
 import { useEffect } from "react";
 import TotalPriceBudge from "../cart/TotalPriceBudge";
+import { BsPlus, BsDash } from "react-icons/bs";
 
 const Cart = (props) => {
   const cartCtx = useContext(CartContext);
@@ -86,24 +87,24 @@ const Cart = (props) => {
                       <Form>
                         <Button
                           variant="success"
-                          className={` px-2 ${classes.cartBtn}`}
+                          className={` px-2 ${classes.cartBtn} ${classes.cartBtnMinus}`}
                           size="sm"
                           onClick={() => {
                             removeFromCartHandler(item);
                           }}
                         >
-                          -
+                          <BsDash className="small" />
                         </Button>
 
                         <Button
                           variant="success"
-                          className={` px-2 ${classes.cartBtn}`}
+                          className={` px-2 ${classes.cartBtn} ${classes.cartBtnAdd}`}
                           size="sm"
                           onClick={() => {
                             addToCartHandler(item);
                           }}
                         >
-                          +
+                          <BsPlus className="medium" />
                         </Button>
                       </Form>
                     </Col>
@@ -112,7 +113,7 @@ const Cart = (props) => {
                 <Row>
                   <Col className="col-12">
                     {Object.values(item.options).map((option, idx) => (
-                      <div key={idx}></div>
+                      <div key={idx}>{option.title}</div>
                     ))}
                   </Col>
                   <Col
@@ -126,11 +127,10 @@ const Cart = (props) => {
             );
           })}
         </Row>
+
         <Row className={classes.rowTotalPrice}>
           {" "}
-          {props.forCheckOut && (
-            <TotalPriceBudge className={` ${classes.totalPriceBudge}`} />
-          )}
+          <TotalPriceBudge className={` ${classes.totalPriceBudge}`} />
         </Row>
 
         {badgeIsShown && (
@@ -146,7 +146,6 @@ const Cart = (props) => {
                       <CartOrderBadge className={``} />
                     </Col>
                   </Row>
-                  <Row></Row>
                 </Col>
               </Row>
             )}
