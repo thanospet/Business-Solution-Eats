@@ -20,7 +20,6 @@ import {
   FormLabel,
   Spinner,
 } from "react-bootstrap";
-// import LoaderSpinner from "../spinners/Spinner";
 
 const OrderInfo = () => {
   const cartCtx = useContext(CartContext);

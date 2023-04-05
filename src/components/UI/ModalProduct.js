@@ -40,6 +40,7 @@ const ModalProduct = (props) => {
         setIsLoading(false);
       })
       .catch((err) => {
+        //sinthiki me props modal SOS
         setIsLoading(false);
         console.error(err);
         toast("Error loading store details ", {
@@ -94,19 +95,40 @@ const ModalProduct = (props) => {
 
   console.log("extraPrice", extraPrice);
 
+  useEffect(() => {
+    setOptions((prevOptions) => {
+      const temp = { ...prevOptions };
+
+      const radioOnlyGroups = optionCategories.filter(
+        (group) => group.ingredientCategoryType === "radio"
+      );
+
+      radioOnlyGroups.forEach((group) => {
+        temp[group.ingredientCategoryId] = [
+          {
+            ingId: group?.ingredients?.[0]?.ingredientId,
+            extraPrice: group?.ingredients?.[0]?.ingredientPrice,
+          },
+        ];
+      });
+
+      return temp;
+    });
+  }, [optionCategories]);
+
   const handleRadio = (ingredient, group) => {
     setOptions((prevOptions) => {
       const temp = { ...prevOptions };
-      console.log("group.ingredientCategoryId", group.ingredientCategoryId);
+
       temp[group.ingredientCategoryId] = [
         {
           ingId: ingredient.ingredientId,
           extraPrice: ingredient.ingredientPrice,
         },
       ];
+
       return temp;
     });
-    return;
   };
 
   // const temp = { ...prevOptions };
@@ -172,7 +194,7 @@ const ModalProduct = (props) => {
         <>
           <Form key={group.ingredientCategoryType.id}>
             {group.ingredients.map((ingredient) => (
-              <Row className="">
+              <Row className="" key={ingredient.ingredientId}>
                 <FormLabel
                   key={ingredient.id}
                   className="form-check-label px-3 d-flex align-items-center"
@@ -290,7 +312,10 @@ const ModalProduct = (props) => {
               </Col>
               {optionCategories.map((optionCategory) => {
                 return (
-                  <Row className="d-flex justify-content-center">
+                  <Row
+                    className="d-flex justify-content-center"
+                    key={optionCategory.ingredientCategoryId}
+                  >
                     <Col className="col-12">
                       <h5>{optionCategory.ingredientCategoryTitle}</h5>
                       {renderGroupIngredients(optionCategory)}

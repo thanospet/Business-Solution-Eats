@@ -70,7 +70,6 @@ const StoreDetails = (props) => {
   return (
     <Container>
       <Toaster />
-
       <ModalProduct
         modalProduct={modalProduct}
         hideModalHandler={hideModalHandler}
