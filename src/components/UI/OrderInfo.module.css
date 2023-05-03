@@ -1,0 +1,30 @@
+.orderInfo{
+    padding-bottom: 10rem;
+    position: relative;
+    /* box-shadow:  0px 5px 5px 0 rgb(230, 230, 230), 
+             0 4px 15px 0px #ccc,
+             0 99px 5px 0px #fff; */
+}
+
+.dropdown {
+    width: 150px;
+  }
+
+.text{
+    width: 60%;
+    height: auto;
+    padding-top: 1rem;
+} 
+
+.textNotes{
+    width: 60%;
+    height: auto;
+    padding-top: 1rem;
+} 
+
+/* .button{
+  
+    height: auto;
+    padding-top: 1rem;
+
+}  */

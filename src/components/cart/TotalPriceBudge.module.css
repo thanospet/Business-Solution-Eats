@@ -1,0 +1,17 @@
+.div {
+  margin-left: 100px;
+  width: 50%;
+  margin: 1rem;
+  font: inherit;
+  border: none;
+  /* background-color: #00ccbc; */
+    background-color: rgba(6, 37, 63, 0.747);
+  color: rgb(255, 255, 255);
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1.2rem;
+}

@@ -1,55 +1,88 @@
-
+@import url('https://fonts.googleapis.com/css?family=Nunito:200,300,400,700"');
 
 .main {
-  font-family: Averta,sans-serif;
-  font-size: x-large;
   display: flex;
-  margin: 5%;
-  flex-direction: column;
-  align-items: center;
-  border: 2px dashed rgb(87, 23, 23);
-  border-radius: 20px;
+  /* grid-template-columns: repeat(2, 1fr); */
+  grid-gap: 25px;
+  font-size: medium;
+  margin-left: 5px;
+  padding-left: 5px;
+  align-items: center;  
+  justify-content: center;
+}
+
+.top{
+  margin-top: 5%;
+}
+
+.header {
+  margin-bottom: 5%;
+  background-color: rgba(255, 255, 255, 0.911);
+  border-radius: 7px;
+  padding: 10px;
+  font-size: x-large;
+  color: rgb(0, 0, 0);
+}
+
+.backBtn{
+  margin-top: 20%;
+  font-size: x-large;
+  margin-left: 45%;
+  padding: 10px;
+  color: rgb(255, 255, 255);
+  background-color: black;
+  border-color: white;
+}
+
+.backBtn:hover{
+  color: aquamarine;
+  background-color: black;
+  border-color: rgb(0, 0, 0);
 }
 
 
+img {
 
-.header{
-    background-color:rgb(255, 190, 91);
-    border-radius: 12px;
-    padding: 10px;
-    color:rgb(255, 255, 255);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
-    text-shadow: 0 1px 3px rgb(41, 15, 134);
-}
-
-img{
   border-radius: 10px;
   margin-left: 1rem;
-  margin-right: 2rem;
-  
+  margin-right: 1rem;
+  width: 280px;
+  height:180px;
+  object-fit: cover;
 }
 
-.storeTitle{
-  margin-bottom: 50px;
+.storeTitle {
+  padding-left: 29%;
+  margin-bottom: 20px;
+  font-size: larger;
+  font-weight: bold;
 }
 
-.text{
-  font-size: auto;
-  margin: 10px;
+.text {
+  font-size: 120;
+  margin: 7px;
 }
 
-.storeTitle{
-  margin-left: 55px;
+.storeTitle {
+  margin-left: 10px; 
 }
 
-.textCategory{
-  /* border: 1px solid black; */
-  padding: 6px;
-  padding-bottom: 8px;
-  padding-left: 12px;
-  border-radius: 5px;
-  background-color: rgba(129, 0, 75, 0.6);
+.textCategory {
+  padding: auto;
+  padding-bottom: auto;
+  padding-left:2px;
+  padding-right:2px;
+  border-radius: 3px;
+  background-color: rgba(0, 160, 147, 0.747);
   color: rgb(255, 255, 255);
-  text-shadow: 0 1px 3px rgb(41, 15, 134);
-  font-size: large;
+  text-shadow: 0 1px 3px rgb(0, 0, 0);
+  font-size: medium;
+ justify-content: center;
+}
+
+.modalSpinner{
+  background-color: black;
+  position: absolute;
+  top:0;
+  right:0;
 }

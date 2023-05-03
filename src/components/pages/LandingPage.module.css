@@ -1,45 +1,95 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito:200,300,400,700"');
+
 .landing-page-form {
-  font-family: cursive;
   font-size: x-large;
   display: flex;
   justify-content: center;
-  margin: 10%;
+  margin: 5%;
+  margin-top: 20%;
   flex-direction: column;
   align-items: center;
   position: relative;
 }
 
-.input {
-  padding: 20px;
-  border-radius: 10px;
-  width: 540px;
+.landing-page-form h1 {
+  margin-top: 20%;
+  color: rgb(0, 0, 0);
+  background-color: rgb(253, 253, 253);
+  border-radius: 50%;
+  /* padding: 0.4em; */
 }
+
+.landing-page-form h4 {
+  color: rgba(58, 58, 58, 0.671);
+  background-color: rgb(253, 253, 253);
+  font-size:medium;
+}
+
+.landing-page-form h2 {
+  color: rgba(58, 58, 58, 0.671);
+  background-color: rgb(253, 253, 253);
+  
+}
+
+.spanButtons{
+  display: flex;
+  justify-content: center;
+}
+
+.input {
+  padding: 18px;
+  width: 540px;
+  height: auto;
+  border-radius: 30px;
+  border: 1px solid rgba(182, 182, 182, 0.712);
+  font-size:large;
+  cursor: pointer;
+}
+
 
 .landing-btn {
-  font-family: cursive;
+  display: flex;
+  justify-content: center;
   margin: 1rem;
-  padding: 20px;
+  margin-left: 2rem;
+  margin-right: 3rem;
+  padding: 10px;
   border-radius: 10px;
-  width: 120px;
-  color: black;
-  background-color: orange;
-}
-
-.main-image {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background-size: cover;
+  border: 1px solid #00ccbc !important;
+  width: 150px;
+  height: 50px;
+  color: rgb(255, 255, 255);
+  background-color: #00ccbc !important;
 }
 
 .main-image::before {
   background-image: url("../../assets/meals.jpg");
   content: "";
   position: absolute;
-  width: 100%;
   height: 100vh;
   overflow: hidden;
   background-size: cover;
   opacity: 0.8;
+  max-width: 932px;
+  width: 50%;
+  box-shadow:  0px 5px 5px 0 rgb(230, 230, 230), 
+  0 4px 15px 0px #ccc,
+  0 99px 5px 0px #fff;
+}
+
+.footerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdownAddresses{
+  padding-top: 1rem;
+  position: inherit;
+  min-width: 380px;
+  width:350;
+  height: 180px; 
+  overflow-x: hidden;
+  overflow-y:auto;
 }

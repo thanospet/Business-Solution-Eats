@@ -1,94 +1,155 @@
-import { React, useEffect } from "react";
-import { Route, useParams } from "react-router-dom";
-import { useState } from "react";
+import { React, useEffect, useState, useContext } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import classes from "./AvailableStores.module.css";
 import axios from "axios";
-import Card from "../UI/Card.module.css";
-import CardWrap from "../UI/CardWrap.module.css";
+import Card from "../UI/Card";
+import CardWrap from "../UI/CardWrap";
+import "bootstrap/dist/css/bootstrap.css";
+import CartContext from "../../store/cart-context";
+import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
+import toast, { Toaster } from "react-hot-toast";
 
-const AvailiableStores = () => {
-  const [availiableStores, setAvailiableStores] = useState([]);
+const AvailableStores = (props) => {
+  window.scrollTo(0, 0);
+  const [availableStores, setAvailableStores] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
   const params = useParams();
-  const [isPostalValid, setIsPostalValid] = useState(false);
+  const cartCtx = useContext(CartContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const navigateHome = () => {
+    navigate("/");
+  };
 
   const dataPostal = params?.postal;
-
-  const postalCodeRegex = /^\d{5}?$/;
+  console.log(dataPostal);
+  const link = "http://localhost:7160";
 
   useEffect(() => {
-    if (postalCodeRegex.test(dataPostal)) {
-      setIsPostalValid(true);
-      axios
-      .get(`http://192.168.84.174:5237/api/Store/open-stores/${dataPostal}`)
-      .then(function (res) {
-        const storesArray = Array.from(res.data.items);
-        const newStoresArray = storesArray.map((store) => {
-          const newStore = { ...store, logo_icon: store.logoIcon };
-          return newStore;
-        });
-        console.log(res.data.items);
-
-        setAvailiableStores(newStoresArray);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-       console.log("okokok")
+    console.log("location", location);
+    console.log("location-dataPostal", dataPostal);
+    if (location.pathname === `/available-stores/${dataPostal}`) {
+      cartCtx.clearCart();
     }
-   
-    
-  }, [params]);
+  }, [location]);
 
-  const availiableStoresNumber = availiableStores.length;
+  const fetchAvailableStores = async () => {
+    setIsLoading(true);
+    try {
+      const res = await axios.get(
+        `${link}/api/Store/open-stores/${dataPostal}`
+      );
+      const storesArray = Array.from(res.data.items);
+      const newStoresArray = storesArray.map((store) => {
+        const newStore = { ...store, logo_icon: store.logoIcon };
+        return newStore;
+      });
+      console.log("AAAAAAAAAAAAAAAAAAAAA", res.data.items);
+      setIsLoading(false);
+      setAvailableStores(newStoresArray);
+      cartCtx.clearCart();
+    } catch (error) {
+      toast("Error loading stores", {
+        duration: 2000,
+        type: "error", // trexei kai otan kanw back sto homepage mono gia 0.1 second nomizw
+      });
+      setIsLoading(false);
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAvailableStores();
+  }, []);
+
+  const handleImageLoad = () => {
+    setImageLoading(true);
+  };
+
+  const onCardClick = (storeId, storeTitle) => {
+    console.log("Clicked");
+    navigate(`/store-details/${storeId}`);
+    console.log("store", storeId);
+  };
+
+  const availableStoresNumber = availableStores.length;
 
   return (
-    <div className={classes.main}>
-      <div>
-        <h1 className={classes.header}>
-          {!isPostalValid && <h1>Wrong postal code</h1>}
-          {isPostalValid && (
-            <div>
-              {availiableStoresNumber} Availiable Stores in {dataPostal}
-            </div>
-          )}
-        </h1>
-      </div>
-
-      {availiableStores.map((store) => {
-        return (
-          <CardWrap>
-            <div className={classes.stores}>
-              <Card>
-                <span key={store.id}></span>
-                <span>
-                  <img
-                    src={store.logo_icon}
-                    alt=""
-                    height={100}
-                    width={100}
-                    fluid
-                  />{" "}
-                  <span className={classes.storeTitle}>{store.title}</span>
-                </span>
-              </Card>
-              <Card>
-                <span className={classes.textCategory}>
-                  {store.masterProductCategory}{" "}
-                </span>
-                <span className={classes.text}>
-                  Estimated Time: {store.averageDeliveryTime}{" "}
-                </span>
-                <span className={classes.text}>
-                  {" "}
-                  minimum order: ${store.minimumOrderPrice}{" "}
-                </span>
-              </Card>
-            </div>
-          </CardWrap>
-        );
-      })}
-    </div>
+    <Container className={classes.top}>
+      <Toaster />
+      <Row>
+        <Col className="col-12">
+          {" "}
+          <div>
+            <Row
+              className={`d-flex align-items-center justify-content-center ${classes.header}`}
+            >
+              We found {availableStoresNumber} available stores in {dataPostal}
+            </Row>
+            {availableStores.length === 0 && (
+              <Button
+                className={`d-flex align-items-center justify-content-center ${classes.backBtn}`}
+                onClick={navigateHome}
+              >
+                Back to Home
+              </Button>
+            )}
+          </div>
+        </Col>
+      </Row>
+      {/* edw eixa {!isLoading && olo to epomeno Container } */}
+      <>
+        <Container className={classes.main}>
+          {availableStores.map((store) => {
+            return (
+              <>
+                {isLoading ? (
+                  <Spinner animation="border" variant="seconadry" />
+                ) : (
+                  <>
+                    {" "}
+                    <Row key={store.id}>
+                      <Col className="col-12">
+                        <div
+                          className={classes.stores}
+                          onClick={() => onCardClick(store.id)}
+                        >
+                          <Card key={store.id}>
+                            {" "}
+                            <span>
+                              <img
+                                className={classes.imageContainer}
+                                src={store.logo_icon}
+                                alt=""
+                                onLoad={handleImageLoad}
+                              />
+                            </span>
+                            <Row>
+                              <span className={classes.storeTitle}>
+                                {store.title}
+                              </span>
+                              <span className={`"${classes.text}`}>
+                                Estimated Time: {store.averageDeliveryTime}{" "}
+                              </span>
+                              <span className={`"${classes.text}`}>
+                                {" "}
+                                Minimum order: ${store.minimumOrderPrice}{" "}
+                              </span>
+                            </Row>
+                          </Card>
+                        </div>
+                      </Col>
+                    </Row>
+                  </>
+                )}
+              </>
+            );
+          })}
+        </Container>
+      </>
+    </Container>
   );
 };
 
-export default AvailiableStores;
+export default AvailableStores;

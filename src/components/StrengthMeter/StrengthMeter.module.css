@@ -1,0 +1,20 @@
+.show-password {
+  cursor: pointer;
+  margin-right: 29px;
+}
+
+.input {
+    margin-top: 10px;
+    padding:0.5rem;
+    border-radius:.5rem;
+    /* border: 1px solid grey; */
+    max-width: 100%;
+    width:100%
+  }
+
+.password-strength-meter {
+    height: 0.3rem;
+    background-color: lightgrey;
+    border-radius: 3px;
+    margin: .5rem 0
+  }

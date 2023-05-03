@@ -1,0 +1,12 @@
+.cart{
+    padding: auto;
+    padding-bottom:100%;
+    position: relative;
+}
+
+.totalPriceBudge{
+    padding: auto;
+    padding-bottom:60%;
+    position: relative;
+}
+

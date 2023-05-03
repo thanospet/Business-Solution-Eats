@@ -1,0 +1,7 @@
+.main-image{
+    height: 50%;
+    width: 50%;
+    overflow: hidden;
+    opacity: 0.8;
+    padding-top: 50%;
+}
