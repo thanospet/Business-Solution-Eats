@@ -45,7 +45,7 @@ const MainNavigation = () => {
         <Modal.Header closeButton>
           <Modal.Title className="medium">
             {authCtx.modalState.showSignIn ? (
-              <span>Login to your account.</span>
+              <span>Sign in to your account.</span>
             ) : (
               <span>Enter your credentials bellow.</span>
             )}
@@ -128,7 +128,7 @@ const MainNavigation = () => {
                           handleLogout();
                         }}
                       >
-                        Logout
+                        Sign out
                       </Dropdown.Item>
                     </Dropdown>
                   </DropdownButton>

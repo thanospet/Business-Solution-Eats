@@ -126,7 +126,7 @@ const AuthComponent = (props) => {
                   {authCtx.isLoading ? (
                     <Spinner animation="border" variant="white" />
                   ) : (
-                    <> Login</>
+                    <> Sign in</>
                   )}
                 </Button>
               </div>

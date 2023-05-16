@@ -338,12 +338,12 @@ const LandingPage = (props) => {
                   ) : (
                     <Form className={classes["landing-page-form"]}>
                       <h2>
-                        Welcome to Business Solutions Eats! Login or register to
-                        continue...
+                        Welcome to Business Solutions Eats! Sign in or register
+                        to continue...
                       </h2>
                       {authCtx.registerSuccess ? (
                         <Button variant="warning" onClick={onOpenModal}>
-                          Account set up completed! Login to continue.
+                          Account set up completed! Sign in to continue.
                         </Button>
                       ) : (
                         <Button variant="warning" onClick={onOpenModal}>

@@ -46,10 +46,10 @@ const StoreDetails = (props) => {
         setIsLoading(false);
         if (modalShown) {
           //den to prolabainei logika , isws an vrw kati mapo to context na exw gia sinthiki
-          toast("Error loading store details ", {
-            duration: 2000,
-            type: "error",
-          });
+          // toast("Error loading store details ", {
+          //   duration: 2000,
+          //   type: "error",
+          // });
         }
       });
 
@@ -69,7 +69,7 @@ const StoreDetails = (props) => {
 
   return (
     <Container>
-      <Toaster />
+      {/* <Toaster /> */}
       <ModalProduct
         modalProduct={modalProduct}
         hideModalHandler={hideModalHandler}
