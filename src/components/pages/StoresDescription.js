@@ -1,7 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
-import axios from "axios";
-import { useEffect, useState } from "react";
 import classes from "./StoresDescription.module.css";
 import {
   Container,
@@ -12,6 +9,8 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
+
+//DUMMY DATA
 
 const StoresDescription = () => {
   const DUMMY = {
