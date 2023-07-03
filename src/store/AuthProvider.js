@@ -12,7 +12,7 @@ const defaultAuthState = {
   phone: null,
   id: null,
   isLoading: false,
-  error: null, // DEN EIMAI BOOL, EIMAI STRING
+  error: null,
   registerSuccess: false,
   loginSuccess: false,
 };
@@ -58,8 +58,6 @@ const authReducer = (state, action) => {
       rememberMe: action.item.rememberMe,
     };
   }
-
-  //=======================
 
   if (action.type === "SIGN_UP_INIT") {
     return {
@@ -126,7 +124,6 @@ const AuthProvider = (props) => {
     // Init sign-in request
     try {
       // TODO: Send `email` & `password` to API
-      // Fake
       const payload = {
         email: email,
         password: password,
@@ -158,7 +155,6 @@ const AuthProvider = (props) => {
     try {
       // TODO: Send `email` & `password` to API
 
-      // Fake
       const payload = {
         email: email,
         fName: firstName,
@@ -171,7 +167,6 @@ const AuthProvider = (props) => {
         "http://localhost:7160/api/auth/register/registration",
         payload
       );
-      // console.log("Request response data", res.data);
       dispatchAuthAction({ type: "SIGN_UP_SUCCESS", item: res.data.value });
     } catch (error) {
       console.error(error);

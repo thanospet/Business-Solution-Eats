@@ -8,7 +8,6 @@ import AuthContext from "../../store/auth-context";
 import OrderContext from "../../store/order-context";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
-// import GoogleMapComponent from "../FormAddress/GoogleMapComponent";
 import {
   Container,
   Row,
@@ -85,8 +84,6 @@ const LandingPage = (props) => {
     }
   }, [authCtx.authToken]);
 
-  // console.log("authCtx.registerSuccess", authCtx.registerSuccess);
-
   const handleClose = () => {
     setShow(false);
     setShowAddressModal(false);
@@ -107,12 +104,8 @@ const LandingPage = (props) => {
   const onSubmitHandle = (event) => {
     console.log("isPostalValid", isPostalValid);
     event.preventDefault();
-    // if (isPostalValid) {
     cartCtx.addPostal(postalCode);
     navigate(`/available-stores/${postalCode}`);
-    // } else {
-    //   setShow(true);
-    // }
   };
 
   const onOpenModal = () => {
@@ -136,18 +129,6 @@ const LandingPage = (props) => {
     console.log("postalCodeId", address.postalCodeId);
   };
 
-  // const searchPostalCode = (event) => {
-  //   setPostalCode(event.target.value);
-  // };
-
-  // const handleSelectedAddress = (address) => {
-  //   console.log("address handle select dropdown", address);
-  //   setSelectedAddresses(address);
-  //   // orderCtx.selectAddressOrder()
-  // };
-
-  // get user addresses
-
   const fetchAddresses = async () => {
     const token = authCtx.authToken;
     setIsLoading(true);
@@ -167,7 +148,7 @@ const LandingPage = (props) => {
       if (authCtx.authToken) {
         toast("Failed to load addresses !", {
           duration: 2000,
-          type: "error", //edw exei thema an ginei mia fora register trexei to toast,na trexei mono an exei token prepei
+          type: "error",
         });
       }
     }
@@ -214,7 +195,6 @@ const LandingPage = (props) => {
         </Modal>
 
         <Modal
-          //error with postal modal
           show={show}
           onHide={handleClose}
           backdrop="static"

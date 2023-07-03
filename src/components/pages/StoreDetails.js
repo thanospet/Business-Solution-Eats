@@ -1,4 +1,4 @@
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import classes from "./StoreDetails.module.css";
@@ -6,7 +6,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import { Container, Row, Col, Image, Spinner } from "react-bootstrap";
 import Cart from "../cart/Cart";
 import ModalProduct from "../UI/ModalProduct";
-import toast, { Toaster } from "react-hot-toast";
 
 const StoreDetails = (props) => {
   const [storeLogoIcon, setStoreLogoIcon] = useState("");
@@ -45,15 +44,12 @@ const StoreDetails = (props) => {
         console.error(err);
         setIsLoading(false);
         if (modalShown) {
-          //den to prolabainei logika , isws an vrw kati mapo to context na exw gia sinthiki
           // toast("Error loading store details ", {
           //   duration: 2000,
           //   type: "error",
           // });
         }
       });
-
-    // console.log("location");
   }, []);
 
   const modalHandler = (product) => {

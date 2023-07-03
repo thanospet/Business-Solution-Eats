@@ -3,7 +3,7 @@ import OrderContext from "./order-context";
 import axios from "axios";
 
 const defaultOrderState = {
-  selectedAddress: {}, //na pernw olo to item gia to auto complete meta
+  selectedAddress: {},
   addresses: [],
 };
 
@@ -48,11 +48,11 @@ const OrderProvider = (props) => {
 
   const removeAddressOrder = (item) => {
     dispatcOrderAction({ type: "REMOVE", item: item });
-  }; // mallon addr.id
+  }; // maybe addr.id
 
   const selectAddressOrder = (item) => {
     dispatcOrderAction({ type: "SELECT", item: item });
-  }; // mallon addr.id
+  }; // maybe addr.id
 
   const orderContext = {
     ...orderState,

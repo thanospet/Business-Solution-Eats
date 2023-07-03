@@ -115,7 +115,6 @@ const OrderInfo = () => {
     };
 
     console.log("orderCtx.selectedAddress.id", orderCtx.selectedAddress.id);
-    // console.log("authToken", authCtx.authToken);
 
     const payload = {
       storeId: 1,
@@ -152,9 +151,6 @@ const OrderInfo = () => {
           type: "error",
         });
       });
-
-    // console.log("data", payment);
-    // console.log("totalPrice", totalPrice);
   };
 
   return (

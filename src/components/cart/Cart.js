@@ -27,19 +27,6 @@ const Cart = (props) => {
     }
   }, [allItems]);
 
-  const addAmount = () => {
-    if (amount >= 0) {
-      setAmount(amount + 1);
-    }
-  };
-  const minusAmount = () => {
-    if (amount === 1) {
-      return;
-    } else {
-      setAmount(amount - 1);
-    }
-  };
-
   const addToCartHandler = (item) => {
     console.log("itemAAAA", item);
     cartCtx.addItem({

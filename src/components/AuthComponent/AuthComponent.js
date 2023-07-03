@@ -22,7 +22,6 @@ const AuthComponent = (props) => {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  // const [isLoading, setIsLoading] = useState("");
   const [rememberMe, setRememberMe] = useState(
     localStorage.getItem("rememberMe") === "true"
   );
@@ -84,7 +83,6 @@ const AuthComponent = (props) => {
               id="password"
               value={password}
               onChange={(event) => addPassword(event.target.value)}
-              // onBlur={authCtx.validatePassword}
             />
           </div>
 
@@ -97,7 +95,6 @@ const AuthComponent = (props) => {
                   id="name"
                   value={firstName}
                   onChange={(event) => addFirstName(event.target.value)}
-                  // onBlur={authCtx.validatePassword}
                 />
               </div>
               <div className={`${classes.control}`}>
@@ -107,7 +104,6 @@ const AuthComponent = (props) => {
                   id="name"
                   value={lastName}
                   onChange={(event) => addLastName(event.target.value)}
-                  // onBlur={authCtx.validatePassword}
                 />
               </div>
             </>
@@ -116,13 +112,7 @@ const AuthComponent = (props) => {
           {!props.onRegister ? (
             <>
               <div className={classes.actions}>
-                <Button
-                  type="submit"
-                  // className={` ${classes.btn}`}
-                  variant="success"
-                  onClick={Login}
-                  // disabled={!authCtx.formIsValid}
-                >
+                <Button type="submit" variant="success" onClick={Login}>
                   {authCtx.isLoading ? (
                     <Spinner animation="border" variant="white" />
                   ) : (
@@ -151,7 +141,6 @@ const AuthComponent = (props) => {
                 type="submit"
                 className={`${classes.btn}`}
                 onClick={Register}
-                // disabled={!authCtx.formIsValid}
               >
                 {authCtx.isLoading ? (
                   <Spinner animation="border" variant="white" />

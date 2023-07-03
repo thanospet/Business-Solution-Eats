@@ -4,7 +4,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { BiCheck } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
 
 const ThankYouPage = () => {
   const navigate = useNavigate();

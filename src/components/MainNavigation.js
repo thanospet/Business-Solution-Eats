@@ -1,15 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import classes from "./MainNavigation.module.css";
 import { useNavigate, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import { Modal, Button, Dropdown, DropdownButton } from "react-bootstrap";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import AuthComponent from "./AuthComponent/AuthComponent";
 import AuthContext from "../store/auth-context";
 
 const MainNavigation = () => {
   const authCtx = useContext(AuthContext);
-  // const [show, setShow] = useState(false);
 
   const navigate = useNavigate();
 
@@ -31,8 +30,6 @@ const MainNavigation = () => {
     navigateHome();
     window.location.reload();
   };
-
-  // console.log("authCtx.isLoggedIn", authCtx.isLoggedIn);
 
   return (
     <>

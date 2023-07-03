@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 
 import Input from "./Input";
 import classes from "./ProductForm.module.css";

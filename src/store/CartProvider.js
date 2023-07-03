@@ -35,18 +35,14 @@ const cartReducer = (state, action) => {
     };
     const updatedActionObject = { id, title, notes, price, options };
 
-    // console.log("updatedActionObject", updatedActionObject);
-
     const stringifiedProduct = JSON.stringify(updatedActionObject);
 
     const uniqueProductId = hashCode(stringifiedProduct);
 
-    // console.log("uniqueProductId", uniqueProductId);
     const product = {
       ...action.item,
       uniqueProductId,
     };
-    // console.log("productttttttttttt", product);
 
     const updatedTotalAmount =
       state.totalAmount + product.price * product.amount;
@@ -56,11 +52,8 @@ const cartReducer = (state, action) => {
     const existingCartItemIndex = state.items.findIndex(
       (item) => item.uniqueProductId === product.uniqueProductId
     );
-    // console.log("existingCartItemIndex", existingCartItemIndex);
-    // console.log("product.uniqueProductId", product.uniqueProductId);
     const existingCartItem = state.items[existingCartItemIndex];
     let updatedItems;
-    // console.log("existingCartItem", existingCartItem);
 
     if (existingCartItem) {
       const updatedItem = {
@@ -104,8 +97,6 @@ const cartReducer = (state, action) => {
       updatedItems = [...state.items];
       updatedItems[existingCartItemIndex] = updatedItem;
     }
-
-    // console.log("existingItem", existingItem);
 
     return {
       ...state,

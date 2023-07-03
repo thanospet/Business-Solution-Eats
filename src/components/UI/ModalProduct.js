@@ -131,14 +131,6 @@ const ModalProduct = (props) => {
     });
   };
 
-  // const temp = { ...prevOptions };
-  // if (temp[group.ingredientCategoryId]?.includes(ingredient.ingredientId)) {
-  // const newArray = temp[group.ingredientCategoryId].filter(
-  //   (element) => element.ingId !== ingredient.ingredientId
-  // );
-
-  // temp[group.ingredientCategoryId] = newArray;
-
   console.log("options", options);
 
   const handleCheckbox = (ingredient, group) => {
@@ -207,7 +199,7 @@ const ModalProduct = (props) => {
                     name="flexRadioDefault"
                     id="flexRadioDefault1"
                     className="form-radio-input me-3"
-                    defaultChecked={ingredient === group.ingredients[0]} //to prwto apo ola ta ingredients tou radio checked
+                    defaultChecked={ingredient === group.ingredients[0]}
                   />
                   <div className="d-inline-block me-3">
                     <span className="fw-bold">

@@ -19,7 +19,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import AuthContext from "../../store/auth-context";
 
-//MAZI ME GOOGLE MAPS
+//WITH GOOGLE MAPS
 
 const FormAddress = (props, apiKey) => {
   const [map, setMap] = useState(null);
@@ -98,8 +98,6 @@ const FormAddress = (props, apiKey) => {
   const link = "http://localhost:7160";
 
   const allitems = cartCtx.items;
-  // console.log("allitems", allitems);
-  // console.log("address", address);
 
   const handleChangeFloor = (event) => {
     if (!isNaN(event.target.value) && event.target.value < 100) {
@@ -135,11 +133,7 @@ const FormAddress = (props, apiKey) => {
   };
 
   useEffect(() => {
-    if (
-      // isAddressValid &&
-      isFloorValid &&
-      isDoorbellValid
-    ) {
+    if (isFloorValid && isDoorbellValid) {
       setIsFormValid(true);
     } else {
       setIsFormValid(false);

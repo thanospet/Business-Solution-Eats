@@ -3,7 +3,6 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import classes from "./AvailableStores.module.css";
 import axios from "axios";
 import Card from "../UI/Card";
-import CardWrap from "../UI/CardWrap";
 import "bootstrap/dist/css/bootstrap.css";
 import CartContext from "../../store/cart-context";
 import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
@@ -52,7 +51,7 @@ const AvailableStores = (props) => {
     } catch (error) {
       toast("Error loading stores", {
         duration: 2000,
-        type: "error", // trexei kai otan kanw back sto homepage mono gia 0.1 second nomizw
+        type: "error",
       });
       setIsLoading(false);
       console.error(error);
@@ -98,7 +97,7 @@ const AvailableStores = (props) => {
           </div>
         </Col>
       </Row>
-      {/* edw eixa {!isLoading && olo to epomeno Container } */}
+
       <>
         <Container className={classes.main}>
           {availableStores.map((store) => {
