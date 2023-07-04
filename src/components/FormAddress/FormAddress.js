@@ -38,13 +38,12 @@ const FormAddress = (props, apiKey) => {
   const [apiLoaded, setApiLoaded] = useState(false);
   const navigate = useNavigate();
   const navigateHome = () => {
-    console.log("KALESTIKA navigateHome");
     navigate("/");
   };
 
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyB6JRXqRrT7Xa8d4UQIIMWIh5vvrRpNlk8`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=`;
     script.onload = () => {
       const map = new window.google.maps.Map(mapRef.current, {
         center: { lat: 40.94166970175866, lng: 24.414645635986343 },
